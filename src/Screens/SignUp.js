@@ -47,6 +47,7 @@ const SignUp = () => {
       setloading(false);
     }
   };
+
   return (
     <View style={style.container}>
       <KeyboardAvoidingView behavior="padding">

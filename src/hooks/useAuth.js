@@ -19,6 +19,5 @@ export const useAUth = () => {
       unSubscribeFromAuthStateChange;
     };
   }, []);
-  console.log(user, 'user');
   return user;
 };
