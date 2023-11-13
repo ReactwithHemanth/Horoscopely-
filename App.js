@@ -1,12 +1,9 @@
 import { View, Text, SafeAreaView } from 'react-native'
 import React from 'react'
+import AppNavigation from './src/Navigations'
 
 const App = () => {
-  return (
-    <SafeAreaView style={{flex:1,backgroundColor:'white'}}>
-      <Text>App</Text>
-    </SafeAreaView>
-  )
+  return <AppNavigation/>
 }
 
 export default App
