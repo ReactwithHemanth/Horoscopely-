@@ -23,7 +23,7 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [loading, setloading] = useState(false);
 
-  const signIn = async () => {
+  const signInFn = async () => {
     setloading(true);
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
@@ -35,7 +35,7 @@ const SignUp = () => {
       setloading(false);
     }
   };
-  const signUp = async () => {
+  const signUpFn = async () => {
     setloading(true);
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -70,8 +70,8 @@ const SignUp = () => {
           <ActivityIndicator size="large" color={'#0000ff'}></ActivityIndicator>
         ) : (
           <>
-            <Button title="Login" onPress={signIn} />
-            <Button title="Create account" onPress={signUp} />
+            <Button title="Login" onPress={signInFn} />
+            <Button title="Create account" onPress={signUpFn} />
           </>
         )}
       </KeyboardAvoidingView>
