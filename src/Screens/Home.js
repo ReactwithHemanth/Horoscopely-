@@ -4,7 +4,6 @@ import {useAUth} from '../hooks/useAuth';
 
 const Home = () => {
   const user = useAUth();
-  console.log(user.email);
   return (
     <View
       style={{
