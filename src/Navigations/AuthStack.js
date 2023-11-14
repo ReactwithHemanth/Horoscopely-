@@ -3,8 +3,10 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Home from '../Screens/Home';
-import SignUp from '../Screens/SignUp';
+import SignUp from '../Screens/EntryScreens/SignUpMethods';
 import Terms from '../Screens/Terms';
+import SplashScreen from '../Screens/EntryScreens/SplashScreen';
+import EmailSignUp from '../Screens/EntryScreens/EmailSignUp';
 const AuthStack = () => {
   const Stack = createNativeStackNavigator();
 
@@ -13,7 +15,9 @@ const AuthStack = () => {
       <Stack.Navigator
         initialRouteName="SignUp"
         screenOptions={{headerShown: false}}>
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="EmailSignUp" component={EmailSignUp} />
         <Stack.Screen name="Terms" component={Terms} />
       </Stack.Navigator>
     </NavigationContainer>

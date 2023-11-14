@@ -3,7 +3,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Home from '../Screens/Home';
-import SignUp from '../Screens/SignUp';
+import SignUp from '../Screens/EntryScreens/SignUpMethods';
 import Terms from '../Screens/Terms';
 
 export default UserStack = () => {
