@@ -1,10 +1,7 @@
 import {
   View,
-  Text,
   TextInput,
-  StyleSheet,
   ActivityIndicator,
-  Button,
   Alert,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -14,11 +11,12 @@ import {
   getAuth,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import {useAUth} from '../hooks/useAuth';
-import {Firebase_app} from '../Confg/Firebase';
+import {Firebase_app} from '../../Confg/Firebase';
+import styles from '../../Styles/styles';
+import {LinearCommonButton} from '../../Components/CustomComponents';
 const auth = getAuth(Firebase_app);
 
-const SignUp = () => {
+const EmailSignUp = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setloading] = useState(false);
@@ -48,19 +46,22 @@ const SignUp = () => {
     }
   };
 
+  const goBack = () => {
+    navigation.goBack();
+  };
   return (
-    <View style={style.container}>
+    <View style={styles.Container}>
       <KeyboardAvoidingView behavior="padding">
         <TextInput
           placeholder="Email"
-          style={style.input}
+          style={styles.input}
           value={email}
           onChangeText={text => setEmail(text)}
           autoCapitalize="none"
         />
         <TextInput
           placeholder="Password"
-          style={style.input}
+          style={styles.input}
           value={password}
           secureTextEntry
           onChangeText={text => setPassword(text)}
@@ -70,8 +71,9 @@ const SignUp = () => {
           <ActivityIndicator size="large" color={'#0000ff'}></ActivityIndicator>
         ) : (
           <>
-            <Button title="Login" onPress={signInFn} />
-            <Button title="Create account" onPress={signUpFn} />
+            <LinearCommonButton title={'Login'} onPress={signInFn} />
+            <LinearCommonButton title={'Create account"'} onPress={signUpFn} />
+            <LinearCommonButton title={'Skip'} onPress={goBack} />
           </>
         )}
       </KeyboardAvoidingView>
@@ -79,8 +81,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
-const style = StyleSheet.create({
-  container: {flex: 1, justifyContent: 'center', marginHorizontal: 20},
-  input: {width: '100%', backgroundColor: 'white', margin: 5},
-});
+export default EmailSignUp;
