@@ -27,19 +27,19 @@ const colorArray = ['#ba55d3', '#00bfff', '#f8f8ff', '#4169e1', '#ffff'];
 const SignUp = props => {
   return (
     <View style={styles.Container}>
-      <View style={{position: 'absolute', top: 0, left: 90}}>
+      <View style={styles.TopRightSvgStyle}>
         <SignUpBgTheme />
       </View>
 
-      <View style={[{flex: 1.2, justifyContent: 'center'}, styles.Cmargin]}>
+      <View style={[styles.signUpMethView2, styles.Cmargin]}>
         <Image source={require('../../Assets/Signup/AppName.png')} />
-        <Text style={{fontSize: 30}}>
-          <Text style={{fontWeight: 'bold'}}>W</Text>elcome
+        <Text style={styles.StandartText}>
+          <Text style={styles.weighted}>W</Text>elcome
         </Text>
         <Text>Choose one of the below to get started</Text>
       </View>
 
-      <View style={{flex: 1, justifyContent: 'center', marginTop: 10}}>
+      <View style={styles.signUpMethView}>
         {Methods.map((item, index) => {
           return (
             <TouchableOpacity
@@ -47,18 +47,10 @@ const SignUp = props => {
               onPress={() => props.navigation.navigate(item.nav)}
               style={[
                 styles.Button,
-                {
-                  flexDirection: 'row',
-                  backgroundColor: colorArray[index],
-                },
+                {flexDirection: 'row', backgroundColor: colorArray[index]},
               ]}>
-              <View style={{marginHorizontal: 25}}>{item.icon}</View>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: 20,
-                  color: item.textColor,
-                }}>
+              <View style={styles.IconMargin}>{item.icon}</View>
+              <Text style={[styles.buttonTextStyle, {color: item.textColor}]}>
                 {item.title}
               </Text>
             </TouchableOpacity>
@@ -66,40 +58,21 @@ const SignUp = props => {
         })}
       </View>
 
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          // backgroundColor: 'red',
-          justifyContent: 'center',
-          // marginVertical: 30,
-        }}>
-        <Text style={{margin: 20, color: 'grey'}}>SKIP</Text>
+      <View style={styles.signUpMethBottomView}>
+        <Text style={styles.SkipText}>SKIP</Text>
         <Text>By Continuing you agree to the</Text>
-        <View style={{flexDirection: 'row'}}>
-          <Text
-            style={{
-              color: 'blue',
-              textDecorationLine: 'underline',
-            }}>
-            Terms & condtion
-          </Text>
-          <Text>&</Text>
-          <Text
-            style={{
-              color: 'blue',
-              textDecorationLine: 'underline',
-            }}>
-            Privacy policy
-          </Text>
+        <View style={styles.CRow}>
+          <Text style={styles.LinkText}>Terms & condtion</Text>
+          <Text> & </Text>
+          <Text style={styles.LinkText}>Privacy policy</Text>
         </View>
 
-        <Text style={{fontSize: 10, textAlign: 'center', padding: 22}}>
+        <Text style={styles.smallText}>
           Your privacy is respected and protected. All personal information is
           used for astrological calculations only.
         </Text>
       </View>
-      <View style={{bottom: 0, position: 'absolute', alignSelf: 'center'}}>
+      <View style={styles.BottomSvgStyle}>
         <SignUpTheme2 heigth={310} />
       </View>
     </View>

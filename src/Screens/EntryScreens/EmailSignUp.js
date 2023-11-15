@@ -14,6 +14,7 @@ import {
 import {Firebase_app} from '../../Confg/Firebase';
 import styles from '../../Styles/styles';
 import {LinearCommonButton} from '../../Components/CustomComponents';
+
 const auth = getAuth(Firebase_app);
 
 const EmailSignUp = ({navigation}) => {
