@@ -7,7 +7,7 @@ const Home = () => {
   const user = useAUth();
   return (
     <View style={styles.Container}>
-      <Text style={{fontSize: 20, marginLeft: 30}}>Welcome {user?.email}</Text>
+      <Text style={styles.text1}>Welcome {user?.email}</Text>
     </View>
   );
 };
