@@ -1,10 +1,10 @@
 import React from 'react';
 import AuthStack from './AuthStack';
 import UserStack from './UserStack';
-import {useAUth} from '../hooks/useAuth';
+import {useAuth} from '../hooks/useAuth';
 
 export default AppNavigation = () => {
-  const user = useAUth();
+  const user = useAuth();
 
   return user ? <UserStack /> : <AuthStack />;
 };

@@ -5,7 +5,7 @@ import {Firebase_app} from '../Confg/Firebase';
 
 const auth = getAuth(Firebase_app);
 
-export const useAUth = () => {
+export const useAuth = () => {
   const [user, setUser] = useState();
 
   useEffect(() => {

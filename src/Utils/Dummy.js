@@ -11,7 +11,7 @@ export const Methods = [
     id: 0,
     title: 'Mobile Number',
     textColor: 'white',
-    nav: 'EmailSignUp',
+    nav: 'NumberSignUp',
     icon: <PhoneIcon />,
   },
   {

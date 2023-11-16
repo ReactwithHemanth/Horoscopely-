@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
+  Text,
 } from 'react-native';
 import React, {useState} from 'react';
 import {
@@ -13,7 +14,11 @@ import {
 } from 'firebase/auth';
 import {Firebase_app} from '../../Confg/Firebase';
 import styles from '../../Styles/styles';
-import {LinearCommonButton} from '../../Components/CustomComponents';
+import {
+  BottomImage,
+  FirstTheme,
+  LinearCommonButton,
+} from '../../Components/CustomComponents';
 
 const auth = getAuth(Firebase_app);
 
@@ -26,33 +31,37 @@ const EmailSignUp = ({navigation}) => {
     setloading(true);
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
-      console.log(res);
     } catch (error) {
-      console.log(error);
-      Alert.alert('sign In failed: ' + error.message);
+      Alert.alert(
+        'sign In failed: ' + error.message,
+        'If you are new here, create an account now!',
+      );
     } finally {
       setloading(false);
     }
   };
+
   const signUpFn = async () => {
     setloading(true);
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(res);
     } catch (error) {
-      console.log(error);
       Alert.alert('sign Up failed: ' + error.message);
     } finally {
       setloading(false);
     }
   };
 
-  const goBack = () => {
+  const _goBack = () => {
     navigation.goBack();
   };
+
   return (
     <View style={styles.Container}>
+      <FirstTheme />
       <KeyboardAvoidingView behavior="padding">
+        <Text style={styles.titleText}>Email</Text>
+
         <TextInput
           placeholder="Email"
           style={styles.input}
@@ -74,10 +83,12 @@ const EmailSignUp = ({navigation}) => {
           <>
             <LinearCommonButton title={'Login'} onPress={signInFn} />
             <LinearCommonButton title={'Create account"'} onPress={signUpFn} />
-            <LinearCommonButton title={'Skip'} onPress={goBack} />
+            <LinearCommonButton title={'Skip'} onPress={_goBack} />
           </>
         )}
       </KeyboardAvoidingView>
+
+      <BottomImage />
     </View>
   );
 };

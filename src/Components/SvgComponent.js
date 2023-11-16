@@ -177,3 +177,57 @@ export const AppleIcon = props => (
     <Path d="M5.068 17.394C2.294 17.379 0 12.026 0 9.3a5.02 5.02 0 0 1 4.9-5.428 5.9 5.9 0 0 1 1.847.429 4.314 4.314 0 0 0 1.055.286 3.42 3.42 0 0 0 .757-.232 6.35 6.35 0 0 1 2.28-.521h.005a4.785 4.785 0 0 1 3.911 1.868l.285.405-.411.293a3.249 3.249 0 0 0-1.657 2.693 3.039 3.039 0 0 0 1.794 2.81c.257.146.523.3.523.627 0 .215-1.817 4.837-4.456 4.837a3.75 3.75 0 0 1-1.5-.345 3.194 3.194 0 0 0-1.339-.3 3.6 3.6 0 0 0-1.061.271 5.444 5.444 0 0 1-1.839.406ZM10.98 0c.061 2.213-1.521 3.749-3.1 3.652A3.527 3.527 0 0 1 10.98 0Z" />
   </Svg>
 );
+export const SignUpTheme3 = props => (
+  <Svg xmlns="http://www.w3.org/2000/svg" width={375} height={244} {...props}>
+    <Defs>
+      <LinearGradient
+        id="b"
+        x1={0.5}
+        x2={0.5}
+        y2={1}
+        gradientUnits="objectBoundingBox">
+        <Stop offset={0} stopColor="#9bb2e4" />
+        <Stop offset={1} stopColor="#4976d6" />
+      </LinearGradient>
+      <LinearGradient
+        id="c"
+        x1={0.5}
+        x2={0.5}
+        y2={1}
+        gradientUnits="objectBoundingBox">
+        <Stop offset={0} stopColor="#d4a9ec" />
+        <Stop offset={1} stopColor="#b342f2" />
+      </LinearGradient>
+      <ClipPath id="a">
+        <Path
+          d="M0 0h375v244H0z"
+          style={{
+            fill: '#fff',
+            stroke: '#707070',
+          }}
+        />
+      </ClipPath>
+    </Defs>
+    <G
+      style={{
+        clipPath: 'url(#a)',
+      }}>
+      <Path
+        d="M30.518 7.568s-72.875 168.5 20.691 190.123 71.7 180.857 138.091 191.657 137.705-40.934 148.466-3.405 51.216-64.28 69.613-133.287.048-241.951.048-241.951Z"
+        style={{
+          fill: 'url(#b)',
+          opacity: 0.42,
+        }}
+        transform="rotate(-23 -220.101 137.776)"
+      />
+      <Path
+        d="M79.33-27.907c-95.409 137.591-101.4 227.243-33.242 287.361S207.333 295.862 235.66 392.07s120.582-24.081 136.373-34.634c1.169-.781 25.2-56.822 25.956-61.148C406.9 245.32 359.547 9.447 359.547 9.447Z"
+        style={{
+          fill: 'url(#c)',
+          opacity: 0.42,
+        }}
+        transform="rotate(-23 -167.548 77.892)"
+      />
+    </G>
+  </Svg>
+);
