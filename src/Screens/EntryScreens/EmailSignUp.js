@@ -23,8 +23,8 @@ import {
 const auth = getAuth(Firebase_app);
 
 const EmailSignUp = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('infoappmaker@gmail.com');
+  const [password, setPassword] = useState('As@12345');
   const [loading, setloading] = useState(false);
 
   const signInFn = async () => {

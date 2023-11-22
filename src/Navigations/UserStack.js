@@ -3,8 +3,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Home from '../Screens/Home';
-import SignUp from '../Screens/EntryScreens/SignUpMethods';
-import Terms from '../Screens/Terms';
+import OnBoarding from '../Screens/OnBoarding/OnBoarding';
 
 export default UserStack = () => {
   const Stack = createNativeStackNavigator();
@@ -13,6 +12,7 @@ export default UserStack = () => {
       <Stack.Navigator
         initialRouteName="SignUp"
         screenOptions={{headerShown: false}}>
+        <Stack.Screen name="onBoarding" component={OnBoarding} />
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,3 +1,4 @@
 import {Dimensions} from 'react-native';
+import React, {useState} from 'react';
 
-export let {PAGE_WIDTH, PAGE_HEIGHT} = Dimensions.get('window');
+export let {width, height} = Dimensions.get('window');

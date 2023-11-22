@@ -8,6 +8,21 @@ import {SignUpBgTheme, SignUpTheme2} from '../../Components/SvgComponent';
 import {Image} from 'react-native';
 const auth = getAuth(Firebase_app);
 const colorArray = ['#ba55d3', '#00bfff', '#f8f8ff', '#4169e1', '#ffff'];
+/**
+ *
+ * @param {*} props
+ * @returns
+ * Flow:
+ * Sign in With Email
+ * * Success
+ * * Data collection
+ * * [Name, Email, DOB, TOB, POB, Gender, Martial Status, Push Notification, OTP Reciver ]
+ * Sign in With google
+ * Sign in With facebook
+ * Sign in With phone Number
+ * Sign in With Apple
+ *
+ */
 const SignUp = props => {
   return (
     <View style={styles.Container}>

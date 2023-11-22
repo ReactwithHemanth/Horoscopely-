@@ -12,6 +12,16 @@ const styles = StyleSheet.create({
   CRow: {flexDirection: 'row'},
   Cmargin: {margin: 20},
   titleText: {fontSize: 18, padding: 10},
+  //Header
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logo: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
   //SignUpScreen
   Button: {
     borderRadius: 25,
@@ -48,7 +58,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     shadowColor: 'grey',
     shadowOpacity: 0.3,
-    shadowOffset: 0.1,
+    // shadowOffset: 0.1,
     width: '95%',
   },
   NumSignUpThemeStylle: {
