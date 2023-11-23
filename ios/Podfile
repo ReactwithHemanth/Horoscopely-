@@ -26,7 +26,8 @@ if linkage != nil
 end
 pod 'GoogleUtilities', :modular_headers => true;
 pod 'FirebaseCore', :modular_headers => true
-
+pod 'Firebase'
+pod 'FirebaseAuth'
 use_frameworks! :linkage => :static
 $RNFirebaseAsStaticFramework = true
 target 'AwesomeProject' do

@@ -9,18 +9,15 @@ import {
 import React, {useState} from 'react';
 import {
   createUserWithEmailAndPassword,
-  getAuth,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
-import {Firebase_app} from '../../Confg/Firebase';
+import {Firebase_app, auth} from '../../Confg/Firebase';
 import styles from '../../Styles/styles';
 import {
   BottomImage,
   FirstTheme,
   LinearCommonButton,
 } from '../../Components/CustomComponents';
-
-const auth = getAuth(Firebase_app);
 
 const EmailSignUp = ({navigation}) => {
   const [email, setEmail] = useState('infoappmaker@gmail.com');
@@ -30,7 +27,7 @@ const EmailSignUp = ({navigation}) => {
   const signInFn = async () => {
     setloading(true);
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
+      const res = await auth.signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       Alert.alert(
         'sign In failed: ' + error.message,
@@ -44,7 +41,11 @@ const EmailSignUp = ({navigation}) => {
   const signUpFn = async () => {
     setloading(true);
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const res = await auth.createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
     } catch (error) {
       Alert.alert('sign Up failed: ' + error.message);
     } finally {

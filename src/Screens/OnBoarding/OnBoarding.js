@@ -1,20 +1,5 @@
-import {
-  View,
-  TextInput,
-  ActivityIndicator,
-  Alert,
-  KeyboardAvoidingView,
-  Text,
-  Image,
-  FlatList,
-} from 'react-native';
+import {View, TextInput, Text, Image, FlatList} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
-import {Firebase_app} from '../../Confg/Firebase';
 import styles from '../../Styles/styles';
 import {
   BottomImage,
@@ -26,8 +11,10 @@ import {
   width as PAGE_WIDTH,
   height as PAGE_HEIGHT,
 } from '../../Utils/helperFunctions';
+import {useAuth} from '../../hooks/useAuth';
 
-const auth = getAuth(Firebase_app);
+const user = useAuth();
+console.log(user);
 const data = [
   {id: '1', name: 'Name'},
   {id: '2', name: 'Email'},
@@ -78,7 +65,7 @@ const OnBoarding = ({navigation}) => {
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <SecondTheme />
-      {/* <View style={{flex: 1, alignItem: 'center', justifyContent: 'center'}}>
+      <View style={{flex: 1, alignItem: 'center', justifyContent: 'center'}}>
         <FlatList
           ref={ref}
           initialScrollIndex={index}
@@ -89,7 +76,7 @@ const OnBoarding = ({navigation}) => {
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item}
         />
-      </View> */}
+      </View>
     </View>
   );
 };

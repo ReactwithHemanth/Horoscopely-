@@ -1,12 +1,10 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {getAuth} from 'firebase/auth';
 import {Firebase_app} from '../../Confg/Firebase';
 import styles from '../../Styles/styles';
 import {Methods} from '../../Utils/Dummy';
 import {SignUpBgTheme, SignUpTheme2} from '../../Components/SvgComponent';
 import {Image} from 'react-native';
-const auth = getAuth(Firebase_app);
 const colorArray = ['#ba55d3', '#00bfff', '#f8f8ff', '#4169e1', '#ffff'];
 /**
  *

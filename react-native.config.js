@@ -11,10 +11,5 @@ module.exports = {
       },
     },
     // Add other Firebase dependencies if necessary
-    'react-native-vector-icons': {
-      platforms: {
-        ios: null,
-      },
-    },
   },
 };
