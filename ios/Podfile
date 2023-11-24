@@ -28,8 +28,10 @@ pod 'GoogleUtilities', :modular_headers => true;
 pod 'FirebaseCore', :modular_headers => true
 pod 'Firebase'
 pod 'FirebaseAuth'
-use_frameworks! :linkage => :static
+
+use_frameworks! :linkage => :static;
 $RNFirebaseAsStaticFramework = true
+
 target 'AwesomeProject' do
   config = use_native_modules!
 

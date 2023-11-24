@@ -10,7 +10,7 @@ export default UserStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SignUp"
+        initialRouteName="Home"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="onBoarding" component={OnBoarding} />
         <Stack.Screen name="Home" component={Home} />
