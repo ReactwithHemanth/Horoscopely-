@@ -1,5 +1,6 @@
 const {StyleSheet, Dimensions} = require('react-native');
 const {width, height} = Dimensions.get('window');
+const _spacing = 10;
 
 const styles = StyleSheet.create({
   //common C
@@ -61,12 +62,20 @@ const styles = StyleSheet.create({
     // shadowOffset: 0.1,
     width: '95%',
   },
+  input2: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+  },
   NumSignUpThemeStylle: {
     position: 'absolute',
     top: 0,
     alignSelf: 'center',
-    left: 10,
-    right: 0,
+    justifyContent: 'center',
+    // backgroundColor: 'cyan',
+    width: width,
   },
   //Custom
   LinearBotton: {padding: 10, borderRadius: 20, margin: 10},
@@ -79,6 +88,13 @@ const styles = StyleSheet.create({
   },
   //Home
   text1: {fontSize: 20, marginLeft: 30},
+
+  //onBoarding
+  cardSpace: {
+    marginRight: _spacing,
+    padding: _spacing,
+    width: width - 40,
+  },
 });
 
 export default styles;

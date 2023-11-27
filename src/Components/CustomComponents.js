@@ -3,6 +3,7 @@ import {
   Image,
   Keyboard,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -10,8 +11,7 @@ import React, {useEffect, useState} from 'react';
 
 import LinearGradient from 'react-native-linear-gradient';
 import styles from '../Styles/styles';
-import {SignUpTheme2, SignUpTheme3} from './SvgComponent';
-import {PAGE_WIDTH} from '../Utils/helperFunctions';
+import {SignUpTheme3} from './SvgComponent';
 
 export const LinearCommonButton = props => {
   return (
@@ -25,29 +25,40 @@ export const LinearCommonButton = props => {
     </LinearGradient>
   );
 };
-export const FirstTheme = () => {
-  const originalWidth = 380;
-  const originalHeight = 244;
-  const aspectRatio = originalWidth / originalHeight;
-  const windowWidth = Dimensions.get('window').width;
-  return (
-    <View style={styles.NumSignUpThemeStylle}>
-      <SignUpTheme3 />
-    </View>
-  );
+export const FirstTheme = ({item}) => {
+  switch (item) {
+    case 'topSvg':
+      return (
+        <View style={styles.NumSignUpThemeStylle}>
+          <SignUpTheme3 />
+        </View>
+      );
+    case 'topImage':
+      return (
+        <View style={styles.NumSignUpThemeStylle}>
+          <Image
+            style={{width: 400}}
+            resizeMode="cover"
+            source={require('../Assets/OnBoarding/Component_16_1.png')}
+          />
+        </View>
+      );
+    default:
+      return null;
+  }
 };
 
-export const SecondTheme = () => {
-  return (
-    <View>
-      <Image
-        style={{width: 400}}
-        resizeMode="cover"
-        source={require('../Assets/OnBoarding/Component_16_1.png')}
-      />
-    </View>
-  );
-};
+// export const SecondTheme = () => {
+//   return (
+//     <View>
+//       <Image
+//         style={{width: 400}}
+//         resizeMode="cover"
+//         source={require('../Assets/OnBoarding/Component_16_1.png')}
+//       />
+//     </View>
+//   );
+// };
 
 export const BottomImage = props => {
   const [show, setshow] = useState(true);
@@ -78,5 +89,32 @@ const ViewtoRender = props => {
     />
   ) : (
     <View />
+  );
+};
+
+export const CustomTextInput = ({
+  placeholder,
+  onChangeText,
+  secureTextEntry,
+}) => {
+  const [text, setText] = useState('');
+
+  const handleChangeText = inputText => {
+    setText(inputText);
+    if (onChangeText) {
+      onChangeText(inputText);
+    }
+  };
+
+  return (
+    <View style={styles.Container}>
+      <TextInput
+        style={styles.input2}
+        placeholder={placeholder}
+        value={text}
+        onChangeText={handleChangeText}
+        secureTextEntry={secureTextEntry}
+      />
+    </View>
   );
 };

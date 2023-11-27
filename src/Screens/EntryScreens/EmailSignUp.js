@@ -57,7 +57,7 @@ const EmailSignUp = ({navigation}) => {
 
   return (
     <View style={styles.Container}>
-      <FirstTheme />
+      <FirstTheme item={'topSvg'} />
       <KeyboardAvoidingView behavior="padding">
         <Text style={styles.titleText}>Email</Text>
 

@@ -11,7 +11,6 @@ const Home = () => {
   const user = useAuth();
   const auth = getAuth(defaultapp);
 
-  console.log(user.email);
   const handleSignOut = async () => {
     try {
       await signOut(auth);
