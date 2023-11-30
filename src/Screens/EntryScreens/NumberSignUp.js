@@ -17,6 +17,7 @@ import {
 } from '../../Components/CustomComponents';
 import {getAuth, signInWithPhoneNumber} from 'firebase/auth';
 import {defaultapp} from '../../Confg/Firebase';
+import {firebase} from '@react-native-firebase/auth';
 
 const NumberSignUp = () => {
   // If null, no SMS has been sent
@@ -76,7 +77,7 @@ const NumberSignUp = () => {
   // }
   return (
     <View style={styles.Container}>
-      <FirstTheme />
+      <FirstTheme item={'topSvg'} />
 
       {/* <View style={[styles.Cmargin]}>
                 <Image source={require('../../Assets/Signup/AppName.png')} />
