@@ -7,5 +7,5 @@ import {firebaseConfig} from '../Confg/Firebase';
 import {useAuth} from '../hooks/useAuth';
 export default AppNavigation = () => {
   const user = useAuth();
-  return user ? <UserStack /> : <AuthStack />;
+  return user ? <LoggedStrack /> : <AuthStack />;
 };

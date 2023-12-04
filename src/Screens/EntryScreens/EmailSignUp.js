@@ -12,6 +12,7 @@ import {
   BottomImage,
   FirstTheme,
   LinearCommonButton,
+  LoadingView,
 } from '../../Components/CustomComponents';
 import {
   createUserWithEmailAndPassword,
@@ -54,7 +55,7 @@ const EmailSignUp = ({navigation}) => {
   const _goBack = () => {
     navigation.goBack();
   };
-
+  if (loading) return <LoadingView />;
   return (
     <View style={styles.Container}>
       <FirstTheme item={'topSvg'} />

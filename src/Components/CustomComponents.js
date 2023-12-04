@@ -1,5 +1,4 @@
 import {
-  Dimensions,
   Image,
   Keyboard,
   Text,
@@ -26,6 +25,7 @@ export const LinearCommonButton = props => {
     </LinearGradient>
   );
 };
+
 export const FirstTheme = ({item}) => {
   switch (item) {
     case 'topSvg':
@@ -67,6 +67,7 @@ export const BottomImage = props => {
 
   return <ViewtoRender show={show} src={props.image} />;
 };
+
 const ViewtoRender = props => {
   return (
     props.show && (
@@ -86,7 +87,7 @@ export const CustomTextInput = ({
 }) => {
   const [text, setText] = useState('');
 
-  const handleChangeText = inputText => {
+  const _handleChangeText = inputText => {
     setText(inputText);
     if (onChangeText) {
       onChangeText(inputText);
@@ -99,7 +100,7 @@ export const CustomTextInput = ({
         style={styles.input2}
         placeholder={placeholder}
         value={text}
-        onChangeText={handleChangeText}
+        onChangeText={_handleChangeText}
         secureTextEntry={secureTextEntry}
       />
     </View>
@@ -159,24 +160,10 @@ export const LoadingView = props => {
         style={{width: width / 2, height: height + 30, alignSelf: 'center'}}
         resizeMode="contain"
       />
-      <View
-        style={{
-          position: 'absolute',
-          justifyContent: 'center',
-          alignItems: 'center',
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-        }}>
+      <View style={styles.svgCenter}>
         <HIcon width={50} height={50} />
       </View>
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          marginBottom: 50,
-        }}>
+      <View style={styles.loading}>
         <Text style={{fontSize: 20, color: '#FFF'}}>Loading...</Text>
       </View>
       {/* <Text style={styles.text1}>Welcome {user?.email}</Text>

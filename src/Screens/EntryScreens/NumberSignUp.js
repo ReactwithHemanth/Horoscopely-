@@ -30,10 +30,10 @@ const NumberSignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   // const auth = firebase.auth();
 
-  const user = useAuth();
-  const auth = getAuth(defaultapp);
+  // const user = useAuth();
+  const auth = getAuth();
 
-  console.log(user, '---->>');
+  // console.log(user, '---->>');
   // Handle login
   // function onAuthStateChanged(user) {
   //   if (user) {
@@ -75,16 +75,14 @@ const NumberSignUp = () => {
   //     </SafeAreaView>
   //   );
   // }
+
   return (
     <View style={styles.Container}>
       <FirstTheme item={'topSvg'} />
-
       {/* <View style={[styles.Cmargin]}>
                 <Image source={require('../../Assets/Signup/AppName.png')} />
-
                 <Text>Choose one of the below to get started</Text>
               </View> */}
-
       <View style={styles.signUpMethView2}>
         <Text style={styles.titleText}>Mobile Number</Text>
 

@@ -16,29 +16,12 @@ import {
 import {useAuth} from '../../hooks/useAuth';
 import DatePicker from 'react-native-date-picker';
 import {Picker} from '@react-native-picker/picker';
+import {Color} from '../../Utils/Color';
+import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
 
-export default function HomeScreen({navigation}) {
+const OnBoarding = ({navigation}) => {
   const _spacing = 10;
-  const data = [
-    {id: '1', label: 'nameInput'},
-    {id: '2', label: 'emailInput'},
-    {id: '3', label: 'numberInput'},
-    {id: '4', label: 'DOB'},
-    {id: '5', label: 'TOB'},
-    {id: '6', label: 'Gender'},
-    {id: '7', label: 'RelationShip'},
-    {id: '8', label: 'push'},
-  ];
-  const genderArray = [
-    {label: 'Male', value: 'male'},
-    {label: 'Female', value: 'female'},
-  ];
-  const RelationShipStatus = [
-    {label: 'single', value: 'single'},
-    {label: 'Married', value: 'Married'},
-    {label: 'Engaged', value: 'Engaged'},
-    {label: 'InRelationship', value: 'In a Relationship'},
-  ];
+
   const user = useAuth();
 
   const ref = useRef();
@@ -212,7 +195,7 @@ export default function HomeScreen({navigation}) {
                   <>
                     <View
                       style={{
-                        borderColor: '#328AEE',
+                        borderColor: Color.primaryBlue,
                         borderWidth: 1,
                         padding: 2,
                         borderRadius: 20,
@@ -264,7 +247,7 @@ export default function HomeScreen({navigation}) {
                   <>
                     <View
                       style={{
-                        borderColor: '#328AEE',
+                        borderColor: Color.primaryBlue,
                         borderWidth: 1,
                         padding: 2,
                         marginVertical: 10,
@@ -320,7 +303,7 @@ export default function HomeScreen({navigation}) {
                   <>
                     <View
                       style={{
-                        borderColor: '#328AEE',
+                        borderColor: Color.primaryBlue,
                         borderWidth: 1,
                         padding: 2,
                         borderRadius: 20,
@@ -398,7 +381,7 @@ export default function HomeScreen({navigation}) {
                   padding: _spacing / 2,
                   margin: _spacing / 2,
                   borderRadius: _spacing,
-                  backgroundColor: idx == index ? '#328AEE' : '#8EBDF3',
+                  backgroundColor: idx == index ? Color.primaryBlue : '#8EBDF3',
                 }}
               />
             );
@@ -407,7 +390,9 @@ export default function HomeScreen({navigation}) {
       </View>
     </View>
   );
-}
+};
+export default OnBoarding;
+
 const styles1 = StyleSheet.create({
   container: {flex: 1, justifyContent: 'center'},
   container2: {flex: 1, alignItems: 'center'},

@@ -1,6 +1,10 @@
+import {Color} from '../Utils/Color';
+import {screenDiagonal} from '../Utils/helperFunctions';
+
 const {StyleSheet, Dimensions} = require('react-native');
 const {width, height} = Dimensions.get('window');
 const _spacing = 10;
+const dgl = screenDiagonal();
 
 const styles = StyleSheet.create({
   //common C
@@ -12,7 +16,22 @@ const styles = StyleSheet.create({
   },
   CRow: {flexDirection: 'row'},
   Cmargin: {margin: 20},
+  Cpadding: {padding: _spacing},
   titleText: {fontSize: 18, padding: 10},
+  loading: {
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: 50,
+  },
+  svgCenter: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
   //Header
   header: {
     flexDirection: 'row',
@@ -23,6 +42,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginRight: 10,
   },
+  homeView3: {alignItems: 'flex-start', padding: 10},
   //SignUpScreen
   Button: {
     borderRadius: 25,
@@ -33,6 +53,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowOffset: 0.1,
   },
+  homeView2: {flex: 1, width: dgl * 0.4},
   signUpMethView2: {flex: 1.2, justifyContent: 'center'},
   signUpMethView3: {flex: 2, justifyContent: 'center'},
   smallText: {fontSize: 12, textAlign: 'center', padding: 22},
@@ -89,12 +110,79 @@ const styles = StyleSheet.create({
   },
   //Home
   text1: {fontSize: 20, marginLeft: 30},
+  imageBgView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    // marginTop: 10,
+  },
+  filterStyle: {
+    backgroundColor: '#CDA3EF',
+    paddingHorizontal: 30,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#BF7AF3',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: dgl * 0.13,
+    justifyContent: 'space-between',
+  },
+  LinearView: {
+    width: '90%',
+    height: 300,
+    marginTop: dgl * 0.14,
+    borderRadius: 20,
+    padding: 20,
+  },
+  SvgView: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  BoxView2: {
+    width: dgl * 0.38,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  BoxView: {
+    flex: 1,
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Color.white,
+  },
+  alignView: {alignItems: 'center'},
+  textMargin: {marginTop: 10, color: Color.white},
+  LinearLineAlign: {flexDirection: 'row', justifyContent: 'space-between'},
 
   //onBoarding
   cardSpace: {
     marginRight: _spacing,
     padding: _spacing,
     width: width - 40,
+  },
+  //footer
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: 70,
+    padding: 10,
+    backgroundColor: Color.darkViolet, // Set your preferred background color
+  },
+  footerButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: 'red',
+  },
+  buttonText: {
+    fontSize: 12,
+    color: Color.regularViolet, // Set your preferred text color
   },
 });
 
