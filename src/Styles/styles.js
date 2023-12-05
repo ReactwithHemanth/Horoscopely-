@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowOffset: 0.1,
   },
+  homeheading: {fontSize: 20, fontWeight: 'bold', color: Color.white},
   homeView2: {flex: 1, width: dgl * 0.4},
   signUpMethView2: {flex: 1.2, justifyContent: 'center'},
   signUpMethView3: {flex: 2, justifyContent: 'center'},
