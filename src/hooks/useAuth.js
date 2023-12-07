@@ -1,13 +1,11 @@
-import {View, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
 import {getAuth, onAuthStateChanged} from 'firebase/auth';
-import {Firebase_app} from '../Confg/Firebase';
+import React, {useEffect, useState} from 'react';
+import {defaultapp} from '../Confg/Firebase';
+// const auth = firebase.auth();
 
-const auth = getAuth(Firebase_app);
-
-export const useAUth = () => {
-  const [user, setUser] = useState();
-
+export const useAuth = () => {
+  const auth = getAuth(defaultapp);
+  const [user, setUser] = useState({});
   useEffect(() => {
     const unSubscribeFromAuthStateChange = onAuthStateChanged(auth, user => {
       if (user) {

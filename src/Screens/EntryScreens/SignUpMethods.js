@@ -1,29 +1,26 @@
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  ActivityIndicator,
-  Button,
-  Alert,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
 import {Firebase_app} from '../../Confg/Firebase';
 import styles from '../../Styles/styles';
 import {Methods} from '../../Utils/Dummy';
-import {SocialIcon} from '@rneui/base-edge';
-import {Icon} from 'react-native-elements';
 import {SignUpBgTheme, SignUpTheme2} from '../../Components/SvgComponent';
 import {Image} from 'react-native';
-const auth = getAuth(Firebase_app);
 const colorArray = ['#ba55d3', '#00bfff', '#f8f8ff', '#4169e1', '#ffff'];
+/**
+ *
+ * @param {*} props
+ * @returns
+ * Flow:
+ * Sign in With Email
+ * * Success
+ * * Data collection
+ * * [Name, Email, DOB, TOB, POB, Gender, Martial Status, Push Notification, OTP Reciver ]
+ * Sign in With google
+ * Sign in With facebook
+ * Sign in With phone Number
+ * Sign in With Apple
+ *
+ */
 const SignUp = props => {
   return (
     <View style={styles.Container}>

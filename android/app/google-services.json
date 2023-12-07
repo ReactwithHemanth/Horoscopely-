@@ -12,7 +12,12 @@
           "package_name": "com.horoscopely"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "729595887720-a3l19m43e79tgcer4j2fcthtemeqcfsp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAC0anY3iJQR7O6qvzIap5p17q8Ifq62lw"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729595887720-a3l19m43e79tgcer4j2fcthtemeqcfsp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "729595887720-netu2cvlniolsqm6vc28ll6b3ting2v8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.horoscopely"
+              }
+            }
+          ]
         }
       }
     }
