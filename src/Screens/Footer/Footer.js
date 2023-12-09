@@ -55,7 +55,7 @@ const Footer = ({navigation}) => {
   return (
     <View style={styles.footer}>
       {item.map((item, idx) => {
-        return <ItemRender value={item} />;
+        return <ItemRender key={idx} value={item} />;
       })}
     </View>
   );

@@ -1,7 +1,11 @@
-import {View, Text, Image} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, Image, Touchable, TouchableOpacity} from 'react-native';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  getFocusedRouteNameFromRoute,
+  useNavigation,
+} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 //screens
@@ -9,53 +13,155 @@ import Home from '../Screens/Footer/Home';
 import RemedyScreen from '../Screens/Footer/RemedyScreen';
 import Footer from '../Screens/Footer/Footer';
 import styles from '../Styles/styles';
-import {CalenderSvg, NotificationSvg} from '../Components/SvgComponent';
+import {NotificationSvg, SettingSvg} from '../Components/SvgComponent';
 import {Color} from '../Utils/Color';
 import CompatibilityScreen from '../Screens/Footer/CompatibilityScreen';
 import OnBoarding from '../Screens/OnBoarding/OnBoarding';
+import {screenDiagonal} from '../Utils/helperFunctions';
+import Notification from '../Screens/Notification/Notification';
+import Settings from '../Screens/Notification/Settings';
+import DateTimeScreen from '../Screens/FocusAndAdvice/DateTimeScreen';
+import FocusDay from '../Screens/FocusAndAdvice/FocusDay';
+import CalenderAdvice from '../Screens/FocusAndAdvice/CalenderAdvice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-// const BottomTabStack = () => (
-//   <Tab.Navigator tabBar={props => <CustomFooter {...props} />}>
-//     <Tab.Screen name="Screen1" component={Home} />
-//     <Tab.Screen name="Screen2" component={RemedyScreen} />
-//   </Tab.Navigator>
-// );
+const dgl = screenDiagonal();
 
 const LogoTitle = () => {
   return <Image source={require('../Assets/Home/LogoHeader1.png')} />;
 };
 
 const Notify = () => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.headerContainer}>
+    <TouchableOpacity
+      style={styles.headerContainer}
+      onPress={() => navigation.navigate('Notification')}>
       {/* Your icon */}
       <NotificationSvg fill={Color.white} />
-    </View>
+      <View style={styles.headerNotifyBar}>
+        <Text style={{color: Color.shadedWhite}}>3</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
-const UserStack = () => {
+const SettingsButton = () => {
+  const navigation = useNavigation();
+  return (
+    <TouchableOpacity
+      style={styles.headerContainer}
+      onPress={() => navigation.navigate('Settings')}>
+      {/* Your icon */}
+      <SettingSvg fill={Color.primaryBlue} />
+    </TouchableOpacity>
+  );
+};
+
+const UserStack = ({navigation, route}) => {
   const [dataCollection, setdataCollection] = useState(true);
+
   return (
     <Stack.Navigator
-      initialRouteName={dataCollection ? 'Home' : 'OnBoarding'}
+      initialRouteName={'onBoarding'}
       screenOptions={{
-        // headerShown: false,
-        headerTransparent: true,
-        headerTitle: () => <LogoTitle />,
-        headerRight: () => <Notify />,
+        // headerTransparent: true,
+        headerBack: {color: Color.darkViolet},
+        headerBackTitleVisible: false,
+        headerTintColor: Color.shadedWhite,
       }}>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="onBoarding" component={OnBoarding} />
-      <Stack.Screen name="Compatibility" component={CompatibilityScreen} />
-      <Stack.Screen name="Remedy" component={RemedyScreen} />
+      <Stack.Screen
+        name="onBoarding"
+        component={OnBoarding}
+        options={{
+          headerShown: false,
+          headerTitleStyle: {color: Color.black},
+          headerTintColor: Color.primaryBlue,
+          headerRight: () => <SettingsButton />,
+        }}
+      />
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerTitle: () => <LogoTitle />,
+          headerRight: () => <Notify />,
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name="DateTimeScreen"
+        component={DateTimeScreen}
+        options={{
+          headerShown: false,
+          headerTintColor: Color.black,
+          // headerRight: () => <Notify />,
+        }}
+      />
+      <Stack.Screen
+        name="Notification"
+        component={Notification}
+        options={{
+          headerShown: true,
+          headerTitleStyle: {color: Color.black},
+          headerTintColor: Color.primaryBlue,
+          headerRight: () => <SettingsButton />,
+        }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={{headerShown: true, headerTintColor: Color.black}}
+      />
+      <Stack.Screen
+        name="Compatibility"
+        component={CompatibilityScreen}
+        options={{
+          headerShown: true,
+          headerTitleStyle: {color: Color.black},
+          headerTintColor: Color.primaryBlue,
+          headerRight: () => <LogoTitle />,
+        }}
+      />
+
+      <Stack.Screen
+        name="Remedy"
+        component={RemedyScreen}
+        options={{
+          headerShown: true,
+          headerTitleStyle: {color: Color.black},
+          headerTintColor: Color.primaryBlue,
+          headerRight: () => <LogoTitle />,
+        }}
+      />
+      <Stack.Screen
+        name="FocusDay"
+        component={FocusDay}
+        options={{
+          headerShown: true,
+          headerTitleStyle: {color: Color.black},
+          headerTintColor: Color.primaryBlue,
+          // headerRight: () => <LogoTitle />,
+        }}
+      />
+      <Stack.Screen
+        name="CalenderAdvice"
+        component={CalenderAdvice}
+        options={{
+          headerShown: true,
+          headerTitleStyle: {color: Color.black},
+          headerTintColor: Color.primaryBlue,
+          // headerRight: () => <LogoTitle />,
+        }}
+      />
     </Stack.Navigator>
   );
 };
-export default LoggedStrack = () => {
+
+const LoggedStack = () => {
+  const [LaunchFirst, setLaunchFirst] = useState(true);
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -66,3 +172,5 @@ export default LoggedStrack = () => {
     </NavigationContainer>
   );
 };
+
+export default LoggedStack;

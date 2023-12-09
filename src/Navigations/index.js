@@ -1,11 +1,8 @@
 import React from 'react';
 import AuthStack from './AuthStack';
-import UserStack from './UserStack';
-// import {useAuth} from '../hooks/useAuth';
-import {getAuth, onAuthStateChanged} from 'firebase/auth';
-import {firebaseConfig} from '../Confg/Firebase';
 import {useAuth} from '../hooks/useAuth';
+import LoggedStack from './UserStack';
 export default AppNavigation = () => {
   const user = useAuth();
-  return user ? <LoggedStrack /> : <AuthStack />;
+  return user ? <LoggedStack /> : <AuthStack />;
 };

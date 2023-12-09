@@ -1,4 +1,10 @@
-import {View, Text, ImageBackground, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState} from 'react';
 import {getAuth, signOut} from 'firebase/auth';
 import {defaultapp} from '../../Confg/Firebase';
@@ -10,21 +16,26 @@ import {
   ShareSvg,
   SunSvg,
 } from '../../Components/SvgComponent';
-import {LoadingView} from '../../Components/CustomComponents';
+import {
+  ImageBackgroundView,
+  LoadingView,
+} from '../../Components/CustomComponents';
 import LinearGradient from 'react-native-linear-gradient';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import {screenDiagonal} from '../../Utils/helperFunctions';
 import styles from '../../Styles/styles';
 import {Color} from '../../Utils/Color';
 import {dummies} from '../../Utils/Dummy';
+import {Picker} from '@react-native-picker/picker';
 // import {firebase} from '@react-native-firebase/auth';
 // const auth = firebase.auth();
 const dgl = screenDiagonal();
-const Home = () => {
+const Home = ({navigation}) => {
   const user = useAuth();
   const auth = getAuth(defaultapp);
 
   const [loading, setLoading] = useState(false);
+  const [setSelectFilter, setsetSelectFilter] = useState('Today');
 
   const handleSignOut = async () => {
     try {
@@ -38,10 +49,13 @@ const Home = () => {
   if (loading) {
     return <LoadingView />;
   }
+
   const SvgBox = props => {
-    const {backgroundColor, iconColor, title, icon} = props;
+    const {backgroundColor, iconColor, title, icon, onPress} = props;
     return (
-      <View style={[styles.BoxView, {backgroundColor: backgroundColor}]}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={[styles.BoxView, {backgroundColor: backgroundColor}]}>
         <View style={{flex: 1}}>
           <Text style={{color: iconColor}}>{title}</Text>
         </View>
@@ -52,7 +66,7 @@ const Home = () => {
           </View>
         </View>
         {/* CalenderSvg */}
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -64,9 +78,7 @@ const Home = () => {
             <Text style={{fontSize: 20}}>Hello,harper</Text>
             <Text>january 1 , 1998 09</Text>
           </View>
-          <View>
-            <DearSvg />
-          </View>
+          <DearSvg fill={Color.shadedWhite} />
         </View>
         <View style={styles.LinearLineAlign}>
           <View style={styles.alignView}>
@@ -79,7 +91,6 @@ const Home = () => {
               maxValue={100}
               activeStrokeColor={'#84CAFF'}
               titleColor={'white'}
-              titleStyle={{fontWeight: '100'}}
             />
             <Text style={styles.textMargin}> Love</Text>
           </View>
@@ -92,9 +103,7 @@ const Home = () => {
               progressValueColor={'#ecf0f1'}
               activeStrokeColor={'#84CAFF'}
               maxValue={100}
-              // subtitle={'Love'}
               titleColor={'white'}
-              titleStyle={{fontWeight: '100'}}
             />
             <Text style={styles.textMargin}> Career</Text>
           </View>
@@ -116,12 +125,14 @@ const Home = () => {
         <View style={{flex: 1, flexDirection: 'row'}}>
           <SvgBox
             backgroundColor={'#BEA1E2'}
+            onPress={() => navigation.navigate('CalenderAdvice')}
             iconColor={Color.white}
             title={'Your Calendar Advice of the Day'}
             icon={<CalenderSvg fill={Color.white} />}
           />
           <SvgBox
             backgroundColor={Color.white}
+            onPress={() => navigation.navigate('FocusDay')}
             iconColor={Color.primaryBlue}
             title={'Your Focus of the Day'}
             icon={<SunSvg fill={Color.primaryBlue} />}
@@ -132,9 +143,7 @@ const Home = () => {
   };
 
   return (
-    <ImageBackground
-      source={require('../../Assets/Home/Component1.png')}
-      style={styles.imageBgView}>
+    <ImageBackgroundView>
       <LinearWidget />
       <View style={styles.homeView2}>
         <View style={styles.homeView3}>
@@ -162,7 +171,7 @@ const Home = () => {
       <Text onPress={handleSignOut} style={styles.text1}>
         SignOut {user?.email}
       </Text> */}
-    </ImageBackground>
+    </ImageBackgroundView>
   );
 };
 const styles1 = StyleSheet.create({});

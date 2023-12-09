@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -12,14 +12,16 @@ import styles from '../../Styles/styles';
 import {
   FirstTheme,
   LinearCommonButton,
+  WelcomeText,
 } from '../../Components/CustomComponents';
 import {useAuth} from '../../hooks/useAuth';
 import DatePicker from 'react-native-date-picker';
 import {Picker} from '@react-native-picker/picker';
 import {Color} from '../../Utils/Color';
 import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const OnBoarding = ({navigation}) => {
+const OnBoarding = ({navigation, route}) => {
   const _spacing = 10;
 
   const user = useAuth();
@@ -29,7 +31,8 @@ const OnBoarding = ({navigation}) => {
   const [username, setUsername] = useState(0);
   const [email, setEmail] = useState(user?.email);
   const [number, setNumber] = useState(0);
-  const [DOB, setDob] = useState(0);
+  const [Dob, setDob] = useState(new Date());
+  const [Tob, setTob] = useState(new Date());
   const [placeOB, setPlaceOB] = useState(0);
   const [gender, setGender] = useState(genderArray[0].value);
   const [activeGender, setactiveGender] = useState(0);
@@ -38,6 +41,7 @@ const OnBoarding = ({navigation}) => {
     RelationShipStatus[0]?.value,
   );
   const [RelationShipIndex, setRelationShipIndex] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
     ref.current?.scrollToIndex({
@@ -45,32 +49,32 @@ const OnBoarding = ({navigation}) => {
       animated: true,
       viewOffset: 0.5 || 1 ? 0 : _spacing,
     });
+
+    const checkOnBoarding = async () => {
+      try {
+        const onBoarding = await AsyncStorage.getItem('onBoarding');
+        console.log(onBoarding, '--------------------------------');
+        if (onBoarding) {
+          navigation.navigate('Home');
+        }
+      } catch (e) {
+        console.error('Error reading from AsyncStorage:', error);
+      }
+    };
+    checkOnBoarding();
   }, [index]);
 
-  const WelcomeText = () => {
-    return (
-      <View
-        style={{
-          alignItems: 'center',
-          alignSelf: 'flex-start',
-          marginLeft: _spacing * 2,
-          justifyContent: 'center',
-        }}>
-        <Text
-          style={{
-            fontSize: 20,
-            textAlign: 'left',
-          }}>
-          Welcome User
-        </Text>
-        <Text style={{fontSize: 25, padding: 5, fontWeight: 'bold'}}>
-          Lets ge started
-        </Text>
-      </View>
-    );
+  const handleGetStarted = async () => {
+    try {
+      // Mark onboarding as shown
+      const res = await AsyncStorage.setItem('onboardingShown', 'true');
+      console.log(res, 'onboardingShown');
+      navigation.navigate('Home'); // Change to your main screen navigator
+    } catch (error) {
+      console.error('Error saving to AsyncStorage:', error);
+    }
   };
   const changeGender = index => {
-    console.log(index);
     setGender(genderArray[index]?.value);
     setactiveGender(index);
   };
@@ -149,7 +153,7 @@ const OnBoarding = ({navigation}) => {
         return (
           <View style={styles.cardSpace}>
             <Text style={styles.titleText}>Date of birth</Text>
-            <DatePicker date={date} onDateChange={setDate} />
+            <DatePicker date={Dob} onDateChange={setDob} mode={'date'} />
 
             {/* <TextInput placeholder="Email" style={styles.input} /> */}
             <LinearCommonButton
@@ -168,7 +172,8 @@ const OnBoarding = ({navigation}) => {
         return (
           <View style={styles.cardSpace}>
             <Text style={styles.titleText}>Place of birth</Text>
-            <TextInput placeholder="Email" style={styles.input} />
+            <DatePicker date={Tob} onDateChange={setTob} mode={'time'} />
+
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
@@ -327,7 +332,10 @@ const OnBoarding = ({navigation}) => {
             </View>
             <LinearCommonButton
               title={'Submit'}
-              onPress={() => navigation.navigate('Home')}
+              onPress={() => {
+                navigation.navigate('Home');
+                handleGetStarted();
+              }}
             />
           </View>
         );
@@ -338,7 +346,7 @@ const OnBoarding = ({navigation}) => {
   return (
     <View style={styles1.container2}>
       <FirstTheme item={'topImage'} />
-      <WelcomeText />
+      <WelcomeText SubTitle={'Welcome User'} title={'Lets ge started'} />
       <FlatList
         ref={ref}
         scrollEnabled={false}
