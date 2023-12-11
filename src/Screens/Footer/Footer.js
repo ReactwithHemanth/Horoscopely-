@@ -8,19 +8,33 @@ import {
   SolidSvg,
 } from '../../Components/SvgComponent';
 import styles from '../../Styles/styles';
+import {getAuth, signOut} from 'firebase/auth';
+import {defaultapp} from '../../Confg/Firebase';
 
 const Footer = ({navigation}) => {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(1);
   const item = [
     {id: 1, value: 'Home', label: 'HOME'},
     {id: 2, value: 'Compatibility', label: 'COMPATIBILITY'},
     {id: 3, value: 'Remedy', label: 'REMEDY'},
     {id: 4, value: 'More', label: 'MORE'},
   ];
+  const auth = getAuth(defaultapp);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      console.log('Signed out successfully ');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
   const ItemRender = ({value}) => {
     const _navigate = value => {
       if (value == 'More') {
-        return;
+        handleSignOut();
+        // return;
       } else {
         setActive(value);
         navigation.navigate(value);

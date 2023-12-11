@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
   Text,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from '../../Styles/styles';
 import {
   BottomImage,
@@ -20,17 +20,22 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import {defaultapp} from '../../Confg/Firebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EmailSignUp = ({navigation}) => {
   const [email, setEmail] = useState('infoappmaker@gmail.com');
   const [password, setPassword] = useState('As@12345');
   const [loading, setloading] = useState(false);
   const auth = getAuth(defaultapp);
+  useEffect(() => {
+    handleGetStarted('false');
+  }, []);
 
   const signInFn = async () => {
     setloading(true);
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
+      handleGetStarted('true');
     } catch (error) {
       Alert.alert(
         'sign In failed: ' + error.message,
@@ -40,11 +45,20 @@ const EmailSignUp = ({navigation}) => {
       setloading(false);
     }
   };
+  const handleGetStarted = async payload => {
+    try {
+      const res = await AsyncStorage.setItem('onboardingShown', payload);
+      if (res) navigation.navigate('Home'); // Change to your Home screen navigator
+    } catch (error) {
+      console.error('Error saving to AsyncStorage:', error);
+    }
+  };
 
   const signUpFn = async () => {
     setloading(true);
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
+      handleGetStarted();
     } catch (error) {
       Alert.alert('sign Up failed: ' + error.message);
     } finally {

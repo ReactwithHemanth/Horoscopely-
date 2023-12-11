@@ -1,4 +1,10 @@
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -8,7 +14,7 @@ import {
   View,
 } from 'react-native';
 import {width} from '../../Utils/helperFunctions';
-import styles from '../../Styles/styles';
+import styles, {_spacing} from '../../Styles/styles';
 import {
   FirstTheme,
   LinearCommonButton,
@@ -20,10 +26,9 @@ import {Picker} from '@react-native-picker/picker';
 import {Color} from '../../Utils/Color';
 import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 const OnBoarding = ({navigation, route}) => {
-  const _spacing = 10;
-
   const user = useAuth();
 
   const ref = useRef();
@@ -41,7 +46,6 @@ const OnBoarding = ({navigation, route}) => {
     RelationShipStatus[0]?.value,
   );
   const [RelationShipIndex, setRelationShipIndex] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
     ref.current?.scrollToIndex({
@@ -49,41 +53,81 @@ const OnBoarding = ({navigation, route}) => {
       animated: true,
       viewOffset: 0.5 || 1 ? 0 : _spacing,
     });
+    // handleGetStarted('false');
+  }, [index, navigation]);
 
-    const checkOnBoarding = async () => {
-      try {
-        const onBoarding = await AsyncStorage.getItem('onBoarding');
-        console.log(onBoarding, '--------------------------------');
-        if (onBoarding) {
-          navigation.navigate('Home');
+  useFocusEffect(
+    useCallback(() => {
+      // This function will be called when the screen gains focus
+      console.log('Screen focused');
+      const checkOnBoarding = async () => {
+        try {
+          const onBoarding = await AsyncStorage.getItem('onboardingShown');
+          if (onBoarding) {
+            navigation.navigate('Home');
+          }
+        } catch (e) {
+          const onBoarding = await AsyncStorage.setItem(
+            'onboardingShown',
+            'false',
+          );
+
+          console.error('Error reading from AsyncStorage:', error);
         }
-      } catch (e) {
-        console.error('Error reading from AsyncStorage:', error);
-      }
-    };
-    checkOnBoarding();
-  }, [index]);
+      };
+      checkOnBoarding();
 
-  const handleGetStarted = async () => {
+      // You can perform actions when the screen gains focus, such as updating data
+
+      // You can also listen for the hardware back button press (Android)
+      const onHardwareBackPress = () => {
+        // Your custom logic for handling the hardware back press
+        console.log('Hardware back button pressed');
+        return false; // Return true to prevent default behavior (going back)
+      };
+
+      // Add the back press listener
+      navigation.addListener('beforeRemove', onHardwareBackPress);
+
+      // Clean up the listener when the screen loses focus or unmounts
+      return () => {
+        console.log('Screen blurred');
+        navigation.removeListener('beforeRemove', onHardwareBackPress);
+      };
+    }, [navigation]),
+  );
+
+  const handleGetStarted = async payload => {
     try {
-      // Mark onboarding as shown
-      const res = await AsyncStorage.setItem('onboardingShown', 'true');
-      console.log(res, 'onboardingShown');
-      navigation.navigate('Home'); // Change to your main screen navigator
+      const res = await AsyncStorage.setItem('onboardingShown', payload);
+      // if (res)
+      //   navigation.reset({
+      //     index: 0,
+      //     routes: [{name: 'Home'}],
+      //   }); // Change to your Home screen navigator
     } catch (error) {
       console.error('Error saving to AsyncStorage:', error);
     }
   };
+
+  const handleSubmit = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Home'}],
+    });
+    handleGetStarted('true');
+  };
+
   const changeGender = index => {
     setGender(genderArray[index]?.value);
     setactiveGender(index);
   };
-  const changeRelationShipStatus = index => {
-    console.log(index);
 
+  const changeRelationShipStatus = index => {
     setRelationShip(RelationShipStatus[index]?.value);
     setRelationShipIndex(index);
   };
+
   const RenderItem = ({item, idx}) => {
     switch (item.label) {
       case 'nameInput':
@@ -199,6 +243,7 @@ const OnBoarding = ({navigation, route}) => {
                 return (
                   <>
                     <View
+                      key={index}
                       style={{
                         borderColor: Color.primaryBlue,
                         borderWidth: 1,
@@ -333,8 +378,7 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
-                navigation.navigate('Home');
-                handleGetStarted();
+                handleSubmit();
               }}
             />
           </View>
@@ -399,6 +443,7 @@ const OnBoarding = ({navigation, route}) => {
     </View>
   );
 };
+
 export default OnBoarding;
 
 const styles1 = StyleSheet.create({

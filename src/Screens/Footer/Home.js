@@ -35,12 +35,12 @@ const Home = ({navigation}) => {
   const auth = getAuth(defaultapp);
 
   const [loading, setLoading] = useState(false);
-  const [setSelectFilter, setsetSelectFilter] = useState('Today');
+  const [SelectFilter, setSelectFilter] = useState('Today');
 
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      console.log('Signed out successfully');
+      console.log('Signed out successfully ');
     } catch (error) {
       console.error('Error signing out:', error);
     }

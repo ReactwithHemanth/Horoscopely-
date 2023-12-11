@@ -1,5 +1,4 @@
-import {Alert, Dimensions, ToastAndroid} from 'react-native';
-import React, {useState} from 'react';
+import {Alert, Dimensions, Platform, ToastAndroid} from 'react-native';
 
 export const {width, height} = Dimensions.get('window');
 

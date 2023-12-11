@@ -1,5 +1,7 @@
 // Import the functions you need from the SDKs you need
+import {firebase} from '@react-native-firebase/auth';
 import {initializeApp, getApp} from 'firebase/app';
+import {getAuth} from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -20,6 +22,7 @@ const firebaseConfig = {
 // });
 // if (apps.length) {
 export const defaultapp = initializeApp(firebaseConfig);
+export const authForDefaultApp = getAuth();
 // }
 // Initialize Firebase
 // const analytics = getAnalytics(app);

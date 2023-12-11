@@ -10,7 +10,7 @@ const dgl = screenDiagonal();
 const FocusDay = () => {
   return (
     <ImageBackgroundView>
-      <View>
+      <View style={{justifyContent: 'center'}}>
         <RectangleSvg />
         <View style={styles.focusView}>
           <DearSvg fill={Color.shadedWhite} />

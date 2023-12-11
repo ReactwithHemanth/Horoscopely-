@@ -61,8 +61,6 @@ const SettingsButton = () => {
 };
 
 const UserStack = ({navigation, route}) => {
-  const [dataCollection, setdataCollection] = useState(true);
-
   return (
     <Stack.Navigator
       initialRouteName={'onBoarding'}
@@ -88,6 +86,7 @@ const UserStack = ({navigation, route}) => {
         options={{
           headerTitle: () => <LogoTitle />,
           headerRight: () => <Notify />,
+          headerLeft: null,
           headerTransparent: true,
         }}
       />
@@ -120,9 +119,13 @@ const UserStack = ({navigation, route}) => {
         component={CompatibilityScreen}
         options={{
           headerShown: true,
-          headerTitleStyle: {color: Color.black},
+          headerTransparent: true,
+          headerBack: {color: Color.darkViolet},
+          headerBackTitleVisible: false,
+          headerTintColor: Color.shadedWhite,
+          headerTitleStyle: {color: Color.white},
           headerTintColor: Color.primaryBlue,
-          headerRight: () => <LogoTitle />,
+          headerLeft: () => <></>,
         }}
       />
 
@@ -161,11 +164,24 @@ const UserStack = ({navigation, route}) => {
 };
 
 const LoggedStack = () => {
-  const [LaunchFirst, setLaunchFirst] = useState(true);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const handleFooterVisibility = async () => {
+      try {
+        const res = await AsyncStorage.getItem('onboardingShown');
+        setVisible(res);
+      } catch (err) {
+        console.log(err, 'ERROR: Could not get onboarding ');
+      }
+    };
+    handleFooterVisibility();
+  }, [visible]);
+
   return (
     <NavigationContainer>
       <Tab.Navigator
-        tabBar={props => <Footer {...props} />}
+        tabBar={props => (visible == 'true' ? <Footer {...props} /> : null)}
         screenOptions={{headerShown: false}}>
         <Tab.Screen name="Profile" component={UserStack} />
       </Tab.Navigator>
