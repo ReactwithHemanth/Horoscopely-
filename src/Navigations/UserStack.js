@@ -23,7 +23,6 @@ import Settings from '../Screens/Notification/Settings';
 import DateTimeScreen from '../Screens/FocusAndAdvice/DateTimeScreen';
 import FocusDay from '../Screens/FocusAndAdvice/FocusDay';
 import CalenderAdvice from '../Screens/FocusAndAdvice/CalenderAdvice';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,7 +58,6 @@ const SettingsButton = () => {
     </TouchableOpacity>
   );
 };
-
 const UserStack = ({navigation, route}) => {
   const [dataCollection, setdataCollection] = useState(true);
 
@@ -159,7 +157,22 @@ const UserStack = ({navigation, route}) => {
     </Stack.Navigator>
   );
 };
-
+const onBoardStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="onBoarding"
+        component={OnBoarding}
+        options={{
+          headerShown: false,
+          headerTitleStyle: {color: Color.black},
+          headerTintColor: Color.primaryBlue,
+          headerRight: () => <SettingsButton />,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 const LoggedStack = () => {
   const [LaunchFirst, setLaunchFirst] = useState(true);
   return (

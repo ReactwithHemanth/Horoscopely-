@@ -7,7 +7,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import {useAuth} from '../../hooks/useAuth';
+// import {useAuth} from '../../hooks/useAuth';
 import styles from '../../Styles/styles';
 import PhoneInput from 'react-native-international-phone-number';
 import {
@@ -15,9 +15,8 @@ import {
   FirstTheme,
   LinearCommonButton,
 } from '../../Components/CustomComponents';
-import {getAuth, signInWithPhoneNumber} from 'firebase/auth';
-import {defaultapp} from '../../Confg/Firebase';
-import {firebase} from '@react-native-firebase/auth';
+
+import auth from '@react-native-firebase/auth';
 
 const NumberSignUp = () => {
   // If null, no SMS has been sent
@@ -28,33 +27,27 @@ const NumberSignUp = () => {
   const [code, setCode] = useState('');
   const [selectedCountry, setselectedCountry] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState('');
-  // const auth = firebase.auth();
-
-  // const user = useAuth();
-  const auth = getAuth();
-
-  // console.log(user, '---->>');
   // Handle login
-  // function onAuthStateChanged(user) {
-  //   if (user) {
-  //     // Some Android devices can automatically process the verification code (OTP) message, and the user would NOT need to enter the code.
-  //     // Actually, if he/she tries to enter it, he/she will get an error message because the code was already used in the background.
-  //     // In this function, make sure you hide the component(s) for entering the code and/or navigate away from this screen.
-  //     // It is also recommended to display a message to the user informing him/her that he/she has successfully logged in.
-  //   }
-  // }
+  function onAuthStateChanged(user) {
+    if (user) {
+      // Some Android devices can automatically process the verification code (OTP) message, and the user would NOT need to enter the code.
+      // Actually, if he/she tries to enter it, he/she will get an error message because the code was already used in the background.
+      // In this function, make sure you hide the component(s) for entering the code and/or navigate away from this screen.
+      // It is also recommended to display a message to the user informing him/her that he/she has successfully logged in.
+    }
+  }
 
-  // useEffect(() => {
-  //  const subscriber = onAuthStateChanged(onAuthStateChanged);
-  //   return subscriber; // unsubscribe on unmount
-  // }, []);
+  useEffect(() => {
+    const subscriber = onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
 
   // Handle the button press
   async function signInWithPhoneNumberFn(country, phoneNumber) {
-    let combine = country + phoneNumber;
+    let combine = country?.callingCode + phoneNumber;
     const formated = combine.trim();
     console.log(formated, 'format1');
-    const confirmation = await signInWithPhoneNumber(auth, formated);
+    const confirmation = await auth().signInWithPhoneNumber(formated);
     setConfirm(confirmation);
   }
 
@@ -65,27 +58,12 @@ const NumberSignUp = () => {
       console.log('Invalid code.');
     }
   }
-  // if (!confirm) {
-  //   return (
-  //     <SafeAreaView>
-  //       <Button
-  //         title="Phone Number Sign In"
-  //         onPress={() => signInWithPhoneNumber('+919562275795')}
-  //       />
-  //     </SafeAreaView>
-  //   );
-  // }
 
   return (
     <View style={styles.Container}>
       <FirstTheme item={'topSvg'} />
-      {/* <View style={[styles.Cmargin]}>
-                <Image source={require('../../Assets/Signup/AppName.png')} />
-                <Text>Choose one of the below to get started</Text>
-              </View> */}
       <View style={styles.signUpMethView2}>
         <Text style={styles.titleText}>Mobile Number</Text>
-
         <>
           {confirm ? (
             <TextInput

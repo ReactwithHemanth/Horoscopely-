@@ -20,6 +20,7 @@ import {Picker} from '@react-native-picker/picker';
 import {Color} from '../../Utils/Color';
 import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {RnGet} from '../../hooks/RnstoreHook';
 
 const OnBoarding = ({navigation, route}) => {
   const _spacing = 10;
@@ -50,20 +51,16 @@ const OnBoarding = ({navigation, route}) => {
       viewOffset: 0.5 || 1 ? 0 : _spacing,
     });
 
-    const checkOnBoarding = async () => {
-      try {
-        const onBoarding = await AsyncStorage.getItem('onBoarding');
-        console.log(onBoarding, '--------------------------------');
-        if (onBoarding) {
-          navigation.navigate('Home');
-        }
-      } catch (e) {
-        console.error('Error reading from AsyncStorage:', error);
-      }
-    };
-    checkOnBoarding();
+    checkFooterDisabled();
   }, [index]);
 
+  const checkFooterDisabled = async () => {
+    const onBoarding = RnGet('footerDisabled');
+
+    if (onBoarding) {
+      navigation.navigate('Home');
+    }
+  };
   const handleGetStarted = async () => {
     try {
       // Mark onboarding as shown

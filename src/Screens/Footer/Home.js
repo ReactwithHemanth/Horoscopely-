@@ -1,13 +1,5 @@
-import {
-  View,
-  Text,
-  ImageBackground,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {getAuth, signOut} from 'firebase/auth';
-import {defaultapp} from '../../Confg/Firebase';
 import {useAuth} from '../../hooks/useAuth';
 import {
   ArrowLeft,
@@ -26,20 +18,18 @@ import {screenDiagonal} from '../../Utils/helperFunctions';
 import styles from '../../Styles/styles';
 import {Color} from '../../Utils/Color';
 import {dummies} from '../../Utils/Dummy';
-import {Picker} from '@react-native-picker/picker';
-// import {firebase} from '@react-native-firebase/auth';
-// const auth = firebase.auth();
+import auth from '@react-native-firebase/auth';
+
 const dgl = screenDiagonal();
 const Home = ({navigation}) => {
   const user = useAuth();
-  const auth = getAuth(defaultapp);
 
   const [loading, setLoading] = useState(false);
   const [setSelectFilter, setsetSelectFilter] = useState('Today');
 
   const handleSignOut = async () => {
     try {
-      await signOut(auth);
+      await auth().signOut();
       console.log('Signed out successfully');
     } catch (error) {
       console.error('Error signing out:', error);

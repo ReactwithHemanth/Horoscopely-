@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
   Text,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from '../../Styles/styles';
 import {
   BottomImage,
@@ -14,23 +14,22 @@ import {
   LinearCommonButton,
   LoadingView,
 } from '../../Components/CustomComponents';
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
-import {defaultapp} from '../../Confg/Firebase';
+import auth from '@react-native-firebase/auth';
+import {RnStore} from '../../hooks/RnstoreHook';
 
 const EmailSignUp = ({navigation}) => {
   const [email, setEmail] = useState('infoappmaker@gmail.com');
   const [password, setPassword] = useState('As@12345');
   const [loading, setloading] = useState(false);
-  const auth = getAuth(defaultapp);
+
+  useEffect(() => {
+    const status = RnStore('footerDisabled', true);
+  }, []);
 
   const signInFn = async () => {
     setloading(true);
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
+      const res = await auth().signInWithEmailAndPassword(email, password);
     } catch (error) {
       Alert.alert(
         'sign In failed: ' + error.message,
@@ -44,7 +43,7 @@ const EmailSignUp = ({navigation}) => {
   const signUpFn = async () => {
     setloading(true);
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const res = await auth().createUserWithEmailAndPassword(email, password);
     } catch (error) {
       Alert.alert('sign Up failed: ' + error.message);
     } finally {
@@ -55,6 +54,7 @@ const EmailSignUp = ({navigation}) => {
   const _goBack = () => {
     navigation.goBack();
   };
+
   if (loading) return <LoadingView />;
   return (
     <View style={styles.Container}>
