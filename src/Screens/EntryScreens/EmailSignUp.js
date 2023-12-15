@@ -16,6 +16,7 @@ import {
 } from '../../Components/CustomComponents';
 import auth from '@react-native-firebase/auth';
 import {RnStore} from '../../hooks/RnstoreHook';
+import {Toast} from '../../Utils/helperFunctions';
 
 const EmailSignUp = ({navigation}) => {
   const [email, setEmail] = useState('infoappmaker@gmail.com');
@@ -29,9 +30,14 @@ const EmailSignUp = ({navigation}) => {
   const signInFn = async () => {
     setloading(true);
     try {
-      const res = await auth().signInWithEmailAndPassword(email, password);
+      // const res = await auth().signInWithEmailAndPassword(email, password);
+      constres = await auth().signInAnonymously();
     } catch (error) {
-      Alert.alert(
+      if (error.code === 'auth/operation-not-allowed') {
+        console.log('Enable anonymous in your firebase console.');
+      }
+
+      Toast(
         'sign In failed: ' + error.message,
         'If you are new here, create an account now!',
       );
@@ -69,20 +75,20 @@ const EmailSignUp = ({navigation}) => {
           onChangeText={text => setEmail(text)}
           autoCapitalize="none"
         />
-        <TextInput
+        {/* <TextInput
           placeholder="Password"
           style={styles.input}
           value={password}
           secureTextEntry
           onChangeText={text => setPassword(text)}
           autoCapitalize="none"
-        />
+        /> */}
         {loading ? (
           <ActivityIndicator size="large" color={'#0000ff'}></ActivityIndicator>
         ) : (
           <>
             <LinearCommonButton title={'Login'} onPress={signInFn} />
-            <LinearCommonButton title={'Create account'} onPress={signUpFn} />
+            {/* <LinearCommonButton title={'Create account'} onPress={signUpFn} /> */}
             <LinearCommonButton title={'Skip'} onPress={_goBack} />
           </>
         )}

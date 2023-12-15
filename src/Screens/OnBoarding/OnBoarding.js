@@ -2,6 +2,7 @@ import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
+  Switch,
   Text,
   TextInput,
   TouchableOpacity,
@@ -20,7 +21,7 @@ import {Picker} from '@react-native-picker/picker';
 import {Color} from '../../Utils/Color';
 import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {RnGet} from '../../hooks/RnstoreHook';
+import {RnGet, RnStore} from '../../hooks/RnstoreHook';
 
 const OnBoarding = ({navigation, route}) => {
   const _spacing = 10;
@@ -34,7 +35,7 @@ const OnBoarding = ({navigation, route}) => {
   const [number, setNumber] = useState(0);
   const [Dob, setDob] = useState(new Date());
   const [Tob, setTob] = useState(new Date());
-  const [placeOB, setPlaceOB] = useState(0);
+  const [EnablePush, setEnablePush] = useState(true);
   const [gender, setGender] = useState(genderArray[0].value);
   const [activeGender, setactiveGender] = useState(0);
   const [date, setDate] = useState(new Date());
@@ -50,34 +51,41 @@ const OnBoarding = ({navigation, route}) => {
       animated: true,
       viewOffset: 0.5 || 1 ? 0 : _spacing,
     });
-
-    checkFooterDisabled();
   }, [index]);
 
-  const checkFooterDisabled = async () => {
-    const onBoarding = RnGet('footerDisabled');
-
-    if (onBoarding) {
-      navigation.navigate('Home');
-    }
-  };
-  const handleGetStarted = async () => {
+  const handleGetStarted = async user => {
+    /**
+     * case:
+     * if user uid is already saved navigate to HomePage
+     * if user uid is changes in every logg out state
+     * if user uid is not used before store itemn
+     */
     try {
-      // Mark onboarding as shown
-      const res = await AsyncStorage.setItem('onboardingShown', 'true');
-      console.log(res, 'onboardingShown');
-      navigation.navigate('Home'); // Change to your main screen navigator
+      const data = {
+        uid: user.uid,
+        name: username,
+        email: email,
+        number: number,
+        DOB: Dob,
+        TOB: Tob,
+        gender: gender,
+        RelationShip: RelationShip,
+      };
+      // Store user data for later
+      const store = await RnStore(user.uid, data);
+      //navigate Home
+      if (store) navigation.navigate('Home');
     } catch (error) {
-      console.error('Error saving to AsyncStorage:', error);
+      console.error('Error handleGetStarted', error);
     }
   };
+
   const changeGender = index => {
     setGender(genderArray[index]?.value);
     setactiveGender(index);
   };
-  const changeRelationShipStatus = index => {
-    console.log(index);
 
+  const changeRelationShipStatus = index => {
     setRelationShip(RelationShipStatus[index]?.value);
     setRelationShipIndex(index);
   };
@@ -294,44 +302,30 @@ const OnBoarding = ({navigation, route}) => {
       case 'push':
         return (
           <View style={styles.cardSpace}>
-            <Text style={styles.titleText}>Push Notification</Text>
             <View
               style={{
                 padding: _spacing,
                 flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}>
-              {/* {genderArray.map(gender => {
-                return (
-                  <>
-                    <View
-                      style={{
-                        borderColor: Color.primaryBlue,
-                        borderWidth: 1,
-                        padding: 2,
-                        borderRadius: 20,
-                        marginLeft: 10,
-                      }}>
-                      <View
-                        style={{
-                          padding: 8,
-                          backgroundColor: '#B342F2',
-                          borderRadius: 20,
-                        }}
-                      />
-                    </View>
-
-                    <Text style={{fontSize: 18, marginLeft: 10}}>
-                      {gender.value}
-                    </Text>
-                  </>
-                );
-              })} */}
+              <Text style={styles.titleText}>Push Notification</Text>
+              <View>
+                <Switch
+                  trackColor={{false: '#767577', true: Color.regularViolet}}
+                  thumbColor={Color.white}
+                  ios_backgroundColor="#EDF0F1"
+                  onValueChange={() => setEnablePush(!EnablePush)}
+                  value={EnablePush}
+                  // enabled={EnablePush}
+                />
+              </View>
             </View>
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
-                navigation.navigate('Home');
-                handleGetStarted();
+                // navigation.navigate('Home');
+                handleGetStarted(user);
               }}
             />
           </View>

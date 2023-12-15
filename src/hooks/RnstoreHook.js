@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Toast} from '../Utils/helperFunctions';
 
 export const RnStore = async (key, params = '') => {

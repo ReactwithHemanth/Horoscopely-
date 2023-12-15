@@ -13,6 +13,6 @@ export const Toast = (title = '', msg = '') => {
   if (Platform.OS === 'android') {
     ToastAndroid.show(title, msg);
   } else {
-    Alert.show(title, msg);
+    Alert.alert(title, msg);
   }
 };

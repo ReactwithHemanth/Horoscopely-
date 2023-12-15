@@ -1,4 +1,7 @@
 module.exports = {
-  // Add other Firebase dependencies if necessary
+  project: {
+    ios: {},
+    android: {},
+  },
   assets: ['./src/Assets/fonts'],
 };

@@ -23,6 +23,7 @@ import Settings from '../Screens/Notification/Settings';
 import DateTimeScreen from '../Screens/FocusAndAdvice/DateTimeScreen';
 import FocusDay from '../Screens/FocusAndAdvice/FocusDay';
 import CalenderAdvice from '../Screens/FocusAndAdvice/CalenderAdvice';
+import {useAuth} from '../hooks/useAuth';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -58,12 +59,15 @@ const SettingsButton = () => {
     </TouchableOpacity>
   );
 };
-const UserStack = ({navigation, route}) => {
-  const [dataCollection, setdataCollection] = useState(true);
 
+const UserStack = ({navigation, route}) => {
+  const user = useAuth();
+
+  // const [dataCollection, setdataCollection] = useState(true);
+  console.log(user.phoneNumber);
   return (
     <Stack.Navigator
-      initialRouteName={'onBoarding'}
+      initialRouteName={user?.displayName !== null ? 'onBoarding' : 'Home'}
       screenOptions={{
         // headerTransparent: true,
         headerBack: {color: Color.darkViolet},
@@ -157,28 +161,15 @@ const UserStack = ({navigation, route}) => {
     </Stack.Navigator>
   );
 };
-const onBoardStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="onBoarding"
-        component={OnBoarding}
-        options={{
-          headerShown: false,
-          headerTitleStyle: {color: Color.black},
-          headerTintColor: Color.primaryBlue,
-          headerRight: () => <SettingsButton />,
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
+
 const LoggedStack = () => {
-  const [LaunchFirst, setLaunchFirst] = useState(true);
+  const user = useAuth();
+
+  console.log(user, 'logged in');
   return (
     <NavigationContainer>
       <Tab.Navigator
-        tabBar={props => <Footer {...props} />}
+        tabBar={props => (user?.isAnonymous ? <Footer {...props} /> : null)}
         screenOptions={{headerShown: false}}>
         <Tab.Screen name="Profile" component={UserStack} />
       </Tab.Navigator>

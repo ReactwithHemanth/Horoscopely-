@@ -14,7 +14,7 @@ const colorArray = ['#ba55d3', '#00bfff', '#f8f8ff', '#4169e1', '#ffff'];
  * Sign in With Email
  * * Success
  * * Data collection
- * * [Name, Email, DOB, TOB, POB, Gender, Martial Status, Push Notification, OTP Reciver ]
+ * * [Name, Email : Need Changes in design, DOB, TOB, POB, Gender, Martial Status, Push Notification, OTP Reciver ]
  * Sign in With google
  * Sign in With facebook
  * Sign in With phone Number
