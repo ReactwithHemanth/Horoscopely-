@@ -90,6 +90,7 @@ const UserStack = ({navigation, route}) => {
         options={{
           headerTitle: () => <LogoTitle />,
           headerRight: () => <Notify />,
+          headerLeft: () => <></>,
           headerTransparent: true,
         }}
       />
