@@ -3,7 +3,7 @@ import {screenDiagonal} from '../Utils/helperFunctions';
 
 const {StyleSheet, Dimensions} = require('react-native');
 const {width, height} = Dimensions.get('window');
-const _spacing = 10;
+export const _spacing = 10;
 const dgl = screenDiagonal();
 
 const styles = StyleSheet.create({
@@ -17,11 +17,24 @@ const styles = StyleSheet.create({
   CRow: {flexDirection: 'row'},
   Cmargin: {margin: 20},
   Cpadding: {padding: _spacing},
-  titleText: {fontSize: 18, padding: 10},
+  titleText: {fontSize: 18, padding: _spacing},
+  focusView: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+    width: dgl * 0.35,
+  },
+  titleText2: {fontSize: 18, paddingLeft: _spacing},
   loading: {
     position: 'absolute',
     bottom: 0,
     marginBottom: 50,
+  },
+  SubTitileText: {
+    fontSize: dgl * 0.015,
+    paddingLeft: _spacing,
+    color: Color.grey,
   },
   svgCenter: {
     position: 'absolute',
@@ -40,13 +53,13 @@ const styles = StyleSheet.create({
   logo: {
     width: 30,
     height: 30,
-    marginRight: 10,
+    marginRight: _spacing,
   },
-  homeView3: {alignItems: 'flex-start', padding: 10},
+  homeView3: {alignItems: 'flex-start', padding: _spacing},
   //SignUpScreen
   Button: {
     borderRadius: 25,
-    padding: 10,
+    padding: _spacing,
     margin: 15,
     elevation: 0.5,
     shadowColor: 'grey',
@@ -68,13 +81,13 @@ const styles = StyleSheet.create({
   buttonTextStyle: {textAlign: 'center', fontSize: 20},
   LinkText: {color: 'blue', textDecorationLine: 'underline'},
   TopRightSvgStyle: {position: 'absolute', top: 0, left: 90},
-  TopRightSvgStyle2: {position: 'absolute', top: 0, left: 10},
+  TopRightSvgStyle2: {position: 'absolute', top: 0, left: _spacing},
   StandartText: {fontSize: 30},
   weighted: {fontWeight: 'bold'},
   IconMargin: {marginHorizontal: 25, top: 4},
-  signUpMethView: {flex: 1, justifyContent: 'center', marginTop: 10},
+  signUpMethView: {flex: 1, justifyContent: 'center', marginTop: _spacing},
   input: {
-    width: '100%',
+    width: '_spacing0%',
     backgroundColor: '#fff',
     margin: 5,
     padding: 15,
@@ -84,11 +97,19 @@ const styles = StyleSheet.create({
     // shadowOffset: 0.1,
     width: '95%',
   },
+  paginationView: {
+    position: 'absolute',
+    bottom: _spacing * 2,
+    width: width,
+    padding: _spacing * 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   input2: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    paddingHorizontal: 10,
+    paddingHorizontal: _spacing,
     borderRadius: 5,
   },
   NumSignUpThemeStylle: {
@@ -101,7 +122,7 @@ const styles = StyleSheet.create({
     width: width,
   },
   //Custom
-  LinearBotton: {padding: 10, borderRadius: 20, margin: 10},
+  LinearBotton: {padding: _spacing, borderRadius: 20, margin: _spacing},
   TextWhite: {textAlign: 'center', color: 'white', fontSize: 18},
   viewToRender: {
     position: 'absolute',
@@ -115,7 +136,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    // marginTop: 10,
+    // marginTop: _spacing,
   },
   filterStyle: {
     backgroundColor: '#CDA3EF',
@@ -150,14 +171,14 @@ const styles = StyleSheet.create({
   },
   BoxView: {
     flex: 1,
-    padding: 10,
-    margin: 10,
-    borderRadius: 10,
+    padding: _spacing,
+    margin: _spacing,
+    borderRadius: _spacing,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: Color.white,
   },
   alignView: {alignItems: 'center'},
-  textMargin: {marginTop: 10, color: Color.white},
+  textMargin: {marginTop: _spacing, color: Color.white},
   LinearLineAlign: {flexDirection: 'row', justifyContent: 'space-between'},
 
   //onBoarding
@@ -166,13 +187,18 @@ const styles = StyleSheet.create({
     padding: _spacing,
     width: width - 40,
   },
+  welcomeContainer: {
+    alignItems: 'flex-start',
+    alignSelf: 'flex-start',
+    marginLeft: _spacing * 2,
+  },
   //footer
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     height: 70,
-    padding: 10,
+    padding: _spacing,
     backgroundColor: Color.darkViolet, // Set your preferred background color
   },
   footerButton: {
@@ -184,6 +210,61 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 12,
     color: Color.regularViolet, // Set your preferred text color
+  },
+  ItemListView: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: _spacing * 2,
+    backgroundColor: Color.white,
+    // marginBottom: _spacing,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBlockColor: Color.grey,
+  },
+  // dateTimePicker
+  welcomeView: {
+    alignSelf: 'flex-start',
+    marginLeft: _spacing * 3,
+  },
+  welcomeTitleText: {fontSize: 25, fontWeight: 'bold'},
+  welcomeTextSub: {
+    fontSize: 20,
+    textAlign: 'left',
+  },
+
+  // Notifications
+  MainBox: {
+    flexDirection: 'row',
+    backgroundColor: Color.whiteOpacity,
+    borderRadius: _spacing,
+  },
+  headerNotifyBar: {
+    position: 'absolute',
+    height: dgl * 0.02,
+    width: dgl * 0.02,
+    left: 9,
+    borderRadius: 10,
+    alignItems: 'center',
+    backgroundColor: Color.regularViolet,
+  },
+  ColoumBox: {
+    padding: _spacing,
+    width: dgl * 0.38,
+    flexDirection: 'column',
+  },
+  rowBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // width: dgl * 0.38,
+  },
+  notificationsContainer: {
+    width: dgl * 0.01,
+    height: dgl * 0.01,
+    backgroundColor: Color.regularViolet,
+    paddingLeft: _spacing,
+    alignSelf: 'center',
+    borderRadius: 20,
+    marginLeft: _spacing,
   },
 });
 

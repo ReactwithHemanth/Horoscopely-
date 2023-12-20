@@ -1,15 +1,17 @@
 import {
   Image,
+  ImageBackground,
   Keyboard,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {Children, useEffect, useState} from 'react';
 
 import LinearGradient from 'react-native-linear-gradient';
-import styles from '../Styles/styles';
+import styles, {_spacing} from '../Styles/styles';
 import {HIcon, SignUpTheme3} from './SvgComponent';
 import {height, width} from '../Utils/helperFunctions';
 
@@ -139,6 +141,7 @@ const PickerComponent = props => {
     </View>
   );
 };
+
 export const LoadingView = props => {
   const [isLoading, setisLoading] = useState(true);
   useEffect(() => {
@@ -160,9 +163,11 @@ export const LoadingView = props => {
         style={{width: width / 2, height: height + 30, alignSelf: 'center'}}
         resizeMode="contain"
       />
+
       <View style={styles.svgCenter}>
         <HIcon width={50} height={50} />
       </View>
+
       <View style={styles.loading}>
         <Text style={{fontSize: 20, color: '#FFF'}}>Loading...</Text>
       </View>
@@ -170,6 +175,29 @@ export const LoadingView = props => {
     <Text onPress={handleSignOut} style={styles.text1}>
       SignOut {user?.email}
     </Text> */}
+    </View>
+  );
+};
+
+export const ImageBackgroundView = props => {
+  const {children} = props;
+  return (
+    <ImageBackground
+      source={require('../Assets/Home/Component1.png')}
+      style={styles.imageBgView}>
+      <ScrollView
+        contentContainerStyle={{alignItems: 'center', padding: _spacing}}>
+        {children}
+      </ScrollView>
+    </ImageBackground>
+  );
+};
+
+export const WelcomeText = props => {
+  return (
+    <View style={styles.welcomeContainer}>
+      <Text style={styles.welcomeTextSub}>{props.SubTitle}</Text>
+      <Text style={styles.welcomeTitleText}>{props.title}</Text>
     </View>
   );
 };

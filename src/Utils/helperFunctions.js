@@ -1,5 +1,6 @@
-import {Alert, Dimensions, ToastAndroid} from 'react-native';
+import {Alert, Dimensions, Platform, ToastAndroid} from 'react-native';
 import React, {useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const {width, height} = Dimensions.get('window');
 
@@ -11,5 +12,7 @@ export const screenDiagonal = () => {
 export const Toast = (title = '', msg = '') => {
   if (Platform.OS === 'android') {
     ToastAndroid.show(title, msg);
-  } else Alert.show(title, msg);
+  } else {
+    Alert.alert(title, msg);
+  }
 };

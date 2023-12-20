@@ -1,7 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
+  Switch,
   Text,
   TextInput,
   TouchableOpacity,
@@ -12,14 +13,17 @@ import styles from '../../Styles/styles';
 import {
   FirstTheme,
   LinearCommonButton,
+  WelcomeText,
 } from '../../Components/CustomComponents';
 import {useAuth} from '../../hooks/useAuth';
 import DatePicker from 'react-native-date-picker';
 import {Picker} from '@react-native-picker/picker';
 import {Color} from '../../Utils/Color';
 import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {RnGet, RnStore} from '../../hooks/RnstoreHook';
 
-const OnBoarding = ({navigation}) => {
+const OnBoarding = ({navigation, route}) => {
   const _spacing = 10;
 
   const user = useAuth();
@@ -29,8 +33,9 @@ const OnBoarding = ({navigation}) => {
   const [username, setUsername] = useState(0);
   const [email, setEmail] = useState(user?.email);
   const [number, setNumber] = useState(0);
-  const [DOB, setDob] = useState(0);
-  const [placeOB, setPlaceOB] = useState(0);
+  const [Dob, setDob] = useState(new Date());
+  const [Tob, setTob] = useState(new Date());
+  const [EnablePush, setEnablePush] = useState(true);
   const [gender, setGender] = useState(genderArray[0].value);
   const [activeGender, setactiveGender] = useState(0);
   const [date, setDate] = useState(new Date());
@@ -38,6 +43,7 @@ const OnBoarding = ({navigation}) => {
     RelationShipStatus[0]?.value,
   );
   const [RelationShipIndex, setRelationShipIndex] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
     ref.current?.scrollToIndex({
@@ -47,36 +53,39 @@ const OnBoarding = ({navigation}) => {
     });
   }, [index]);
 
-  const WelcomeText = () => {
-    return (
-      <View
-        style={{
-          alignItems: 'center',
-          alignSelf: 'flex-start',
-          marginLeft: _spacing * 2,
-          justifyContent: 'center',
-        }}>
-        <Text
-          style={{
-            fontSize: 20,
-            textAlign: 'left',
-          }}>
-          Welcome User
-        </Text>
-        <Text style={{fontSize: 25, padding: 5, fontWeight: 'bold'}}>
-          Lets ge started
-        </Text>
-      </View>
-    );
+  const handleGetStarted = async user => {
+    /**
+     * case:
+     * if user uid is already saved navigate to HomePage
+     * if user uid is changes in every logg out state
+     * if user uid is not used before store itemn
+     */
+    try {
+      const data = {
+        uid: user.uid,
+        name: username,
+        email: email,
+        number: number,
+        DOB: Dob,
+        TOB: Tob,
+        gender: gender,
+        RelationShip: RelationShip,
+      };
+      // Store user data for later
+      const store = await RnStore(user.uid, data);
+      //navigate Home
+      if (store) navigation.navigate('Home');
+    } catch (error) {
+      console.error('Error handleGetStarted', error);
+    }
   };
+
   const changeGender = index => {
-    console.log(index);
     setGender(genderArray[index]?.value);
     setactiveGender(index);
   };
-  const changeRelationShipStatus = index => {
-    console.log(index);
 
+  const changeRelationShipStatus = index => {
     setRelationShip(RelationShipStatus[index]?.value);
     setRelationShipIndex(index);
   };
@@ -149,7 +158,7 @@ const OnBoarding = ({navigation}) => {
         return (
           <View style={styles.cardSpace}>
             <Text style={styles.titleText}>Date of birth</Text>
-            <DatePicker date={date} onDateChange={setDate} />
+            <DatePicker date={Dob} onDateChange={setDob} mode={'date'} />
 
             {/* <TextInput placeholder="Email" style={styles.input} /> */}
             <LinearCommonButton
@@ -168,7 +177,8 @@ const OnBoarding = ({navigation}) => {
         return (
           <View style={styles.cardSpace}>
             <Text style={styles.titleText}>Place of birth</Text>
-            <TextInput placeholder="Email" style={styles.input} />
+            <DatePicker date={Tob} onDateChange={setTob} mode={'time'} />
+
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
@@ -292,42 +302,31 @@ const OnBoarding = ({navigation}) => {
       case 'push':
         return (
           <View style={styles.cardSpace}>
-            <Text style={styles.titleText}>Push Notification</Text>
             <View
               style={{
                 padding: _spacing,
                 flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}>
-              {/* {genderArray.map(gender => {
-                return (
-                  <>
-                    <View
-                      style={{
-                        borderColor: Color.primaryBlue,
-                        borderWidth: 1,
-                        padding: 2,
-                        borderRadius: 20,
-                        marginLeft: 10,
-                      }}>
-                      <View
-                        style={{
-                          padding: 8,
-                          backgroundColor: '#B342F2',
-                          borderRadius: 20,
-                        }}
-                      />
-                    </View>
-
-                    <Text style={{fontSize: 18, marginLeft: 10}}>
-                      {gender.value}
-                    </Text>
-                  </>
-                );
-              })} */}
+              <Text style={styles.titleText}>Push Notification</Text>
+              <View>
+                <Switch
+                  trackColor={{false: '#767577', true: Color.regularViolet}}
+                  thumbColor={Color.white}
+                  ios_backgroundColor="#EDF0F1"
+                  onValueChange={() => setEnablePush(!EnablePush)}
+                  value={EnablePush}
+                  // enabled={EnablePush}
+                />
+              </View>
             </View>
             <LinearCommonButton
               title={'Submit'}
-              onPress={() => navigation.navigate('Home')}
+              onPress={() => {
+                // navigation.navigate('Home');
+                handleGetStarted(user);
+              }}
             />
           </View>
         );
@@ -338,7 +337,7 @@ const OnBoarding = ({navigation}) => {
   return (
     <View style={styles1.container2}>
       <FirstTheme item={'topImage'} />
-      <WelcomeText />
+      <WelcomeText SubTitle={'Welcome User'} title={'Lets ge started'} />
       <FlatList
         ref={ref}
         scrollEnabled={false}
