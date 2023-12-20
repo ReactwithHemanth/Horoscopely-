@@ -2,7 +2,7 @@ import {Text, View} from 'react-native';
 import React from 'react';
 import {ImageBackgroundView} from '../../Components/CustomComponents';
 import {DearSvg, RectangleSvg, ShareSvg} from '../../Components/SvgComponent';
-import styles, {_spacing} from '../../Styles/styles';
+import styles, {SPACING} from '../../Styles/styles';
 import {Color} from '../../Utils/Color';
 import {screenDiagonal, width} from '../../Utils/helperFunctions';
 const dgl = screenDiagonal();
@@ -10,7 +10,7 @@ const dgl = screenDiagonal();
 const FocusDay = () => {
   return (
     <ImageBackgroundView>
-      <View>
+      <View style={{justifyContent: 'center'}}>
         <RectangleSvg />
         <View style={styles.focusView}>
           <DearSvg fill={Color.shadedWhite} />
@@ -24,7 +24,7 @@ const FocusDay = () => {
           <ShareSvg fill={Color.shadedWhite} />
         </View>
       </View>
-      <View style={{flex: 1, padding: _spacing * 2}}>
+      <View style={{flex: 1, padding: SPACING * 2}}>
         <Text style={styles.textMargin}>
           The way to universal love is self love! Be compassionate toward
           yourself and others. It's a single key, perpetually unlocking

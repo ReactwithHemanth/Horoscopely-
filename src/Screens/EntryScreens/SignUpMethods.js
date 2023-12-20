@@ -1,10 +1,24 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Firebase_app} from '../../Confg/Firebase';
 import styles from '../../Styles/styles';
 import {Methods} from '../../Utils/Dummy';
-import {SignUpBgTheme, SignUpTheme2} from '../../Components/SvgComponent';
+import {
+  AppleIcon,
+  EmailIcon,
+  FacebookIcon,
+  GoogleSvg,
+  PhoneIcon,
+  SignUpBgTheme,
+  SignUpTheme2,
+} from '../../Components/SvgComponent';
 import {Image} from 'react-native';
+import {screenDiagonal} from '../../Utils/helperFunctions';
+import appleAuth, {
+  AppleButton,
+  appleAuthAndroid,
+} from '@invertase/react-native-apple-authentication';
+import {Color} from '../../Utils/Color';
 const colorArray = ['#ba55d3', '#00bfff', '#f8f8ff', '#4169e1', '#ffff'];
 /**
  *
@@ -21,38 +35,122 @@ const colorArray = ['#ba55d3', '#00bfff', '#f8f8ff', '#4169e1', '#ffff'];
  * Sign in With Apple
  *
  */
+const dgl = screenDiagonal();
 const SignUp = props => {
+  useEffect(() => {
+    return appleAuth.onCredentialRevoked(async () => {
+      console.warn(
+        'If this function executes, User Credentials have been Revoked',
+      );
+    });
+  }, []);
+  const SignButtons = ({nav, BgColor, icon, title, textColor}) => {
+    return (
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate(nav)}
+        style={[
+          styles.Button,
+          {flexDirection: 'row', backgroundColor: BgColor},
+        ]}>
+        <View style={styles.IconMargin}>{icon}</View>
+        <Text style={[styles.buttonTextStyle, {color: textColor}]}>
+          {title}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+  const onAppleButtonPress = async () => {
+    /**
+     * 'TODO: Test authentication in iOS'
+     *  Apple authentication
+     */
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    });
+    const credentialsState = await appleAuth.getCredentialStateForUser(
+      appleAuthRequestResponse.user,
+    );
+    if (credentialsState === appleAuth.State.AUTHORIZED) {
+      //user autherised
+      console.log(credentialsState);
+    }
+  };
+  async function revokeSignInWithAppleToken() {
+    // Get an authorizationCode from Apple
+    const {authorizationCode} = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.REFRESH,
+    });
+
+    // Ensure Apple returned an authorizationCode
+    if (!authorizationCode) {
+      throw new Error(
+        'Apple Revocation failed - no authorizationCode returned',
+      );
+    }
+
+    // Revoke the token
+    return auth().revokeToken(authorizationCode);
+  }
   return (
     <View style={styles.Container}>
       <View style={styles.TopRightSvgStyle}>
         <SignUpBgTheme />
       </View>
-
-      <View style={[styles.signUpMethView2, styles.Cmargin]}>
-        <Image source={require('../../Assets/Signup/AppName.png')} />
-        <Text style={styles.StandartText}>
-          <Text style={styles.weighted}>W</Text>elcome
-        </Text>
-        <Text>Choose one of the below to get started</Text>
+      {/* <View style={styles.Container}> */}
+      <View style={styles.signUpMethView2}>
+        <Image
+          source={require('../../Assets/Signup/AppName.png')}
+          style={{width: dgl * 0.21}}
+        />
+        <View>
+          <Text style={styles.StandartText}>
+            <Text style={styles.weighted}>W</Text>elcome
+          </Text>
+          <Text>Choose one of the below to get started</Text>
+        </View>
       </View>
 
       <View style={styles.signUpMethView}>
-        {Methods.map((item, index) => {
-          return (
-            <TouchableOpacity
-              key={index}
-              onPress={() => props.navigation.navigate(item.nav)}
-              style={[
-                styles.Button,
-                {flexDirection: 'row', backgroundColor: colorArray[index]},
-              ]}>
-              <View style={styles.IconMargin}>{item.icon}</View>
-              <Text style={[styles.buttonTextStyle, {color: item.textColor}]}>
-                {item.title}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
+        <SignButtons
+          title="Mobile Number"
+          icon={<PhoneIcon />}
+          textColor={Color.white}
+          BgColor={colorArray[0]}
+          nav={'NumberSignUp'}
+        />
+        <SignButtons
+          title="Email Address"
+          icon={<EmailIcon />}
+          textColor={Color.white}
+          BgColor={colorArray[1]}
+          nav={'EmailSignUp'}
+        />
+        <SignButtons
+          title="Sign In With Google"
+          icon={<GoogleSvg />}
+          textColor={Color.grey}
+          BgColor={colorArray[2]}
+        />
+        <SignButtons
+          title="Sign In With Facebook"
+          icon={<FacebookIcon />}
+          textColor={Color.white}
+          BgColor={colorArray[3]}
+        />
+        {!appleAuthAndroid.isSupported && (
+          <AppleButton
+            buttonStyle={AppleButton.Style.WHITE_OUTLINE}
+            buttonType={AppleButton.Type.SIGN_IN}
+            style={{
+              width: dgl * 0.35, // You must specify a width
+              height: 45, // You must specify a height
+              alignSelf: 'center',
+              // borderRadius: dgl * 0.35,
+            }}
+            onPress={() => onAppleButtonPress()}
+          />
+        )}
       </View>
 
       <View style={styles.signUpMethBottomView}>
@@ -72,6 +170,7 @@ const SignUp = props => {
       <View style={styles.BottomSvgStyle}>
         <SignUpTheme2 heigth={310} />
       </View>
+      {/* </View> */}
     </View>
   );
 };

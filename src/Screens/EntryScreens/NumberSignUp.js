@@ -62,7 +62,7 @@ const NumberSignUp = () => {
   return (
     <View style={styles.Container}>
       <FirstTheme item={'topSvg'} />
-      <View style={styles.signUpMethView2}>
+      <View style={{}}>
         <Text style={styles.titleText}>Mobile Number</Text>
         <>
           {confirm ? (
@@ -76,6 +76,27 @@ const NumberSignUp = () => {
             <PhoneInput
               value={phoneNumber}
               defaultCountry="IN"
+              phoneInputStyles={{
+                container: {borderWidth: 0, backgroundColor: 'transparent'},
+                input: {
+                  width: '70%',
+                  height: 45,
+                  backgroundColor: '#fff',
+                  margin: 5,
+                  padding: 15,
+                  borderRadius: 12,
+                  shadowColor: 'grey',
+                  shadowOpacity: 0.3,
+                },
+                flagContainer: {
+                  width: 100,
+                  height: 45,
+                  borderRadius: 12,
+                  backgroundColor: '#fff',
+                  shadowColor: 'grey',
+                  shadowOpacity: 0.3,
+                },
+              }}
               selectedCountry={selectedCountry}
               onChangeSelectedCountry={setselectedCountry}
               onChangePhoneNumber={setPhoneNumber}

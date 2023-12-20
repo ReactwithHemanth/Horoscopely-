@@ -1,6 +1,15 @@
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
+  Dimensions,
   FlatList,
+  Platform,
+  ScrollView,
   StyleSheet,
   Switch,
   Text,
@@ -9,7 +18,7 @@ import {
   View,
 } from 'react-native';
 import {width} from '../../Utils/helperFunctions';
-import styles from '../../Styles/styles';
+import styles, {SPACING} from '../../Styles/styles';
 import {
   FirstTheme,
   LinearCommonButton,
@@ -20,17 +29,14 @@ import DatePicker from 'react-native-date-picker';
 import {Picker} from '@react-native-picker/picker';
 import {Color} from '../../Utils/Color';
 import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RnGet, RnStore} from '../../hooks/RnstoreHook';
+import {useIsFocused} from '@react-navigation/native';
 
 const OnBoarding = ({navigation, route}) => {
-  const _spacing = 10;
-
   const user = useAuth();
-
-  const ref = useRef();
+  const refScroll = useRef(null);
   const [index, setindex] = useState(0);
-  const [username, setUsername] = useState(0);
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState(user?.email);
   const [number, setNumber] = useState(0);
   const [Dob, setDob] = useState(new Date());
@@ -43,15 +49,20 @@ const OnBoarding = ({navigation, route}) => {
     RelationShipStatus[0]?.value,
   );
   const [RelationShipIndex, setRelationShipIndex] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
+
+  const CARD_WIDTH = Dimensions.get('window').width * 0.8;
+  const CARD_HEIGHT = Dimensions.get('window').height * 0.7;
+  const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 10;
 
   useEffect(() => {
-    ref.current?.scrollToIndex({
-      index: index,
-      animated: true,
-      viewOffset: 0.5 || 1 ? 0 : _spacing,
-    });
-  }, [index]);
+    FooterDisabled(focus);
+  }, [navigation]);
+
+  const focus = useIsFocused();
+
+  const FooterDisabled = async focus => {
+    const status = await RnStore('footerDisabled', focus);
+  };
 
   const handleGetStarted = async user => {
     /**
@@ -72,9 +83,10 @@ const OnBoarding = ({navigation, route}) => {
         RelationShip: RelationShip,
       };
       // Store user data for later
-      const store = await RnStore(user.uid, data);
+      // const store = await RnStore(user.uid, data);
       //navigate Home
-      if (store) navigation.navigate('Home');
+      const status = await RnStore('footerDisabled', false);
+      if (status) navigation.navigate('Home');
     } catch (error) {
       console.error('Error handleGetStarted', error);
     }
@@ -89,278 +101,287 @@ const OnBoarding = ({navigation, route}) => {
     setRelationShip(RelationShipStatus[index]?.value);
     setRelationShipIndex(index);
   };
+
   const RenderItem = ({item, idx}) => {
-    switch (item.label) {
-      case 'nameInput':
-        return (
-          <View key={idx} style={styles.cardSpace}>
-            <Text style={styles.titleText}>Name</Text>
+    return (
+      <>
+        <View key={idx} style={styles.cardSpace}>
+          <Text style={styles.titleText}>Name</Text>
 
-            <TextInput
-              placeholder="name"
-              style={styles.input}
-              onChangeText={value => setUsername(value)}
-            />
-            <LinearCommonButton
-              title={'Continue'}
-              onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
+          <TextInput
+            key={idx}
+            placeholder="name"
+            autoFocus
+            style={styles.input}
+            onChangeText={e => console.log(e)}
+            value={username}
+          />
+          <LinearCommonButton
+            title={'Continue'}
+            onPress={() => {
+              if (index === data.length - 1) {
+                return;
+              }
 
-                setindex(index + 1);
-              }}
-            />
-          </View>
-        );
-      case 'emailInput':
-        return (
-          <View style={styles.cardSpace}>
-            <Text style={styles.titleText}>Email</Text>
-            <TextInput
-              placeholder="Email"
-              style={styles.input}
-              value={user?.email ?? email}
-              onChangeText={value => setEmail(value)}
-            />
-            <LinearCommonButton
-              title={'Continue'}
-              onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
-                setindex(index + 1);
-              }}
-            />
-          </View>
-        );
-      case 'numberInput':
-        return (
-          <View style={styles.cardSpace}>
-            <Text style={styles.titleText}>Phone Number</Text>
-            <TextInput
-              placeholder="Email"
-              style={styles.input}
-              onChangeText={value => setNumber(value)}
-            />
-            <LinearCommonButton
-              title={'Continue'}
-              onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
-                setindex(index + 1);
-              }}
-            />
-          </View>
-        );
-      case 'DOB':
-        return (
-          <View style={styles.cardSpace}>
-            <Text style={styles.titleText}>Date of birth</Text>
-            <DatePicker date={Dob} onDateChange={setDob} mode={'date'} />
+              setindex(index + 1);
+            }}
+          />
+        </View>
 
-            {/* <TextInput placeholder="Email" style={styles.input} /> */}
-            <LinearCommonButton
-              title={'Submit'}
-              onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
+        <View style={styles.cardSpace}>
+          <Text style={styles.titleText}>Email</Text>
+          <TextInput
+            key={idx}
+            placeholder="Email"
+            autoFocus
+            style={styles.input}
+            defaultValue={email}
+            value={user?.email ?? email}
+            onChangeText={e => setEmail(e)}
+          />
+          <LinearCommonButton
+            title={'Continue'}
+            onPress={() => {
+              if (index === data.length - 1) {
+                return;
+              }
+              setindex(index + 1);
+            }}
+          />
+        </View>
 
-                setindex(index + 1);
-              }}
-            />
-          </View>
-        );
-      case 'TOB':
-        return (
-          <View style={styles.cardSpace}>
-            <Text style={styles.titleText}>Place of birth</Text>
-            <DatePicker date={Tob} onDateChange={setTob} mode={'time'} />
+        <View style={styles.cardSpace}>
+          <Text style={styles.titleText}>Phone Number</Text>
+          <TextInput
+            key={idx}
+            autoFocus
+            placeholder="Phone Number"
+            style={styles.input}
+            value={number}
+            onChangeText={e => setNumber(e?.target?.value)}
+          />
+          <LinearCommonButton
+            title={'Continue'}
+            onPress={() => {
+              if (index === data.length - 1) {
+                return;
+              }
+              setindex(index + 1);
+            }}
+          />
+        </View>
 
-            <LinearCommonButton
-              title={'Submit'}
-              onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
+        <View style={styles.cardSpace}>
+          <Text style={styles.titleText}>Date of birth</Text>
+          <DatePicker date={Dob} onDateChange={setDob} mode={'date'} />
 
-                setindex(index + 1);
-              }}
-            />
-          </View>
-        );
-      case 'Gender':
-        return (
-          <View style={styles.cardSpace}>
-            <Text style={styles.titleText}>Gender</Text>
-            <View
-              style={{
-                padding: _spacing,
-                flexDirection: 'row',
-              }}>
-              {genderArray.map((gender, index) => {
-                return (
-                  <>
-                    <View
+          {/* <TextInput placeholder="Email" style={styles.input} /> */}
+          <LinearCommonButton
+            title={'Submit'}
+            onPress={() => {
+              if (index === data.length - 1) {
+                return;
+              }
+
+              setindex(index + 1);
+            }}
+          />
+        </View>
+
+        <View style={styles.cardSpace}>
+          <Text style={styles.titleText}>Place of birth</Text>
+          <DatePicker date={Tob} onDateChange={setTob} mode={'time'} />
+
+          <LinearCommonButton
+            title={'Submit'}
+            onPress={() => {
+              if (index === data.length - 1) {
+                return;
+              }
+
+              setindex(index + 1);
+            }}
+          />
+        </View>
+
+        <View style={styles.cardSpace}>
+          <Text style={styles.titleText}>Gender</Text>
+          <View
+            style={{
+              padding: SPACING,
+              flexDirection: 'row',
+            }}>
+            {genderArray.map((gender, index) => {
+              return (
+                <>
+                  <View
+                    key={index}
+                    style={{
+                      borderColor: Color.primaryBlue,
+                      borderWidth: 1,
+                      padding: 2,
+                      borderRadius: 20,
+                      marginLeft: 10,
+                    }}>
+                    <TouchableOpacity
                       style={{
-                        borderColor: Color.primaryBlue,
-                        borderWidth: 1,
-                        padding: 2,
+                        padding: 8,
+                        backgroundColor:
+                          index == activeGender ? '#B342F2' : '#fff',
                         borderRadius: 20,
-                        marginLeft: 10,
-                      }}>
-                      <TouchableOpacity
-                        style={{
-                          padding: 8,
-                          backgroundColor:
-                            index == activeGender ? '#B342F2' : '#fff',
-                          borderRadius: 20,
-                        }}
-                        onPress={() => changeGender(index)}
-                      />
-                    </View>
+                      }}
+                      onPress={() => changeGender(index)}
+                    />
+                  </View>
 
-                    <Text style={{fontSize: 18, marginLeft: 10}}>
-                      {gender.value}
-                    </Text>
-                  </>
-                );
-              })}
-            </View>
-            <LinearCommonButton
-              title={'Submit'}
-              onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
-
-                setindex(index + 1);
-              }}
-            />
+                  <Text style={{fontSize: 18, marginLeft: 10}}>
+                    {gender.value}
+                  </Text>
+                </>
+              );
+            })}
           </View>
-        );
-      case 'RelationShip':
-        return (
-          <View style={styles.cardSpace}>
-            <Text style={styles.titleText}>Place of birth</Text>
+          <LinearCommonButton
+            title={'Submit'}
+            onPress={() => {
+              if (index === data.length - 1) {
+                return;
+              }
 
-            <View
-              style={{
-                padding: _spacing,
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-              }}>
-              {RelationShipStatus.map((item, index) => {
-                return (
-                  <>
-                    <View
+              setindex(index + 1);
+            }}
+          />
+        </View>
+
+        <View style={styles.cardSpace}>
+          <Text style={styles.titleText}>Place of birth</Text>
+
+          <View
+            style={{
+              padding: SPACING,
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+            }}>
+            {RelationShipStatus.map((item, index) => {
+              return (
+                <>
+                  <View
+                    style={{
+                      borderColor: Color.primaryBlue,
+                      borderWidth: 1,
+                      padding: 2,
+                      marginVertical: 10,
+                      borderRadius: 20,
+                      marginLeft: 10,
+                    }}>
+                    <TouchableOpacity
                       style={{
-                        borderColor: Color.primaryBlue,
-                        borderWidth: 1,
-                        padding: 2,
-                        marginVertical: 10,
+                        padding: 8,
+                        backgroundColor:
+                          index == RelationShipIndex ? '#B342F2' : '#FFFF',
                         borderRadius: 20,
-                        marginLeft: 10,
-                      }}>
-                      <TouchableOpacity
-                        style={{
-                          padding: 8,
-                          backgroundColor:
-                            index == RelationShipIndex ? '#B342F2' : '#FFFF',
-                          borderRadius: 20,
-                        }}
-                        onPress={() => changeRelationShipStatus(index)}
-                      />
-                    </View>
+                      }}
+                      onPress={() => changeRelationShipStatus(index)}
+                    />
+                  </View>
 
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        marginLeft: 10,
-                        marginVertical: 10,
-                      }}>
-                      {item.value}
-                    </Text>
-                  </>
-                );
-              })}
-            </View>
-            <LinearCommonButton
-              title={'Submit'}
-              onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      marginLeft: 10,
+                      marginVertical: 10,
+                    }}>
+                    {item.value}
+                  </Text>
+                </>
+              );
+            })}
+          </View>
+          <LinearCommonButton
+            title={'Submit'}
+            onPress={() => {
+              if (index === data.length - 1) {
+                return;
+              }
 
-                setindex(index + 1);
-              }}
-            />
-          </View>
-        );
-      case 'push':
-        return (
-          <View style={styles.cardSpace}>
-            <View
-              style={{
-                padding: _spacing,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text style={styles.titleText}>Push Notification</Text>
-              <View>
-                <Switch
-                  trackColor={{false: '#767577', true: Color.regularViolet}}
-                  thumbColor={Color.white}
-                  ios_backgroundColor="#EDF0F1"
-                  onValueChange={() => setEnablePush(!EnablePush)}
-                  value={EnablePush}
-                  // enabled={EnablePush}
-                />
-              </View>
+              setindex(index + 1);
+            }}
+          />
+        </View>
+
+        <View style={styles.cardSpace}>
+          <View
+            style={{
+              padding: SPACING,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Text style={styles.titleText}>Push Notification</Text>
+            <View>
+              <Switch
+                trackColor={{false: '#767577', true: Color.regularViolet}}
+                thumbColor={Color.white}
+                ios_backgroundColor="#EDF0F1"
+                onValueChange={() => setEnablePush(!EnablePush)}
+                value={EnablePush}
+                // enabled={EnablePush}
+              />
             </View>
-            <LinearCommonButton
-              title={'Submit'}
-              onPress={() => {
-                // navigation.navigate('Home');
-                handleGetStarted(user);
-              }}
-            />
           </View>
-        );
-      default:
-        return null;
-    }
+          <LinearCommonButton
+            title={'Submit'}
+            onPress={() => {
+              // navigation.navigate('Home');
+              handleGetStarted(user);
+            }}
+          />
+        </View>
+      </>
+    );
+
+    // default:
+    //   return null;
+    // }
   };
+  // console.log(username);
   return (
     <View style={styles1.container2}>
       <FirstTheme item={'topImage'} />
-      <WelcomeText SubTitle={'Welcome User'} title={'Lets ge started'} />
-      <FlatList
-        ref={ref}
-        scrollEnabled={false}
-        initialScrollIndex={index}
-        style={{flexGrow: 0}}
-        data={data}
-        keyExtractor={item => item.key}
-        showsHorizontalScrollIndicator={false}
+      <WelcomeText SubTitle={'Welcome User'} title={'Lets get started'} />
+      <ScrollView
         horizontal
-        renderItem={({item, index: fIndex}) => {
-          return <RenderItem item={item} />;
-        }}
-      />
+        showsVerticalScrollIndicator={false}
+        pagingEnabled={true}
+        scrollEnabled={true}
+        decelerationRate={0}
+        initialScrollIndex={index}
+        snapToAlignment={'center'}
+        snapToInterval={CARD_WIDTH + 10}
+        contentInset={{
+          // iOS ONLY
+          top: 0,
+          left: SPACING_FOR_CARD_INSET, // Left spacing for the very first card
+          bottom: 0,
+          right: SPACING_FOR_CARD_INSET,
+        }} // Right spacing for the very last card
+        contentContainerStyle={{
+          // contentInset alternative for Android
+          paddingHorizontal:
+            Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0, // Horizontal spacing before and after the ScrollView
+        }}>
+        <RenderItem />
+      </ScrollView>
       <View
         style={{
           position: 'absolute',
-          bottom: _spacing * 2,
+          bottom: SPACING * 2,
           width: width,
-          padding: _spacing * 2,
+          padding: SPACING * 2,
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}>
-        <View style={{padding: _spacing}}>
+        <View style={{padding: SPACING}}>
           <Text>
             {index}/{data.length}
           </Text>
@@ -369,7 +390,7 @@ const OnBoarding = ({navigation, route}) => {
           style={[
             styles1.paginagtionView,
             {
-              padding: _spacing,
+              padding: SPACING,
             },
           ]}>
           {data.map((item, idx) => {
@@ -377,9 +398,9 @@ const OnBoarding = ({navigation, route}) => {
               <TouchableOpacity
                 onPress={() => setindex(idx)}
                 style={{
-                  padding: _spacing / 2,
-                  margin: _spacing / 2,
-                  borderRadius: _spacing,
+                  padding: SPACING / 2,
+                  margin: SPACING / 2,
+                  borderRadius: SPACING,
                   backgroundColor: idx == index ? Color.primaryBlue : '#8EBDF3',
                 }}
               />
@@ -390,11 +411,12 @@ const OnBoarding = ({navigation, route}) => {
     </View>
   );
 };
+
 export default OnBoarding;
 
 const styles1 = StyleSheet.create({
   container: {flex: 1, justifyContent: 'center'},
-  container2: {flex: 1, alignItems: 'center'},
+  container2: {flex: 1},
   paginagtionView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',

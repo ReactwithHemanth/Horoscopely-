@@ -15,7 +15,7 @@ const Footer = props => {
   const {state, descriptors, navigation} = props;
 
   const [active, setActive] = useState(0);
-  const [footerDisabled, setFooterDisabled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   const item = [
     {id: 1, value: 'Home', label: 'HOME'},
@@ -25,9 +25,13 @@ const Footer = props => {
   ];
 
   useEffect(() => {
-    const isVisible = RnGet('footerDisabled');
-    setFooterDisabled(isVisible);
-  }, []);
+    FooterVisible();
+  }, [navigation]);
+
+  const FooterVisible = async () => {
+    const isVisible = await RnGet('footerDisabled');
+    setIsVisible(isVisible);
+  };
 
   const handleSignOut = async () => {
     try {
@@ -37,7 +41,6 @@ const Footer = props => {
       console.error('Error signing out:', error);
     }
   };
-  // console.log(footerDisabled, 'foot');
   const ItemRender = ({value}) => {
     const _navigate = value => {
       if (value == 'More') {
@@ -75,15 +78,11 @@ const Footer = props => {
   };
 
   return (
-    <>
-      {footerDisabled ? (
-        <View style={styles.footer}>
-          {item.map((item, idx) => {
-            return <ItemRender key={idx} value={item} />;
-          })}
-        </View>
-      ) : null}
-    </>
+    <View style={[styles.footer, {display: isVisible ? 'flex' : 'none'}]}>
+      {item.map((item, idx) => {
+        return <ItemRender key={idx} value={item} />;
+      })}
+    </View>
   );
 };
 

@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-import styles, {_spacing} from '../../Styles/styles';
+import styles, {SPACING} from '../../Styles/styles';
 import {Color} from '../../Utils/Color';
 import {screenDiagonal, width} from '../../Utils/helperFunctions';
 import {ArrowLeft} from '../../Components/SvgComponent';
@@ -58,7 +58,7 @@ const Settings = ({navigation}) => {
   };
   return (
     <View style={{backgroundColor: ''}}>
-      <View style={{backgroundColor: Color.shadedWhite, padding: _spacing}}>
+      <View style={{backgroundColor: Color.shadedWhite, padding: SPACING}}>
         <Text style={{fontWeight: '300'}}>NOTIFICATIONS</Text>
       </View>
       <ScrollView>

@@ -3,7 +3,7 @@ import {screenDiagonal} from '../Utils/helperFunctions';
 
 const {StyleSheet, Dimensions} = require('react-native');
 const {width, height} = Dimensions.get('window');
-export const _spacing = 10;
+export const SPACING = 10;
 const dgl = screenDiagonal();
 
 const styles = StyleSheet.create({
@@ -12,12 +12,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F7F6F8',
     justifyContent: 'center',
-    padding: 20,
+    padding: SPACING,
   },
-  CRow: {flexDirection: 'row'},
+  CRow: {felx: 1, flexDirection: 'row'},
   Cmargin: {margin: 20},
-  Cpadding: {padding: _spacing},
-  titleText: {fontSize: 18, padding: _spacing},
+  Cpadding: {padding: SPACING},
+  titleText: {fontSize: 18, padding: SPACING},
   focusView: {
     position: 'absolute',
     alignItems: 'center',
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: dgl * 0.35,
   },
-  titleText2: {fontSize: 18, paddingLeft: _spacing},
+  titleText2: {fontSize: 18, paddingLeft: SPACING},
   loading: {
     position: 'absolute',
     bottom: 0,
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   SubTitileText: {
     fontSize: dgl * 0.015,
-    paddingLeft: _spacing,
+    padding: SPACING,
     color: Color.grey,
   },
   svgCenter: {
@@ -53,41 +53,53 @@ const styles = StyleSheet.create({
   logo: {
     width: 30,
     height: 30,
-    marginRight: _spacing,
+    marginRight: SPACING,
   },
-  homeView3: {alignItems: 'flex-start', padding: _spacing},
+  homeView3: {alignItems: 'flex-start', padding: SPACING},
   //SignUpScreen
   Button: {
     borderRadius: 25,
-    padding: _spacing,
+    padding: SPACING,
     margin: 15,
     elevation: 0.5,
     shadowColor: 'grey',
     shadowOpacity: 0.5,
     shadowOffset: 0.1,
   },
-  homeheading: {fontSize: 20, fontWeight: 'bold', color: Color.white},
-  homeView2: {flex: 1, width: dgl * 0.4},
-  signUpMethView2: {flex: 1.2, justifyContent: 'center'},
-  signUpMethView3: {flex: 2, justifyContent: 'center'},
+  homeheading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: Color.white,
+    padding: SPACING,
+  },
+  homeView2: {flex: 1},
   smallText: {fontSize: 12, textAlign: 'center', padding: 22},
   SkipText: {margin: 20, color: 'grey'},
+
+  BottomSvgStyle: {bottom: 0, position: 'absolute', alignSelf: 'center'},
+  buttonTextStyle: {textAlign: 'center', fontSize: 20},
+  LinkText: {color: 'blue', textDecorationLine: 'underline'},
+  TopRightSvgStyle: {position: 'absolute', top: 0, left: 90},
+  TopRightSvgStyle2: {position: 'absolute', top: 0, left: SPACING},
+  StandartText: {fontSize: 30},
+  weighted: {fontWeight: 'bold'},
+  IconMargin: {marginHorizontal: 25, top: 4},
+  signUpMethView: {
+    flex: 1.5,
+    justifyContent: 'space-evenly',
+  },
+  signUpMethView2: {
+    flex: 1,
+    margin: SPACING * 2,
+    justifyContent: 'flex-end',
+  },
   signUpMethBottomView: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  BottomSvgStyle: {bottom: 0, position: 'absolute', alignSelf: 'center'},
-  buttonTextStyle: {textAlign: 'center', fontSize: 20},
-  LinkText: {color: 'blue', textDecorationLine: 'underline'},
-  TopRightSvgStyle: {position: 'absolute', top: 0, left: 90},
-  TopRightSvgStyle2: {position: 'absolute', top: 0, left: _spacing},
-  StandartText: {fontSize: 30},
-  weighted: {fontWeight: 'bold'},
-  IconMargin: {marginHorizontal: 25, top: 4},
-  signUpMethView: {flex: 1, justifyContent: 'center', marginTop: _spacing},
   input: {
-    width: '_spacing0%',
+    width: '90%',
     backgroundColor: '#fff',
     margin: 5,
     padding: 15,
@@ -95,13 +107,12 @@ const styles = StyleSheet.create({
     shadowColor: 'grey',
     shadowOpacity: 0.3,
     // shadowOffset: 0.1,
-    width: '95%',
   },
   paginationView: {
     position: 'absolute',
-    bottom: _spacing * 2,
+    bottom: SPACING * 2,
     width: width,
-    padding: _spacing * 2,
+    padding: SPACING * 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -109,7 +120,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    paddingHorizontal: _spacing,
+    paddingHorizontal: SPACING,
     borderRadius: 5,
   },
   NumSignUpThemeStylle: {
@@ -119,10 +130,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // justifyContent: 'center',
     // backgroundColor: 'cyan',
-    width: width,
+    // width: width,
   },
   //Custom
-  LinearBotton: {padding: _spacing, borderRadius: 20, margin: _spacing},
+  LinearBotton: {padding: SPACING, borderRadius: 20, margin: SPACING},
   TextWhite: {textAlign: 'center', color: 'white', fontSize: 18},
   viewToRender: {
     position: 'absolute',
@@ -136,7 +147,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    // marginTop: _spacing,
+    // marginTop: SPACING,
   },
   filterStyle: {
     backgroundColor: '#CDA3EF',
@@ -164,33 +175,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   BoxView2: {
-    width: dgl * 0.38,
+    // width: dgl * 0.38,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingHorizontal: SPACING,
   },
   BoxView: {
     flex: 1,
-    padding: _spacing,
-    margin: _spacing,
-    borderRadius: _spacing,
+    padding: SPACING,
+    margin: SPACING,
+    borderRadius: SPACING,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: Color.white,
   },
   alignView: {alignItems: 'center'},
-  textMargin: {marginTop: _spacing, color: Color.white},
+  textMargin: {marginTop: SPACING, color: Color.white},
   LinearLineAlign: {flexDirection: 'row', justifyContent: 'space-between'},
 
   //onBoarding
   cardSpace: {
-    marginRight: _spacing,
-    padding: _spacing,
-    width: width - 40,
+    width: width * 0.8,
+    height: height * 0.7,
+    // marginRight: SPACING,
+    padding: SPACING,
+    margin: 5,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    borderRadius: 15,
+    // width: width - 40,
   },
   welcomeContainer: {
     alignItems: 'flex-start',
-    alignSelf: 'flex-start',
-    marginLeft: _spacing * 2,
+    // alignSelf: 'flex-start',
+    marginLeft: SPACING * 2,
   },
   //footer
   footer: {
@@ -198,7 +216,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     height: 70,
-    padding: _spacing,
+    padding: SPACING,
     backgroundColor: Color.darkViolet, // Set your preferred background color
   },
   footerButton: {
@@ -215,16 +233,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: _spacing * 2,
+    padding: SPACING * 2,
     backgroundColor: Color.white,
-    // marginBottom: _spacing,
+    // marginBottom: SPACING,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBlockColor: Color.grey,
   },
   // dateTimePicker
   welcomeView: {
     alignSelf: 'flex-start',
-    marginLeft: _spacing * 3,
+    marginLeft: SPACING * 3,
   },
   welcomeTitleText: {fontSize: 25, fontWeight: 'bold'},
   welcomeTextSub: {
@@ -236,7 +254,7 @@ const styles = StyleSheet.create({
   MainBox: {
     flexDirection: 'row',
     backgroundColor: Color.whiteOpacity,
-    borderRadius: _spacing,
+    borderRadius: SPACING,
   },
   headerNotifyBar: {
     position: 'absolute',
@@ -248,7 +266,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.regularViolet,
   },
   ColoumBox: {
-    padding: _spacing,
+    padding: SPACING,
     width: dgl * 0.38,
     flexDirection: 'column',
   },
@@ -261,10 +279,20 @@ const styles = StyleSheet.create({
     width: dgl * 0.01,
     height: dgl * 0.01,
     backgroundColor: Color.regularViolet,
-    paddingLeft: _spacing,
+    paddingLeft: SPACING,
     alignSelf: 'center',
     borderRadius: 20,
-    marginLeft: _spacing,
+    marginLeft: SPACING,
+  },
+  zodiacBox: {
+    height: dgl * 0.1,
+    width: dgl * 0.1,
+    padding: dgl * 0.03,
+    marginHorizontal: width / 3,
+    backgroundColor: Color.whiteOpacity,
+    justifyContent: 'center',
+    borderRadius: dgl * 0.009,
+    alignItems: 'center',
   },
 });
 

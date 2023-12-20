@@ -1,4 +1,5 @@
 import {
+  FlatList,
   Image,
   ImageBackground,
   Keyboard,
@@ -11,10 +12,11 @@ import {
 import React, {Children, useEffect, useState} from 'react';
 
 import LinearGradient from 'react-native-linear-gradient';
-import styles, {_spacing} from '../Styles/styles';
+import styles, {SPACING} from '../Styles/styles';
 import {HIcon, SignUpTheme3} from './SvgComponent';
-import {height, width} from '../Utils/helperFunctions';
-
+import {height, screenDiagonal, width} from '../Utils/helperFunctions';
+import Animated from 'react-native-reanimated';
+const dgl = screenDiagonal();
 export const LinearCommonButton = props => {
   return (
     <LinearGradient
@@ -40,7 +42,7 @@ export const FirstTheme = ({item}) => {
       return (
         <View>
           <Image
-            style={{width: 400}}
+            style={{width: dgl * 0.42}}
             resizeMode="cover"
             source={require('../Assets/OnBoarding/Component_16_1.png')}
           />
@@ -180,13 +182,16 @@ export const LoadingView = props => {
 };
 
 export const ImageBackgroundView = props => {
-  const {children} = props;
+  const {style, children} = props;
   return (
     <ImageBackground
       source={require('../Assets/Home/Component1.png')}
       style={styles.imageBgView}>
       <ScrollView
-        contentContainerStyle={{alignItems: 'center', padding: _spacing}}>
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={
+          style ?? {alignItems: 'center', padding: SPACING}
+        }>
         {children}
       </ScrollView>
     </ImageBackground>
@@ -198,6 +203,63 @@ export const WelcomeText = props => {
     <View style={styles.welcomeContainer}>
       <Text style={styles.welcomeTextSub}>{props.SubTitle}</Text>
       <Text style={styles.welcomeTitleText}>{props.title}</Text>
+    </View>
+  );
+};
+
+// const SPACING = 10;
+const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
+// const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
+const BACKDROP_HEIGHT = height * 0.65;
+
+const zodiacData = ['pices', 'sprites', 'Cancer'];
+export const Backdrop = ({movies, scrollX}) => {
+  return (
+    <View style={{height: BACKDROP_HEIGHT, width, position: 'absolute'}}>
+      <FlatList
+        data={zodiacData}
+        keyExtractor={item => item.key + '-backdrop'}
+        removeClippedSubviews={false}
+        contentContainerStyle={{width, height: BACKDROP_HEIGHT}}
+        renderItem={({item, index}) => {
+          if (!item.backdrop) {
+            return null;
+          }
+          const translateX = scrollX.interpolate({
+            inputRange: [(index - 2) * ITEM_SIZE, (index - 1) * ITEM_SIZE],
+            outputRange: [0, width],
+            // extrapolate:'clamp'
+          });
+          return (
+            <Animated.View
+              removeClippedSubviews={false}
+              style={{
+                position: 'absolute',
+                width: translateX,
+                height,
+                overflow: 'hidden',
+              }}>
+              <Image
+                source={{uri: item.backdrop}}
+                style={{
+                  width,
+                  height: BACKDROP_HEIGHT,
+                  position: 'absolute',
+                }}
+              />
+            </Animated.View>
+          );
+        }}
+      />
+      <LinearGradient
+        colors={['rgba(0, 0, 0, 0)', 'white']}
+        style={{
+          height: BACKDROP_HEIGHT,
+          width,
+          position: 'absolute',
+          bottom: 0,
+        }}
+      />
     </View>
   );
 };
