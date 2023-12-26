@@ -42,28 +42,14 @@ const CompatibilityScreen = ({navigation}) => {
       animated: true,
       viewOffset: 0.5 || 1 ? 0 : SPACING,
     });
-
-    // ref2.current?.scrollToIndex({
-    //   index: Myindex,
-    //   animated: true,
-    //   viewOffset: 0.5 || 1 ? 0 : SPACING,
-    // });
   };
-  // const getItemLayoutfn = (data, index) => ({
-  //   length: dgl * 0.1, // Replace ITEM_HEIGHT with the actual height of your list items
-  //   offset: dgl * 0.1 * index,
-  //   index,
-  // });
+
   return (
     <ImageBackground
       source={require('../../Assets/Compatibility/ComponentBG3.png')}
       resizeMode="cover"
       style={styles.imageBgView}>
-      <SafeAreaView
-        style={{
-          flex: 2.6,
-          justifyContent: 'space-around',
-        }}>
+      <SafeAreaView style={styles.safeArea}>
         <FlatList
           ref={ref2}
           initialScrollIndex={index}
@@ -77,37 +63,22 @@ const CompatibilityScreen = ({navigation}) => {
             return (
               <View style={styles.zodiacBox}>
                 <View
-                  style={{
-                    height: dgl * 0.09,
-                    width: dgl * 0.09,
-                    justifyContent: 'center',
-                    borderRadius: dgl * 0.009,
-                    backgroundColor:
-                      Myindex === fIndex
-                        ? Color.lightBlue
-                        : Color.regularViolet,
-                  }}>
+                  style={[
+                    styles.compatibilityContainer,
+                    {
+                      backgroundColor:
+                        Myindex === fIndex
+                          ? Color.lightBlue
+                          : Color.regularViolet,
+                    },
+                  ]}>
                   <Image
                     source={require('../../Assets/Compatibility/aries.png')}
-                    style={{
-                      width: dgl * 0.06,
-                      height: dgl * 0.06,
-                      alignSelf: 'center',
-                    }}
+                    style={styles.zodiaImageView}
                     resizeMode="center"
                   />
                   {Myindex === fIndex && (
-                    <View
-                      style={{
-                        backgroundColor: '#6F4ED0',
-                        // alignItems: 'center',
-                        paddingHorizontal: 8,
-                        borderRadius: 10,
-                        marginBottom: 5,
-                        borderTopWidth: StyleSheet.hairlineWidth,
-                        borderColor: Color.shadedWhite,
-                        alignSelf: 'center',
-                      }}>
+                    <View style={styles.zodiaActive}>
                       <Text style={{color: Color.white}}>You</Text>
                     </View>
                   )}
@@ -137,28 +108,20 @@ const CompatibilityScreen = ({navigation}) => {
                     setindex(index + 1);
                   }
                 }}
-                style={{
-                  height: dgl * 0.1,
-                  width: dgl * 0.1,
-                  padding: dgl * 0.03,
-                  marginHorizontal: width / 3,
-                  backgroundColor: Color.whiteOpacity,
-                  justifyContent: 'center',
-                  borderRadius: dgl * 0.009,
-                  alignItems: 'center',
-                }}>
+                style={styles.flatListView1}>
                 <View
-                  style={{
-                    height: dgl * 0.09,
-                    width: dgl * 0.09,
-                    justifyContent: 'center',
-                    borderRadius: dgl * 0.009,
-                    backgroundColor:
-                      index === fIndex ? Color.lightBlue : Color.regularViolet,
-                  }}>
+                  style={[
+                    styles.zodiaNormal,
+                    {
+                      backgroundColor:
+                        index === fIndex
+                          ? Color.lightBlue
+                          : Color.regularViolet,
+                    },
+                  ]}>
                   <Image
                     source={require('../../Assets/Compatibility/aries.png')}
-                    style={{width: dgl * 0.07, height: dgl * 0.07}}
+                    style={styles.zodiaImageView2}
                   />
                   {/* <DearSvg width={dgl * 0.1} height={dgl * 0.1} /> */}
                 </View>
@@ -167,17 +130,7 @@ const CompatibilityScreen = ({navigation}) => {
           }}
           // getItemLayout={getItemLayoutfn}
         />
-        <View
-          style={{
-            position: 'absolute',
-            flexDirection: 'row',
-            width: width,
-            // backgroundColor: 'red',
-            justifyContent: 'space-between',
-            paddingHorizontal: dgl * 0.08,
-            alignItems: 'center',
-            top: dgl * 0.35,
-          }}>
+        <View style={styles.arrowStyle}>
           <View style={{transform: [{rotate: '180deg'}]}}>
             <TouchableOpacity
               onPress={() => {
@@ -205,11 +158,7 @@ const CompatibilityScreen = ({navigation}) => {
       <View style={{flex: 1}}>
         <TouchableOpacity
           onPress={() => navigation.navigate('CompatibilityDetails')}
-          style={{
-            padding: dgl * 0.02,
-            backgroundColor: Color.white,
-            borderRadius: dgl * 0.05,
-          }}>
+          style={styles.compatibilityButon}>
           <Text>Check Compatibility</Text>
         </TouchableOpacity>
       </View>
