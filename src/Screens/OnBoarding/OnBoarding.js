@@ -125,7 +125,6 @@ const OnBoarding = ({navigation, route}) => {
   //use scroll handler to scroll x direction
   const scrollHandler = key => {
     setScrollToIndex(key - 1);
-    console.log(dataSourceCords);
     if (dataSourceCords.length > scrollToIndex) {
       ref?.current.scrollTo({
         x: dataSourceCords[key],

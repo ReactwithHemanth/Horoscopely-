@@ -46,7 +46,6 @@ const NumberSignUp = () => {
   async function signInWithPhoneNumberFn(country, phoneNumber) {
     let combine = country?.callingCode + phoneNumber;
     const formated = combine.trim();
-    console.log(formated, 'format1');
     const confirmation = await auth().signInWithPhoneNumber(formated);
     setConfirm(confirmation);
   }

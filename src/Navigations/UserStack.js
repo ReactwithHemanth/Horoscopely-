@@ -75,8 +75,6 @@ const UserStack = ({navigation, route}) => {
     headerTitleStyle: {color: Color.white},
     headerTintColor: Color.primaryBlue,
   };
-  // const [dataCollection, setdataCollection] = useState(true);
-  // console.log(user.phoneNumber);
 
   return (
     <Stack.Navigator

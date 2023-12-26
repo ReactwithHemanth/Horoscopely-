@@ -34,7 +34,6 @@ const Footer = props => {
     try {
       // await auth().signOut();
       actionSheetRef.current?.show();
-      console.log('Signed out successfully');
     } catch (error) {
       console.error('Error signing out:', error);
     }
