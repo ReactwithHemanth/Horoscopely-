@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import AuthStack from './AuthStack';
 import {useAuth} from '../hooks/useAuth';
 import LoggedStack from './UserStack';
+import {MainContext} from '../Confg/Context';
 /**
  * is it anonymous USER?
  * Do data Collection required on every time
@@ -9,6 +10,23 @@ import LoggedStack from './UserStack';
  */
 export default AppNavigation = () => {
   const user = useAuth();
-
-  return user ? <LoggedStack /> : <AuthStack />;
+  const [FirstLaunched, setcheckLauched] = useState(false);
+  const [FooterVisibility, setShowFooter] = useState(true);
+  const setFirstLaunched = () => {
+    setcheckLauched(!FirstLaunched);
+  };
+  const setFooterVisible = () => {
+    setShowFooter(!FooterVisibility);
+  };
+  return (
+    <MainContext.Provider
+      value={{
+        setFirstLaunched,
+        setFooterVisible,
+        FirstLaunched,
+        FooterVisibility,
+      }}>
+      {user ? <LoggedStack /> : <AuthStack />}
+    </MainContext.Provider>
+  );
 };

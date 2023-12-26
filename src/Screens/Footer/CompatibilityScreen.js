@@ -24,6 +24,9 @@ const CompatibilityScreen = ({navigation}) => {
    * calculation based on compatibility
    * add animation
    * refactoring of compatibility screens
+   * NOTE:
+   * users zodiac index need to be collected on async storage
+   *
    */
   const ref = useRef(null);
   const ref2 = useRef(null);

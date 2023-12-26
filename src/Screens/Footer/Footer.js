@@ -1,5 +1,5 @@
 import {Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Color} from '../../Utils/Color';
 import {
   MoreSvg,
@@ -8,14 +8,20 @@ import {
   SolidSvg,
 } from '../../Components/SvgComponent';
 import styles from '../../Styles/styles';
-import {RnGet} from '../../hooks/RnstoreHook';
-import auth from '@react-native-firebase/auth';
+import {screenDiagonal} from '../../Utils/helperFunctions';
+import {Image} from 'react-native-svg';
+import {ActionSheetView} from '../../Components/ActionSheet';
+import {MainContext} from '../../Confg/Context';
+
+const dgl = screenDiagonal();
 
 const Footer = props => {
   const {state, descriptors, navigation} = props;
-
+  const actionSheetRef = useRef(null);
   const [active, setActive] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+
+  const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
+    useContext(MainContext);
 
   const item = [
     {id: 1, value: 'Home', label: 'HOME'},
@@ -24,23 +30,16 @@ const Footer = props => {
     {id: 4, value: 'More', label: 'MORE'},
   ];
 
-  useEffect(() => {
-    FooterVisible();
-  }, [navigation]);
-
-  const FooterVisible = async () => {
-    const isVisible = await RnGet('footerDisabled');
-    setIsVisible(isVisible);
-  };
-
   const handleSignOut = async () => {
     try {
-      await auth().signOut();
+      // await auth().signOut();
+      actionSheetRef.current?.show();
       console.log('Signed out successfully');
     } catch (error) {
       console.error('Error signing out:', error);
     }
   };
+
   const ItemRender = ({value}) => {
     const _navigate = value => {
       if (value == 'More') {
@@ -77,12 +76,31 @@ const Footer = props => {
     }
   };
 
+  const LogoTitle = () => {
+    return (
+      <Image
+        source={require('../../Assets/MoreMenu/logofinal.png')}
+        resizeMode="contain"
+        style={{
+          width: dgl * 0.3,
+          height: dgl * 0.9,
+          alignSelf: 'center',
+          backgroundColor: 'cyan',
+        }}
+      />
+    );
+  };
+
   return (
-    <View style={[styles.footer, {display: isVisible ? 'flex' : 'none'}]}>
-      {item.map((item, idx) => {
-        return <ItemRender key={idx} value={item} />;
-      })}
-    </View>
+    <>
+      <ActionSheetView ref={actionSheetRef} />
+      <View
+        style={[styles.footer, {display: FooterVisibility ? 'flex' : 'none'}]}>
+        {item.map((item, idx) => {
+          return <ItemRender key={idx} value={item} />;
+        })}
+      </View>
+    </>
   );
 };
 

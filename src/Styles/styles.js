@@ -1,9 +1,9 @@
 import {Color} from '../Utils/Color';
 import {screenDiagonal} from '../Utils/helperFunctions';
+export const SPACING = 10;
 
 const {StyleSheet, Dimensions} = require('react-native');
 const {width, height} = Dimensions.get('window');
-export const SPACING = 10;
 const dgl = screenDiagonal();
 
 const styles = StyleSheet.create({
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: Color.white,
+    fontFamily: 'Molle',
     padding: SPACING,
   },
   homeView2: {flex: 1},
@@ -132,6 +133,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'cyan',
     // width: width,
   },
+
   //Custom
   LinearBotton: {padding: SPACING, borderRadius: 20, margin: SPACING},
   TextWhite: {textAlign: 'center', color: 'white', fontSize: 18},
@@ -195,15 +197,14 @@ const styles = StyleSheet.create({
 
   //onBoarding
   cardSpace: {
-    width: width * 0.8,
-    height: height * 0.7,
+    width: width,
+    height: height / 3,
     // marginRight: SPACING,
     padding: SPACING,
     margin: 5,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    // alignSelf: 'center',
     borderRadius: 15,
-    // width: width - 40,
+    // backgroundColor: 'red',
   },
   welcomeContainer: {
     alignItems: 'flex-start',

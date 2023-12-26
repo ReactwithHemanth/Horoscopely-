@@ -263,3 +263,7 @@ export const Backdrop = ({movies, scrollX}) => {
     </View>
   );
 };
+
+export const LogoTitle = () => {
+  return <Image source={require('../Assets/Home/LogoHeader1.png')} />;
+};

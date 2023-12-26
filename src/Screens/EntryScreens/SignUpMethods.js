@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, findNodeHandle} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Firebase_app} from '../../Confg/Firebase';
 import styles from '../../Styles/styles';
@@ -19,6 +19,7 @@ import appleAuth, {
   appleAuthAndroid,
 } from '@invertase/react-native-apple-authentication';
 import {Color} from '../../Utils/Color';
+import {RnGet, RnStore} from '../../hooks/RnstoreHook';
 const colorArray = ['#ba55d3', '#00bfff', '#f8f8ff', '#4169e1', '#ffff'];
 /**
  *
@@ -38,12 +39,15 @@ const colorArray = ['#ba55d3', '#00bfff', '#f8f8ff', '#4169e1', '#ffff'];
 const dgl = screenDiagonal();
 const SignUp = props => {
   useEffect(() => {
+    FirstLauched();
+
     return appleAuth.onCredentialRevoked(async () => {
       console.warn(
         'If this function executes, User Credentials have been Revoked',
       );
     });
   }, []);
+
   const SignButtons = ({nav, BgColor, icon, title, textColor}) => {
     return (
       <TouchableOpacity
@@ -59,6 +63,7 @@ const SignUp = props => {
       </TouchableOpacity>
     );
   };
+
   const onAppleButtonPress = async () => {
     /**
      * 'TODO: Test authentication in iOS'
@@ -76,6 +81,7 @@ const SignUp = props => {
       console.log(credentialsState);
     }
   };
+
   async function revokeSignInWithAppleToken() {
     // Get an authorizationCode from Apple
     const {authorizationCode} = await appleAuth.performRequest({
