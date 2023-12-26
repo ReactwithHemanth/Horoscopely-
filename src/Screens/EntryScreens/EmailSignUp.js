@@ -86,21 +86,12 @@ const EmailSignUp = ({navigation}) => {
           onChangeText={text => setEmail(text)}
           autoCapitalize="none"
         />
-        {/* <TextInput
-          placeholder="Password"
-          style={styles.input}
-          value={password}
-          secureTextEntry
-          onChangeText={text => setPassword(text)}
-          autoCapitalize="none"
-        /> */}
+
         {loading ? (
           <ActivityIndicator size="large" color={'#0000ff'}></ActivityIndicator>
         ) : (
           <>
             <LinearCommonButton title={'Login'} onPress={signInFn} />
-            {/* <LinearCommonButton title={'Create account'} onPress={signUpFn} /> */}
-            {/* <LinearCommonButton title={'Skip'} onPress={_goBack} /> */}
             <TouchableOpacity style={{alignItems: 'center'}} onPress={_goBack}>
               <Text style={styles.SkipText}>BACK TO SIGNUP OPTIONS</Text>
             </TouchableOpacity>
@@ -114,42 +105,3 @@ const EmailSignUp = ({navigation}) => {
 };
 
 export default EmailSignUp;
-
-// import React, {useState, useEffect} from 'react';
-// import {View, Text} from 'react-native';
-// // import auth from '@react-native-firebase/auth';
-
-// const EmailSignUp = () => {
-//   // Set an initializing state whilst Firebase connects
-//   const [initializing, setInitializing] = useState(true);
-//   const [user, setUser] = useState();
-
-//   // Handle user state changes
-//   function onAuthStateChanged(user) {
-//     setUser(user);
-//     if (initializing) setInitializing(false);
-//   }
-
-//   useEffect(() => {
-//     const subscriber = onAuthStateChanged(onAuthStateChanged);
-//     return subscriber; // unsubscribe on unmount
-//   }, []);
-
-//   if (initializing) return null;
-
-//   if (!user) {
-//     return (
-//       <View>
-//         <Text>Login</Text>
-//       </View>
-//     );
-//   }
-
-//   return (
-//     <View>
-//       <Text>Welcome {user.email}</Text>
-//     </View>
-//   );
-// };
-
-// export default EmailSignUp;

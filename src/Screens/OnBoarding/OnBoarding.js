@@ -73,7 +73,7 @@ const OnBoarding = ({navigation, route}) => {
    * on login in succes set isFirstLunched = true
    * if user isFirstLunched true show onboarding
    * else show users stack
-   *if user logged in show footer , so we can avoid showing navigating without authentication
+   * if user logged in show footer , so we can avoid showing navigating without authentication
    */
   useEffect(() => {
     setFooterVisible();
@@ -190,11 +190,6 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Continue'}
               onPress={() => {
-                // if (index === data.length - 1) {
-                //   return;
-                // }
-
-                // setindex(index + 1);
                 username !== '' && scrollHandler(2);
               }}
             />
@@ -219,10 +214,6 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Continue'}
               onPress={() => {
-                // if (index === data.length - 1) {
-                //   return;
-                // }
-                // setindex(index + 1);
                 scrollHandler(3);
               }}
             />
@@ -246,10 +237,6 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Continue'}
               onPress={() => {
-                // if (index === data.length - 1) {
-                //   return;
-                // }
-                // setindex(index + 1);
                 scrollHandler(4);
               }}
             />
@@ -269,11 +256,6 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
-                // if (index === data.length - 1) {
-                //   return;
-                // }
-
-                // setindex(index + 1);
                 scrollHandler(5);
               }}
             />
@@ -292,11 +274,6 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
-                // if (index === data.length - 1) {
-                //   return;
-                // }
-
-                // setindex(index + 1);
                 scrollHandler(6);
               }}
             />
@@ -348,11 +325,6 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
-                // if (index === data.length - 1) {
-                //   return;
-                // }
-
-                // setindex(index + 1);
                 scrollHandler(7);
               }}
             />

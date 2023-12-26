@@ -7,7 +7,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-// import {useAuth} from '../../hooks/useAuth';
 import styles from '../../Styles/styles';
 import PhoneInput from 'react-native-international-phone-number';
 import {
@@ -61,7 +60,7 @@ const NumberSignUp = () => {
   return (
     <View style={styles.Container}>
       <FirstTheme item={'topSvg'} />
-      <View style={{}}>
+      <View>
         <Text style={styles.titleText}>Mobile Number</Text>
         <>
           {confirm ? (

@@ -112,7 +112,7 @@ const Home = ({navigation}) => {
             <Text style={styles.textMargin}> Health</Text>
           </View>
         </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={styles.svgBox}>
           <SvgBox
             backgroundColor={'#BEA1E2'}
             onPress={() => navigation.navigate('CalenderAdvice')}
@@ -148,7 +148,7 @@ const Home = ({navigation}) => {
             </View>
           </View>
           <View style={styles.filterStyle}>
-            <Text style={{color: '#fff', width: dgl * 0.06}}>Today</Text>
+            <Text style={styles.filterTextStyle}>Today</Text>
             <ArrowLeft fill={'#fff'} />
           </View>
         </View>
