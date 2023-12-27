@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import styles, {_spacing} from '../../Styles/styles';
+import styles, {SPACING} from '../../Styles/styles';
 import {screenDiagonal, width} from '../../Utils/helperFunctions';
 import {ImageBackgroundView} from '../../Components/CustomComponents';
 import {Color} from '../../Utils/Color';

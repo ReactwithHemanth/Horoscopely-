@@ -7,7 +7,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-// import {useAuth} from '../../hooks/useAuth';
 import styles from '../../Styles/styles';
 import PhoneInput from 'react-native-international-phone-number';
 import {
@@ -46,7 +45,6 @@ const NumberSignUp = () => {
   async function signInWithPhoneNumberFn(country, phoneNumber) {
     let combine = country?.callingCode + phoneNumber;
     const formated = combine.trim();
-    console.log(formated, 'format1');
     const confirmation = await auth().signInWithPhoneNumber(formated);
     setConfirm(confirmation);
   }
@@ -62,7 +60,7 @@ const NumberSignUp = () => {
   return (
     <View style={styles.Container}>
       <FirstTheme item={'topSvg'} />
-      <View style={styles.signUpMethView2}>
+      <View>
         <Text style={styles.titleText}>Mobile Number</Text>
         <>
           {confirm ? (
@@ -76,6 +74,11 @@ const NumberSignUp = () => {
             <PhoneInput
               value={phoneNumber}
               defaultCountry="IN"
+              phoneInputStyles={{
+                container: {borderWidth: 0, backgroundColor: 'transparent'},
+                input: styles.customInput,
+                flagContainer: styles.flagContainer,
+              }}
               selectedCountry={selectedCountry}
               onChangeSelectedCountry={setselectedCountry}
               onChangePhoneNumber={setPhoneNumber}

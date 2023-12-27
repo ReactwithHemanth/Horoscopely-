@@ -19,7 +19,7 @@ import DatePicker from 'react-native-date-picker';
 import {Picker} from '@react-native-picker/picker';
 import {Color} from '../../Utils/Color';
 import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
-import styles, {_spacing} from '../../Styles/styles';
+import styles, {SPACING} from '../../Styles/styles';
 
 const DateTimeScreen = ({navigation}) => {
   const dateList = [
@@ -34,7 +34,7 @@ const DateTimeScreen = ({navigation}) => {
     ref.current?.scrollToIndex({
       index: index,
       animated: true,
-      viewOffset: 0.5 || 1 ? 0 : _spacing,
+      viewOffset: 0.5 || 1 ? 0 : SPACING,
     });
   }, [index]);
 

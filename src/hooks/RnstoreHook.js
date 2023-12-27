@@ -13,7 +13,10 @@ export const RnStore = async (key, params = '') => {
 export const RnGet = async key => {
   try {
     const result = await AsyncStorage.getItem(key);
-    if (result !== null) return result;
+    if (result !== null && result !== undefined) {
+      console.log(result, 'core');
+      return JSON.parse(result);
+    }
   } catch (err) {
     Toast('Error Occured', err);
   }

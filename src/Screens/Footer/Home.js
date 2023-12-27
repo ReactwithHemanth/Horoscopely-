@@ -25,7 +25,7 @@ const Home = ({navigation}) => {
   const user = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [setSelectFilter, setsetSelectFilter] = useState('Today');
+  const [SelectFilter, setSelectFilter] = useState('Today');
 
   const handleSignOut = async () => {
     try {
@@ -112,7 +112,7 @@ const Home = ({navigation}) => {
             <Text style={styles.textMargin}> Health</Text>
           </View>
         </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={styles.svgBox}>
           <SvgBox
             backgroundColor={'#BEA1E2'}
             onPress={() => navigation.navigate('CalenderAdvice')}
@@ -136,26 +136,26 @@ const Home = ({navigation}) => {
     <ImageBackgroundView>
       <LinearWidget />
       <View style={styles.homeView2}>
-        <View style={styles.homeView3}>
-          <Text style={styles.homeheading}>Your Horoscope of the Day</Text>
-          <View style={styles.BoxView2}>
-            <View style={[styles.LinearLineAlign]}>
-              <View style={styles.Cmargin}>
-                <ShareSvg fill={Color.white} />
-              </View>
-              <View style={styles.Cmargin}>
-                <CalenderSvg fill={Color.white} />
-              </View>
+        {/* <View style={styles.homeView3}> */}
+        <Text style={styles.homeheading}>Your Horoscope of the Day</Text>
+        <View style={styles.BoxView2}>
+          <View style={[styles.LinearLineAlign]}>
+            <View style={styles.Cmargin}>
+              <ShareSvg fill={Color.white} />
             </View>
-            <View style={styles.filterStyle}>
-              <Text style={{color: '#fff'}}>Today</Text>
-              <ArrowLeft fill={'#fff'} />
+            <View style={styles.Cmargin}>
+              <CalenderSvg fill={Color.white} />
             </View>
           </View>
-          <View style={styles.Cpadding}>
-            <Text style={{color: Color.white}}>{dummies}</Text>
+          <View style={styles.filterStyle}>
+            <Text style={styles.filterTextStyle}>Today</Text>
+            <ArrowLeft fill={'#fff'} />
           </View>
         </View>
+        <View style={styles.Cpadding}>
+          <Text style={{color: Color.white}}>{dummies}</Text>
+        </View>
+        {/* </View> */}
       </View>
       {/* <Text style={styles.text1}>Welcome {user?.email}</Text>
       <Text onPress={handleSignOut} style={styles.text1}>

@@ -1,6 +1,16 @@
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
+  Dimensions,
   FlatList,
+  Platform,
+  ScrollView,
   StyleSheet,
   Switch,
   Text,
@@ -9,7 +19,7 @@ import {
   View,
 } from 'react-native';
 import {width} from '../../Utils/helperFunctions';
-import styles from '../../Styles/styles';
+import styles, {SPACING} from '../../Styles/styles';
 import {
   FirstTheme,
   LinearCommonButton,
@@ -20,17 +30,13 @@ import DatePicker from 'react-native-date-picker';
 import {Picker} from '@react-native-picker/picker';
 import {Color} from '../../Utils/Color';
 import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {RnGet, RnStore} from '../../hooks/RnstoreHook';
+import {useIsFocused} from '@react-navigation/native';
+import {MainContext} from '../../Confg/Context';
 
 const OnBoarding = ({navigation, route}) => {
-  const _spacing = 10;
-
   const user = useAuth();
-
-  const ref = useRef();
-  const [index, setindex] = useState(0);
-  const [username, setUsername] = useState(0);
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState(user?.email);
   const [number, setNumber] = useState(0);
   const [Dob, setDob] = useState(new Date());
@@ -42,27 +48,51 @@ const OnBoarding = ({navigation, route}) => {
   const [RelationShip, setRelationShip] = useState(
     RelationShipStatus[0]?.value,
   );
-  const [RelationShipIndex, setRelationShipIndex] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
+  // const [ref, setRef] = useState();
+  const ref = useRef();
+  const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
+    useContext(MainContext);
 
+  const [RelationShipIndex, setRelationShipIndex] = useState(0);
+  const [dataSourceCords, setDataSourceCords] = useState([]);
+  const [scrollToIndex, setScrollToIndex] = useState(0);
+  const CARD_WIDTH = Dimensions.get('window').width * 0.8;
+  const CARD_HEIGHT = Dimensions.get('window').height * 0.7;
+  const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 5;
+  /**
+   * * TODO:
+   * Refactor Required
+   *
+   * * CASE:
+   * if user uid is already saved navigate to HomePage
+   * if user uid is changes in every logg out state
+   * if user uid is not used before store itemn
+   *
+   * initalise :
+   * user initialted
+   * on login in succes set isFirstLunched = true
+   * if user isFirstLunched true show onboarding
+   * else show users stack
+   * if user logged in show footer , so we can avoid showing navigating without authentication
+   */
   useEffect(() => {
-    ref.current?.scrollToIndex({
-      index: index,
-      animated: true,
-      viewOffset: 0.5 || 1 ? 0 : _spacing,
-    });
-  }, [index]);
+    setFooterVisible();
+    setFirstLaunched();
+  }, []);
+
+  const CheckLaunchedFirst = async () => {
+    const user = await RnGet('userData');
+    if (user.name != '') {
+      navigation.navigate('Home');
+    } else {
+      handleGetStarted();
+    }
+  };
 
   const handleGetStarted = async user => {
-    /**
-     * case:
-     * if user uid is already saved navigate to HomePage
-     * if user uid is changes in every logg out state
-     * if user uid is not used before store itemn
-     */
     try {
       const data = {
-        uid: user.uid,
+        uid: user?.uid,
         name: username,
         email: email,
         number: number,
@@ -71,10 +101,9 @@ const OnBoarding = ({navigation, route}) => {
         gender: gender,
         RelationShip: RelationShip,
       };
-      // Store user data for later
-      const store = await RnStore(user.uid, data);
-      //navigate Home
-      if (store) navigation.navigate('Home');
+      // const status = await RnStore('userData', data);
+      setFirstLaunched(true);
+      navigation.navigate('Home');
     } catch (error) {
       console.error('Error handleGetStarted', error);
     }
@@ -89,74 +118,137 @@ const OnBoarding = ({navigation, route}) => {
     setRelationShip(RelationShipStatus[index]?.value);
     setRelationShipIndex(index);
   };
-  const RenderItem = ({item, idx}) => {
-    switch (item.label) {
-      case 'nameInput':
-        return (
-          <View key={idx} style={styles.cardSpace}>
+  const changeName = name => {
+    setUsername(name);
+  };
+
+  //use scroll handler to scroll x direction
+  const scrollHandler = key => {
+    setScrollToIndex(key - 1);
+    if (dataSourceCords.length > scrollToIndex) {
+      ref?.current.scrollTo({
+        x: dataSourceCords[key],
+        y: 0, //we get the offset value from array based on key
+        animated: true,
+      });
+    }
+  };
+  const sectionNames = [
+    // create dummy data so you can render two button
+    {value: 1, text: 'Section 1'},
+    {value: 2, text: 'Section 2'},
+    {value: 3, text: 'Section 2'},
+    {value: 4, text: 'Section 2'},
+    {value: 5, text: 'Section 2'},
+    {value: 6, text: 'Section 2'},
+    {value: 7, text: 'Section 2'},
+    {value: 8, text: 'Section 2'},
+  ];
+  return (
+    <View style={styles1.container2}>
+      <FirstTheme item={'topImage'} />
+      <WelcomeText SubTitle={'Welcome User'} title={'Lets get started'} />
+      <ScrollView
+        ref={ref}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        pagingEnabled={true}
+        scrollEnabled={false}
+        decelerationRate={0}
+        // initialScrollIndex={index}
+        snapToAlignment={'center'}
+        snapToInterval={CARD_WIDTH + 10}
+        contentInset={{
+          // iOS ONLY
+          top: 0,
+          left: SPACING_FOR_CARD_INSET, // Left spacing for the very first card
+          bottom: 0,
+          right: SPACING_FOR_CARD_INSET,
+        }} // Right spacing for the very last card
+        contentContainerStyle={{
+          // contentInset alternative for Android
+          paddingHorizontal:
+            Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0, // Horizontal spacing before and after the ScrollView
+        }}>
+        <>
+          <View
+            style={styles.cardSpace}
+            key={1}
+            onLayout={event => {
+              const layout = event.nativeEvent.layout;
+              dataSourceCords[1] = layout.x; // we store this offset values in an array
+            }}>
             <Text style={styles.titleText}>Name</Text>
 
             <TextInput
               placeholder="name"
               style={styles.input}
-              onChangeText={value => setUsername(value)}
+              onChangeText={changeName}
+              value={username}
             />
             <LinearCommonButton
               title={'Continue'}
               onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
-
-                setindex(index + 1);
+                username !== '' && scrollHandler(2);
               }}
             />
           </View>
-        );
-      case 'emailInput':
-        return (
-          <View style={styles.cardSpace}>
+
+          <View
+            style={styles.cardSpace}
+            key={2}
+            onLayout={event => {
+              const layout = event.nativeEvent.layout;
+              dataSourceCords[2] = layout.x; // we store this offset values in an array
+            }}>
             <Text style={styles.titleText}>Email</Text>
             <TextInput
               placeholder="Email"
+              autoFocus
               style={styles.input}
+              defaultValue={email}
               value={user?.email ?? email}
-              onChangeText={value => setEmail(value)}
+              onChangeText={e => setEmail(e)}
             />
             <LinearCommonButton
               title={'Continue'}
               onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
-                setindex(index + 1);
+                scrollHandler(3);
               }}
             />
           </View>
-        );
-      case 'numberInput':
-        return (
-          <View style={styles.cardSpace}>
+
+          <View
+            style={styles.cardSpace}
+            key={3}
+            onLayout={event => {
+              const layout = event.nativeEvent.layout;
+              dataSourceCords[3] = layout.x; // we store this offset values in an array
+            }}>
             <Text style={styles.titleText}>Phone Number</Text>
             <TextInput
-              placeholder="Email"
+              autoFocus
+              placeholder="Phone Number"
               style={styles.input}
-              onChangeText={value => setNumber(value)}
+              value={number}
+              onChangeText={e => setNumber(e)}
             />
             <LinearCommonButton
               title={'Continue'}
               onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
-                setindex(index + 1);
+                scrollHandler(4);
               }}
             />
           </View>
-        );
-      case 'DOB':
-        return (
-          <View style={styles.cardSpace}>
+
+          <View
+            style={styles.cardSpace}
+            key={4}
+            onLayout={event => {
+              const layout = event.nativeEvent.layout;
+              dataSourceCords[4] = layout.x; // we store this offset values in an array
+            }}>
             <Text style={styles.titleText}>Date of birth</Text>
             <DatePicker date={Dob} onDateChange={setDob} mode={'date'} />
 
@@ -164,46 +256,47 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
-
-                setindex(index + 1);
+                scrollHandler(5);
               }}
             />
           </View>
-        );
-      case 'TOB':
-        return (
-          <View style={styles.cardSpace}>
+
+          <View
+            style={styles.cardSpace}
+            key={5}
+            onLayout={event => {
+              const layout = event.nativeEvent.layout;
+              dataSourceCords[5] = layout.x; // we store this offset values in an array
+            }}>
             <Text style={styles.titleText}>Place of birth</Text>
             <DatePicker date={Tob} onDateChange={setTob} mode={'time'} />
 
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
-
-                setindex(index + 1);
+                scrollHandler(6);
               }}
             />
           </View>
-        );
-      case 'Gender':
-        return (
-          <View style={styles.cardSpace}>
+
+          <View
+            style={styles.cardSpace}
+            key={6}
+            onLayout={event => {
+              const layout = event.nativeEvent.layout;
+              dataSourceCords[6] = layout.x; // we store this offset values in an array
+            }}>
             <Text style={styles.titleText}>Gender</Text>
             <View
               style={{
-                padding: _spacing,
+                padding: SPACING,
                 flexDirection: 'row',
               }}>
               {genderArray.map((gender, index) => {
                 return (
                   <>
                     <View
+                      key={index}
                       style={{
                         borderColor: Color.primaryBlue,
                         borderWidth: 1,
@@ -232,23 +325,23 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
-
-                setindex(index + 1);
+                scrollHandler(7);
               }}
             />
           </View>
-        );
-      case 'RelationShip':
-        return (
-          <View style={styles.cardSpace}>
+
+          <View
+            style={styles.cardSpace}
+            key={7}
+            onLayout={event => {
+              const layout = event.nativeEvent.layout;
+              dataSourceCords[7] = layout.x; // we store this offset values in an array
+            }}>
             <Text style={styles.titleText}>Place of birth</Text>
 
             <View
               style={{
-                padding: _spacing,
+                padding: SPACING,
                 flexDirection: 'row',
                 flexWrap: 'wrap',
               }}>
@@ -290,21 +383,26 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
+                // if (index === data.length - 1) {
+                //   return;
+                // }
 
-                setindex(index + 1);
+                // setindex(index + 1);
+                scrollHandler(8);
               }}
             />
           </View>
-        );
-      case 'push':
-        return (
-          <View style={styles.cardSpace}>
+
+          <View
+            style={styles.cardSpace}
+            key={8}
+            onLayout={event => {
+              const layout = event.nativeEvent.layout;
+              dataSourceCords[8] = layout.x; // we store this offset values in an array
+            }}>
             <View
               style={{
-                padding: _spacing,
+                padding: SPACING,
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -324,63 +422,43 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
-                // navigation.navigate('Home');
-                handleGetStarted(user);
+                CheckLaunchedFirst();
               }}
             />
           </View>
-        );
-      default:
-        return null;
-    }
-  };
-  return (
-    <View style={styles1.container2}>
-      <FirstTheme item={'topImage'} />
-      <WelcomeText SubTitle={'Welcome User'} title={'Lets ge started'} />
-      <FlatList
-        ref={ref}
-        scrollEnabled={false}
-        initialScrollIndex={index}
-        style={{flexGrow: 0}}
-        data={data}
-        keyExtractor={item => item.key}
-        showsHorizontalScrollIndicator={false}
-        horizontal
-        renderItem={({item, index: fIndex}) => {
-          return <RenderItem item={item} />;
-        }}
-      />
+        </>
+      </ScrollView>
       <View
         style={{
           position: 'absolute',
-          bottom: _spacing * 2,
+          bottom: SPACING * 2,
           width: width,
-          padding: _spacing * 2,
+          padding: SPACING * 2,
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}>
-        <View style={{padding: _spacing}}>
+        <View style={{padding: SPACING}}>
           <Text>
-            {index}/{data.length}
+            {scrollToIndex}/{sectionNames.length - 1}
           </Text>
         </View>
         <View
           style={[
             styles1.paginagtionView,
             {
-              padding: _spacing,
+              padding: SPACING,
             },
           ]}>
-          {data.map((item, idx) => {
+          {sectionNames.map((item, idx) => {
             return (
               <TouchableOpacity
-                onPress={() => setindex(idx)}
+                onPress={() => scrollHandler(item.value)}
                 style={{
-                  padding: _spacing / 2,
-                  margin: _spacing / 2,
-                  borderRadius: _spacing,
-                  backgroundColor: idx == index ? Color.primaryBlue : '#8EBDF3',
+                  padding: SPACING / 2,
+                  margin: SPACING / 2,
+                  borderRadius: SPACING,
+                  backgroundColor:
+                    idx == scrollToIndex ? Color.primaryBlue : '#8EBDF3',
                 }}
               />
             );
@@ -390,11 +468,12 @@ const OnBoarding = ({navigation, route}) => {
     </View>
   );
 };
+
 export default OnBoarding;
 
 const styles1 = StyleSheet.create({
   container: {flex: 1, justifyContent: 'center'},
-  container2: {flex: 1, alignItems: 'center'},
+  container2: {flex: 1},
   paginagtionView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',

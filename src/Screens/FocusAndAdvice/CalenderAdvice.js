@@ -3,7 +3,7 @@ import React from 'react';
 import {ImageBackgroundView} from '../../Components/CustomComponents';
 import LinearGradient from 'react-native-linear-gradient';
 import {DearSvg, RectangleSvg, ShareSvg} from '../../Components/SvgComponent';
-import styles, {_spacing} from '../../Styles/styles';
+import styles, {SPACING} from '../../Styles/styles';
 import {Color} from '../../Utils/Color';
 import {screenDiagonal, width} from '../../Utils/helperFunctions';
 const dgl = screenDiagonal();
@@ -25,7 +25,7 @@ const CalenderAdvice = () => {
           <ShareSvg fill={Color.shadedWhite} />
         </View>
       </View>
-      <View style={{flex: 1, padding: _spacing}}>
+      <View style={{flex: 1, padding: SPACING}}>
         <Text style={styles.textMargin}>
           The way to universal love is self love! Be compassionate toward
           yourself and others. It's a single key, perpetually unlocking

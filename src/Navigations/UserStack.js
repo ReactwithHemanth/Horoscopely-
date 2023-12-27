@@ -1,10 +1,11 @@
 import {View, Text, Image, Touchable, TouchableOpacity} from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   NavigationContainer,
   getFocusedRouteNameFromRoute,
   useNavigation,
+  useNavigationState,
 } from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -24,14 +25,14 @@ import DateTimeScreen from '../Screens/FocusAndAdvice/DateTimeScreen';
 import FocusDay from '../Screens/FocusAndAdvice/FocusDay';
 import CalenderAdvice from '../Screens/FocusAndAdvice/CalenderAdvice';
 import {useAuth} from '../hooks/useAuth';
+import CompatibilityDetails from '../Screens/Footer/compatibilityDetails';
+import {MainContext} from '../Confg/Context';
+import {LogoTitle} from '../Components/CustomComponents';
+import {RnGet} from '../hooks/RnstoreHook';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const dgl = screenDiagonal();
-
-const LogoTitle = () => {
-  return <Image source={require('../Assets/Home/LogoHeader1.png')} />;
-};
 
 const Notify = () => {
   const navigation = useNavigation();
@@ -55,19 +56,29 @@ const SettingsButton = () => {
       style={styles.headerContainer}
       onPress={() => navigation.navigate('Settings')}>
       {/* Your icon */}
+
       <SettingSvg fill={Color.primaryBlue} />
     </TouchableOpacity>
   );
 };
 
 const UserStack = ({navigation, route}) => {
-  const user = useAuth();
+  const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
+    useContext(MainContext);
 
-  // const [dataCollection, setdataCollection] = useState(true);
-  console.log(user.phoneNumber);
+  const defaultOptions = {
+    headerShown: true,
+    headerTransparent: true,
+    headerBack: {color: Color.darkViolet},
+    headerBackTitleVisible: false,
+    headerTintColor: Color.shadedWhite,
+    headerTitleStyle: {color: Color.white},
+    headerTintColor: Color.primaryBlue,
+  };
+
   return (
     <Stack.Navigator
-      initialRouteName={user?.displayName !== null ? 'onBoarding' : 'Home'}
+      initialRouteName={FirstLaunched ? 'onBoarding' : 'Home'}
       screenOptions={{
         // headerTransparent: true,
         headerBack: {color: Color.darkViolet},
@@ -90,6 +101,7 @@ const UserStack = ({navigation, route}) => {
         options={{
           headerTitle: () => <LogoTitle />,
           headerRight: () => <Notify />,
+          headerLeft: () => <></>,
           headerTransparent: true,
         }}
       />
@@ -121,22 +133,15 @@ const UserStack = ({navigation, route}) => {
         name="Compatibility"
         component={CompatibilityScreen}
         options={{
-          headerShown: true,
-          headerTitleStyle: {color: Color.black},
-          headerTintColor: Color.primaryBlue,
-          headerRight: () => <LogoTitle />,
+          ...defaultOptions,
+          headerLeft: () => <></>,
         }}
       />
 
       <Stack.Screen
         name="Remedy"
         component={RemedyScreen}
-        options={{
-          headerShown: true,
-          headerTitleStyle: {color: Color.black},
-          headerTintColor: Color.primaryBlue,
-          headerRight: () => <LogoTitle />,
-        }}
+        options={defaultOptions}
       />
       <Stack.Screen
         name="FocusDay"
@@ -158,18 +163,25 @@ const UserStack = ({navigation, route}) => {
           // headerRight: () => <LogoTitle />,
         }}
       />
+      <Stack.Screen
+        name="CompatibilityDetails"
+        component={CompatibilityDetails}
+        options={{
+          headerShown: true,
+          headerTitleStyle: {color: Color.black},
+          headerTintColor: Color.primaryBlue,
+          // headerRight: () => <LogoTitle />,
+        }}
+      />
     </Stack.Navigator>
   );
 };
 
 const LoggedStack = () => {
-  const user = useAuth();
-
-  console.log(user, 'logged in');
   return (
     <NavigationContainer>
       <Tab.Navigator
-        tabBar={props => (user?.isAnonymous ? <Footer {...props} /> : null)}
+        tabBar={props => <Footer {...props} />}
         screenOptions={{headerShown: false}}>
         <Tab.Screen name="Profile" component={UserStack} />
       </Tab.Navigator>
