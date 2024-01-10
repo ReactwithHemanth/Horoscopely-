@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/Assets/fonts/Molle-Italic.ttf",
+      "sha1": "5fcf119ba30f1e44d50a2c2d0b92ed9045187261"
+    },
+    {
+      "path": "src/Assets/fonts/Molle-Regular.ttf",
+      "sha1": "b39bbb7aa72936676ce3d7b5c362ec8eae4c6fa9"
+    },
+    {
+      "path": "src/Assets/fonts/SFProDisplay-Regular.ttf",
+      "sha1": "00e029c09a98fd014a7a1013e7efe357b40da352"
+    }
+  ]
+}
