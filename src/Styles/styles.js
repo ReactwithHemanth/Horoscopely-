@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: SPACING * 2,
   },
+  aligncenter: {flex: 1, alignItems: 'center', justifyContent: 'center'},
   CWidth: {width: '100%', padding: SPACING * 2},
   CRow: {flex: 1, flexDirection: 'row'},
   Cmargin: {margin: 20},
@@ -63,6 +64,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: dgl * 0.35,
   },
+  loadingView1: {width: width, height: height + 30, position: 'absolute'},
+  loadingText: {fontSize: 20, color: '#FFF'},
   titleText2: {fontSize: 18, paddingLeft: SPACING},
   loading: {
     position: 'absolute',
@@ -522,7 +525,7 @@ const styles = StyleSheet.create({
     paddingLeft: SPACING,
   },
   customFooter: {
-    // backgroundColor: 'red',
+    backgroundColor: Color.shadedWhite,
     width: width,
     paddingHorizontal: dgl * 0.05,
     paddingVertical: dgl * 0.02,

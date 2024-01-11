@@ -155,10 +155,10 @@ export const LoadingView = props => {
   });
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={styles.aligncenter}>
       <Image
         source={require('../Assets/loading/bgimage.png')}
-        style={{width: width, height: height + 30, position: 'absolute'}}
+        style={styles.loadingView1}
         resizeMode="cover"
       />
       <Image
@@ -172,7 +172,7 @@ export const LoadingView = props => {
       </View>
 
       <View style={styles.loading}>
-        <Text style={{fontSize: 20, color: '#FFF'}}>Loading...</Text>
+        <Text style={styles.loadingText}>Loading...</Text>
       </View>
       {/* <Text style={styles.text1}>Welcome {user?.email}</Text>
     <Text onPress={handleSignOut} style={styles.text1}>

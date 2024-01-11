@@ -27,9 +27,9 @@ const dgl = screenDiagonal();
 const ManageIntrest = () => {
   const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
     useContext(MainContext);
-  // useEffect(() => {
-  //   setFooterVisible(false);
-  // }, []);
+  useEffect(() => {
+    setFooterVisible(false);
+  }, []);
   const data = [
     {id: 0, title: 'Profession', value: 'Profession'},
     {id: 1, title: 'Personal Life', value: 'Personal'},
@@ -39,8 +39,8 @@ const ManageIntrest = () => {
     {id: 5, title: 'Emotion', value: 'Emotion'},
   ];
   const [selectedItem, setselectedItem] = useState([]);
+
   const selectItems = item => {
-    console.log(item);
     if (selectedItem.includes(item.id)) {
       const newList = selectedItem.filter(listItem => listItem !== item.id);
       return setselectedItem([...newList]);
