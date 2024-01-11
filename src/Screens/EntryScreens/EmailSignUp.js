@@ -19,18 +19,20 @@ import {
 import auth from '@react-native-firebase/auth';
 import {RnStore} from '../../hooks/RnstoreHook';
 import {Toast, screenDiagonal} from '../../Utils/helperFunctions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const dgl = screenDiagonal();
 
 const EmailSignUp = ({navigation}) => {
   const [email, setEmail] = useState('infoappmaker@gmail.com');
-  const [password, setPassword] = useState('As@12345');
   const [loading, setloading] = useState(false);
 
   const signInFn = async () => {
     setloading(true);
     try {
       // const res = await auth().signInWithEmailAndPassword(email, password);
-      constres = await auth().signInAnonymously();
+      const res = await auth().signInAnonymously();
+      if (res)
+        Toast('sign In Succesfull', 'Your Email Address has been verified');
     } catch (error) {
       if (error.code === 'auth/operation-not-allowed') {
         console.log('Enable anonymous in your firebase console.');
@@ -44,31 +46,21 @@ const EmailSignUp = ({navigation}) => {
       setloading(false);
     }
   };
-  const handleGetStarted = async payload => {
-    try {
-      const res = await AsyncStorage.setItem('onboardingShown', payload);
-      if (res) navigation.navigate('Home'); // Change to your Home screen navigator
-    } catch (error) {
-      console.error('Error saving to AsyncStorage:', error);
-    }
-  };
 
-  const signUpFn = async () => {
-    setloading(true);
-    try {
-      const res = await auth().createUserWithEmailAndPassword(email, password);
-    } catch (error) {
-      Alert.alert('sign Up failed: ' + error.message);
-    } finally {
-      setloading(false);
-    }
-  };
-
-  const _goBack = () => {
-    navigation.goBack();
-  };
+  //Sign Up function
+  // const signUpFn = async () => {
+  //   setloading(true);
+  //   try {
+  //     const res = await auth().createUserWithEmailAndPassword(email, password);
+  //   } catch (error) {
+  //     Alert.alert('sign Up failed: ' + error.message);
+  //   } finally {
+  //     setloading(false);
+  //   }
+  // };
 
   if (loading) return <LoadingView />;
+
   return (
     <View style={styles.Container}>
       <FirstTheme item={'topSvg'} />
@@ -77,8 +69,7 @@ const EmailSignUp = ({navigation}) => {
         style={{width: dgl * 0.21}}
       />
       <KeyboardAvoidingView behavior="padding">
-        <Text style={styles.titleText}>Email</Text>
-
+        <Text style={styles.titleText}>Email Address</Text>
         <TextInput
           placeholder="Enter your email address"
           style={styles.input}
@@ -92,7 +83,9 @@ const EmailSignUp = ({navigation}) => {
         ) : (
           <>
             <LinearCommonButton title={'Login'} onPress={signInFn} />
-            <TouchableOpacity style={{alignItems: 'center'}} onPress={_goBack}>
+            <TouchableOpacity
+              style={{alignItems: 'center'}}
+              onPress={() => navigation.goBack()}>
               <Text style={styles.SkipText}>BACK TO SIGNUP OPTIONS</Text>
             </TouchableOpacity>
           </>

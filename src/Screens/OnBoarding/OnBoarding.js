@@ -18,7 +18,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {width} from '../../Utils/helperFunctions';
+import {screenDiagonal, width} from '../../Utils/helperFunctions';
 import styles, {SPACING} from '../../Styles/styles';
 import {
   FirstTheme,
@@ -40,6 +40,7 @@ const OnBoarding = ({navigation, route}) => {
   const [email, setEmail] = useState(user?.email);
   const [number, setNumber] = useState(0);
   const [Dob, setDob] = useState(new Date());
+  const [Pob, setPob] = useState('');
   const [Tob, setTob] = useState(new Date());
   const [EnablePush, setEnablePush] = useState(true);
   const [gender, setGender] = useState(genderArray[0].value);
@@ -49,6 +50,8 @@ const OnBoarding = ({navigation, route}) => {
     RelationShipStatus[0]?.value,
   );
   // const [ref, setRef] = useState();
+  const dgl = screenDiagonal();
+
   const ref = useRef();
   const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
     useContext(MainContext);
@@ -59,33 +62,22 @@ const OnBoarding = ({navigation, route}) => {
   const CARD_WIDTH = Dimensions.get('window').width * 0.8;
   const CARD_HEIGHT = Dimensions.get('window').height * 0.7;
   const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 5;
-  /**
-   * * TODO:
-   * Refactor Required
-   *
-   * * CASE:
-   * if user uid is already saved navigate to HomePage
-   * if user uid is changes in every logg out state
-   * if user uid is not used before store itemn
-   *
-   * initalise :
-   * user initialted
-   * on login in succes set isFirstLunched = true
-   * if user isFirstLunched true show onboarding
-   * else show users stack
-   * if user logged in show footer , so we can avoid showing navigating without authentication
-   */
+
   useEffect(() => {
     setFooterVisible();
-    setFirstLaunched();
+    // CheckLaunchedFirst();
   }, []);
 
+  //First launched && check userdata is already stored
   const CheckLaunchedFirst = async () => {
+    //userdata is already stored
     const user = await RnGet('userData');
-    if (user.name != '') {
+    // console.log(user, 'first');
+    if (user) {
+      setFirstLaunched(false);
       navigation.navigate('Home');
     } else {
-      handleGetStarted();
+      handleGetStarted(user);
     }
   };
 
@@ -97,13 +89,17 @@ const OnBoarding = ({navigation, route}) => {
         email: email,
         number: number,
         DOB: Dob,
+        POB: Pob,
         TOB: Tob,
         gender: gender,
-        RelationShip: RelationShip,
+        relationShip: RelationShip,
       };
-      // const status = await RnStore('userData', data);
-      setFirstLaunched(true);
-      navigation.navigate('Home');
+      const status = await RnStore('userData', data);
+      console.log(status, '--status--->>>>');
+      if (status) {
+        setFirstLaunched(false);
+        navigation.navigate('Home');
+      }
     } catch (error) {
       console.error('Error handleGetStarted', error);
     }
@@ -143,6 +139,7 @@ const OnBoarding = ({navigation, route}) => {
     {value: 6, text: 'Section 2'},
     {value: 7, text: 'Section 2'},
     {value: 8, text: 'Section 2'},
+    {value: 9, text: 'Section 2'},
   ];
   return (
     <View style={styles1.container2}>
@@ -250,7 +247,12 @@ const OnBoarding = ({navigation, route}) => {
               dataSourceCords[4] = layout.x; // we store this offset values in an array
             }}>
             <Text style={styles.titleText}>Date of birth</Text>
-            <DatePicker date={Dob} onDateChange={setDob} mode={'date'} />
+            <DatePicker
+              date={Dob}
+              onDateChange={setDob}
+              mode={'date'}
+              style={{width: width - 20}}
+            />
 
             {/* <TextInput placeholder="Email" style={styles.input} /> */}
             <LinearCommonButton
@@ -260,7 +262,6 @@ const OnBoarding = ({navigation, route}) => {
               }}
             />
           </View>
-
           <View
             style={styles.cardSpace}
             key={5}
@@ -268,8 +269,13 @@ const OnBoarding = ({navigation, route}) => {
               const layout = event.nativeEvent.layout;
               dataSourceCords[5] = layout.x; // we store this offset values in an array
             }}>
-            <Text style={styles.titleText}>Place of birth</Text>
-            <DatePicker date={Tob} onDateChange={setTob} mode={'time'} />
+            <Text style={styles.titleText}>Time of birth</Text>
+            <DatePicker
+              date={Tob}
+              onDateChange={setTob}
+              mode={'time'}
+              style={{width: width - 20}}
+            />
 
             <LinearCommonButton
               title={'Submit'}
@@ -285,6 +291,30 @@ const OnBoarding = ({navigation, route}) => {
             onLayout={event => {
               const layout = event.nativeEvent.layout;
               dataSourceCords[6] = layout.x; // we store this offset values in an array
+            }}>
+            <Text style={styles.titleText}>Place of birth</Text>
+
+            <TextInput
+              autoFocus
+              placeholder="Place of birth"
+              style={styles.input}
+              value={Pob}
+              onChangeText={e => setPob(e)}
+            />
+            <LinearCommonButton
+              title={'Submit'}
+              onPress={() => {
+                scrollHandler(7);
+              }}
+            />
+          </View>
+
+          <View
+            style={styles.cardSpace}
+            key={7}
+            onLayout={event => {
+              const layout = event.nativeEvent.layout;
+              dataSourceCords[7] = layout.x; // we store this offset values in an array
             }}>
             <Text style={styles.titleText}>Gender</Text>
             <View
@@ -325,17 +355,17 @@ const OnBoarding = ({navigation, route}) => {
             <LinearCommonButton
               title={'Submit'}
               onPress={() => {
-                scrollHandler(7);
+                scrollHandler(8);
               }}
             />
           </View>
 
           <View
             style={styles.cardSpace}
-            key={7}
+            key={8}
             onLayout={event => {
               const layout = event.nativeEvent.layout;
-              dataSourceCords[7] = layout.x; // we store this offset values in an array
+              dataSourceCords[8] = layout.x; // we store this offset values in an array
             }}>
             <Text style={styles.titleText}>Place of birth</Text>
 
@@ -343,23 +373,22 @@ const OnBoarding = ({navigation, route}) => {
               style={{
                 padding: SPACING,
                 flexDirection: 'row',
+                width: width - 20,
                 flexWrap: 'wrap',
+                justifyContent: 'space-evenly',
+                alignSelf: 'center',
               }}>
               {RelationShipStatus.map((item, index) => {
                 return (
-                  <>
-                    <View
-                      style={{
-                        borderColor: Color.primaryBlue,
-                        borderWidth: 1,
-                        padding: 2,
-                        marginVertical: 10,
-                        borderRadius: 20,
-                        marginLeft: 10,
-                      }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      width: dgl * 0.16,
+                    }}>
+                    <View style={styles.radiostyle}>
                       <TouchableOpacity
                         style={{
-                          padding: 8,
+                          padding: dgl * 0.008,
                           backgroundColor:
                             index == RelationShipIndex ? '#B342F2' : '#FFFF',
                           borderRadius: 20,
@@ -376,7 +405,7 @@ const OnBoarding = ({navigation, route}) => {
                       }}>
                       {item.value}
                     </Text>
-                  </>
+                  </View>
                 );
               })}
             </View>
@@ -388,17 +417,17 @@ const OnBoarding = ({navigation, route}) => {
                 // }
 
                 // setindex(index + 1);
-                scrollHandler(8);
+                scrollHandler(9);
               }}
             />
           </View>
 
           <View
             style={styles.cardSpace}
-            key={8}
+            key={9}
             onLayout={event => {
               const layout = event.nativeEvent.layout;
-              dataSourceCords[8] = layout.x; // we store this offset values in an array
+              dataSourceCords[9] = layout.x; // we store this offset values in an array
             }}>
             <View
               style={{
@@ -442,6 +471,7 @@ const OnBoarding = ({navigation, route}) => {
             {scrollToIndex}/{sectionNames.length - 1}
           </Text>
         </View>
+
         <View
           style={[
             styles1.paginagtionView,

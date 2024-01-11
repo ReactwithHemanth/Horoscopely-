@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* AwesomeProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AwesomeProjectTests.m */; };
 		143FE66F9B66EC681BE01C76 /* Pods_AwesomeProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BD5DA083AF5820B53F28E42 /* Pods_AwesomeProject.framework */; };
+		5F23E3F013AF4296B3E79E0E /* Molle-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46BC74DC7A7E40A781C27D2A /* Molle-Regular.ttf */; };
 		80475A2C2B28C5330017A5E6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 80475A262B28C5330017A5E6 /* main.m */; };
 		80475A2E2B28C5330017A5E6 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 80475A282B28C5330017A5E6 /* AppDelegate.mm */; };
 		807CB6202B29674D00ED39A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 807CB61F2B29674D00ED39A5 /* GoogleService-Info.plist */; };
 		829EB1700151105080160EFF /* Pods_AwesomeProject_AwesomeProjectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3978776737E9801C36FA3450 /* Pods_AwesomeProject_AwesomeProjectTests.framework */; };
+		E1520DA9D8AC413D8AD97217 /* SFProDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02E6AAFC1DAF4A508903E5D8 /* SFProDisplay-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,10 +32,12 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* AwesomeProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeProjectTests.m; sourceTree = "<group>"; };
 		00FC4AC7CEC195D0ADE4076A /* Pods-AwesomeProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject.release.xcconfig"; path = "Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject.release.xcconfig"; sourceTree = "<group>"; };
+		02E6AAFC1DAF4A508903E5D8 /* SFProDisplay-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProDisplay-Regular.ttf"; path = "../src/Assets/fonts/SFProDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		0BD5DA083AF5820B53F28E42 /* Pods_AwesomeProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AwesomeProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* AwesomeProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwesomeProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FFFCE8A85A93346E40659BE /* Pods-AwesomeProject-AwesomeProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject-AwesomeProjectTests.release.xcconfig"; path = "Target Support Files/Pods-AwesomeProject-AwesomeProjectTests/Pods-AwesomeProject-AwesomeProjectTests.release.xcconfig"; sourceTree = "<group>"; };
 		3978776737E9801C36FA3450 /* Pods_AwesomeProject_AwesomeProjectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AwesomeProject_AwesomeProjectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		46BC74DC7A7E40A781C27D2A /* Molle-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Molle-Regular.ttf"; path = "../src/Assets/fonts/Molle-Regular.ttf"; sourceTree = "<group>"; };
 		53F23709660A0ED7C18D5487 /* Pods-AwesomeProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject.debug.xcconfig"; path = "Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject.debug.xcconfig"; sourceTree = "<group>"; };
 		80475A232B28C5330017A5E6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		80475A242B28C5330017A5E6 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -98,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				B9E4036E8F0E419681A02FE2 /* Molle-Italic.ttf */,
+				46BC74DC7A7E40A781C27D2A /* Molle-Regular.ttf */,
+				02E6AAFC1DAF4A508903E5D8 /* SFProDisplay-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -292,6 +298,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				807CB6202B29674D00ED39A5 /* GoogleService-Info.plist in Resources */,
+				5F23E3F013AF4296B3E79E0E /* Molle-Regular.ttf in Resources */,
+				E1520DA9D8AC413D8AD97217 /* SFProDisplay-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

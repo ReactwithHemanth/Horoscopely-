@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, findNodeHandle} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Firebase_app} from '../../Confg/Firebase';
 import styles from '../../Styles/styles';
 import {Methods} from '../../Utils/Dummy';
@@ -20,27 +20,17 @@ import appleAuth, {
 } from '@invertase/react-native-apple-authentication';
 import {Color} from '../../Utils/Color';
 import {RnGet, RnStore} from '../../hooks/RnstoreHook';
+import {MainContext} from '../../Confg/Context';
 const colorArray = ['#ba55d3', '#00bfff', '#f8f8ff', '#4169e1', '#ffff'];
-/**
- *
- * @param {*} props
- * @returns
- * Flow:
- * Sign in With Email
- * * Success
- * * Data collection
- * * [Name, Email : Need Changes in design, DOB, TOB, POB, Gender, Martial Status, Push Notification, OTP Reciver ]
- * Sign in With google
- * Sign in With facebook
- * Sign in With phone Number
- * Sign in With Apple
- *
- */
 const dgl = screenDiagonal();
-const SignUp = props => {
-  useEffect(() => {
-    FirstLauched();
 
+const SignUp = props => {
+  const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
+    useContext(MainContext);
+
+  useEffect(() => {
+    //Is lauching app for first time...
+    setFirstLaunched(true);
     return appleAuth.onCredentialRevoked(async () => {
       console.warn(
         'If this function executes, User Credentials have been Revoked',
@@ -146,14 +136,10 @@ const SignUp = props => {
         />
         {!appleAuthAndroid.isSupported && (
           <AppleButton
-            buttonStyle={AppleButton.Style.WHITE_OUTLINE}
+            buttonStyle={AppleButton.Style.DEFAULT}
             buttonType={AppleButton.Type.SIGN_IN}
-            style={{
-              width: dgl * 0.35, // You must specify a width
-              height: 45, // You must specify a height
-              alignSelf: 'center',
-              // borderRadius: dgl * 0.35,
-            }}
+            cornerRadius={30}
+            style={styles.signupButton}
             onPress={() => onAppleButtonPress()}
           />
         )}

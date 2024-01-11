@@ -14,7 +14,11 @@ import Home from '../Screens/Footer/Home';
 import RemedyScreen from '../Screens/Footer/RemedyScreen';
 import Footer from '../Screens/Footer/Footer';
 import styles from '../Styles/styles';
-import {NotificationSvg, SettingSvg} from '../Components/SvgComponent';
+import {
+  NotificationSvg,
+  SettingSvg,
+  ShareSvg,
+} from '../Components/SvgComponent';
 import {Color} from '../Utils/Color';
 import CompatibilityScreen from '../Screens/Footer/CompatibilityScreen';
 import OnBoarding from '../Screens/OnBoarding/OnBoarding';
@@ -29,9 +33,17 @@ import CompatibilityDetails from '../Screens/Footer/compatibilityDetails';
 import {MainContext} from '../Confg/Context';
 import {LogoTitle} from '../Components/CustomComponents';
 import {RnGet} from '../hooks/RnstoreHook';
+import ManageIntrest from '../Screens/ActionSheetScreens/ManageIntrest';
+import InviteFriend from '../Screens/ActionSheetScreens/InviteFriend';
+import ManagePayment from '../Screens/ActionSheetScreens/ManagePayment';
+import Profile from '../Screens/ActionSheetScreens/Profile';
+import ViewReports from '../Screens/ActionSheetScreens/ViewReports';
+import Share from 'react-native-share';
+import PlanetScreen from '../Screens/ProfileScreen/PlanetScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+// const Top=createMaterialTopTabNavigator();
 const dgl = screenDiagonal();
 
 const Notify = () => {
@@ -55,17 +67,58 @@ const SettingsButton = () => {
     <TouchableOpacity
       style={styles.headerContainer}
       onPress={() => navigation.navigate('Settings')}>
-      {/* Your icon */}
-
       <SettingSvg fill={Color.primaryBlue} />
     </TouchableOpacity>
   );
 };
 
+const ShareButton = () => {
+  const navigation = useNavigation();
+  return (
+    <TouchableOpacity
+      style={styles.headerContainer}
+      onPress={() =>
+        Share.open({url: 'https://horoscope.ly' + '/mbaksmhdfgab'})
+      }>
+      <ShareSvg fill={Color.shadedWhite} />
+    </TouchableOpacity>
+  );
+};
+
+const ProfileStack = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Planet" component={PlanetScreen} />
+      <Tab.Screen name="Houses" component={PlanetScreen} />
+      <Tab.Screen name="Traits" component={PlanetScreen} />
+    </Tab.Navigator>
+  );
+};
 const UserStack = ({navigation, route}) => {
   const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
     useContext(MainContext);
+  const [DetailsExist, setDetailsExist] = useState(false);
 
+  useEffect(() => {
+    CheckLaunchedFirst();
+  }, []);
+
+  const CheckLaunchedFirst = async () => {
+    const user = await RnGet('userData');
+    if (user?.name != '') {
+      setDetailsExist(true);
+      // navigation.navigate('Home');
+      setFirstLaunched(false);
+    } else {
+      setFirstLaunched(false);
+    }
+  };
+  const customOptions = {
+    headerShown: true,
+    headerTitleStyle: {color: Color.black},
+    headerTintColor: Color.primaryBlue,
+    // headerRight: () => <LogoTitle />,
+  };
   const defaultOptions = {
     headerShown: true,
     headerTransparent: true,
@@ -75,7 +128,6 @@ const UserStack = ({navigation, route}) => {
     headerTitleStyle: {color: Color.white},
     headerTintColor: Color.primaryBlue,
   };
-
   return (
     <Stack.Navigator
       initialRouteName={FirstLaunched ? 'onBoarding' : 'Home'}
@@ -84,6 +136,7 @@ const UserStack = ({navigation, route}) => {
         headerBack: {color: Color.darkViolet},
         headerBackTitleVisible: false,
         headerTintColor: Color.shadedWhite,
+        headerTitleStyle: {fontFamily: 'Molle-Italic'},
       }}>
       <Stack.Screen
         name="onBoarding"
@@ -117,12 +170,7 @@ const UserStack = ({navigation, route}) => {
       <Stack.Screen
         name="Notification"
         component={Notification}
-        options={{
-          headerShown: true,
-          headerTitleStyle: {color: Color.black},
-          headerTintColor: Color.primaryBlue,
-          headerRight: () => <SettingsButton />,
-        }}
+        options={{...customOptions, headerRight: () => <SettingsButton />}}
       />
       <Stack.Screen
         name="Settings"
@@ -137,7 +185,6 @@ const UserStack = ({navigation, route}) => {
           headerLeft: () => <></>,
         }}
       />
-
       <Stack.Screen
         name="Remedy"
         component={RemedyScreen}
@@ -146,32 +193,43 @@ const UserStack = ({navigation, route}) => {
       <Stack.Screen
         name="FocusDay"
         component={FocusDay}
-        options={{
-          headerShown: true,
-          headerTitleStyle: {color: Color.black},
-          headerTintColor: Color.primaryBlue,
-          // headerRight: () => <LogoTitle />,
-        }}
+        options={{...customOptions}}
       />
       <Stack.Screen
         name="CalenderAdvice"
         component={CalenderAdvice}
-        options={{
-          headerShown: true,
-          headerTitleStyle: {color: Color.black},
-          headerTintColor: Color.primaryBlue,
-          // headerRight: () => <LogoTitle />,
-        }}
+        options={{...customOptions}}
       />
       <Stack.Screen
         name="CompatibilityDetails"
         component={CompatibilityDetails}
-        options={{
-          headerShown: true,
-          headerTitleStyle: {color: Color.black},
-          headerTintColor: Color.primaryBlue,
-          // headerRight: () => <LogoTitle />,
-        }}
+        options={{...defaultOptions}}
+      />
+      <Stack.Screen
+        name="ManageIntrest"
+        component={ManageIntrest}
+        options={{...customOptions}}
+      />
+      <Stack.Screen
+        name="InviteFriend"
+        component={InviteFriend}
+        options={{...customOptions}}
+      />
+      <Stack.Screen
+        name="ManagePayment"
+        component={ManagePayment}
+        options={{...customOptions}}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        // component={ProfileStack}
+        options={{...defaultOptions, headerRight: () => <ShareButton />}}
+      />
+      <Stack.Screen
+        name="ViewReports"
+        component={ViewReports}
+        options={{...customOptions}}
       />
     </Stack.Navigator>
   );
@@ -183,7 +241,7 @@ const LoggedStack = () => {
       <Tab.Navigator
         tabBar={props => <Footer {...props} />}
         screenOptions={{headerShown: false}}>
-        <Tab.Screen name="Profile" component={UserStack} />
+        <Tab.Screen name="UserStack" component={UserStack} />
       </Tab.Navigator>
     </NavigationContainer>
   );

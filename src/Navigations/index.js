@@ -3,6 +3,7 @@ import AuthStack from './AuthStack';
 import {useAuth} from '../hooks/useAuth';
 import LoggedStack from './UserStack';
 import {MainContext} from '../Confg/Context';
+import OnBoarding from '../Screens/OnBoarding/OnBoarding';
 /**
  * is it anonymous USER?
  * Do data Collection required on every time
@@ -10,14 +11,9 @@ import {MainContext} from '../Confg/Context';
  */
 export default AppNavigation = () => {
   const user = useAuth();
-  const [FirstLaunched, setcheckLauched] = useState(false);
-  const [FooterVisibility, setShowFooter] = useState(true);
-  const setFirstLaunched = () => {
-    setcheckLauched(!FirstLaunched);
-  };
-  const setFooterVisible = () => {
-    setShowFooter(!FooterVisibility);
-  };
+  const [FirstLaunched, setFirstLaunched] = useState(false);
+  const [FooterVisibility, setFooterVisible] = useState(true);
+
   return (
     <MainContext.Provider
       value={{

@@ -16,13 +16,14 @@ import styles, {SPACING} from '../Styles/styles';
 import {HIcon, SignUpTheme3} from './SvgComponent';
 import {height, screenDiagonal, width} from '../Utils/helperFunctions';
 import Animated from 'react-native-reanimated';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 const dgl = screenDiagonal();
 export const LinearCommonButton = props => {
   return (
     <LinearGradient
       colors={['#32A0EE', '#9713C6']}
       start={{x: 0, y: 0}}
-      style={styles.LinearBotton}>
+      style={props.style ?? styles.LinearBotton}>
       <TouchableOpacity onPress={props.onPress}>
         <Text style={styles.TextWhite}>{props.title}</Text>
       </TouchableOpacity>
@@ -154,10 +155,10 @@ export const LoadingView = props => {
   });
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={styles.aligncenter}>
       <Image
         source={require('../Assets/loading/bgimage.png')}
-        style={{width: width, height: height + 30, position: 'absolute'}}
+        style={styles.loadingView1}
         resizeMode="cover"
       />
       <Image
@@ -171,7 +172,7 @@ export const LoadingView = props => {
       </View>
 
       <View style={styles.loading}>
-        <Text style={{fontSize: 20, color: '#FFF'}}>Loading...</Text>
+        <Text style={styles.loadingText}>Loading...</Text>
       </View>
       {/* <Text style={styles.text1}>Welcome {user?.email}</Text>
     <Text onPress={handleSignOut} style={styles.text1}>
@@ -181,6 +182,23 @@ export const LoadingView = props => {
   );
 };
 
+export const LoadingView2 = props => {
+  const [isLoading, setisLoading] = useState(true);
+  useEffect(() => {
+    const Timeout = setTimeout(() => {
+      setisLoading(false);
+    });
+    return () => clearTimeout(Timeout);
+  });
+
+  return (
+    <ImageBackground
+      source={require('../Assets/Splash_screen/BgScreen.png')}
+      style={styles.imageBgView}
+    />
+    // style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}></Image>
+  );
+};
 export const ImageBackgroundView = props => {
   const {style, children} = props;
   return (
@@ -228,7 +246,7 @@ export const Backdrop = ({movies, scrollX}) => {
           const translateX = scrollX.interpolate({
             inputRange: [(index - 2) * ITEM_SIZE, (index - 1) * ITEM_SIZE],
             outputRange: [0, width],
-            // extrapolate:'clamp'
+            // extrapolate: 'clamp',
           });
           return (
             <Animated.View

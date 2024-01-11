@@ -73,6 +73,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Molle-Italic.ttf</string>
+		<string>Molle-Regular.ttf</string>
+		<string>SFProDisplay-Regular.ttf</string>
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>

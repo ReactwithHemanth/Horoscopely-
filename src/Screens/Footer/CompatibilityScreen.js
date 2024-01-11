@@ -7,13 +7,23 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styles, {SPACING} from '../../Styles/styles';
-import {screenDiagonal, width} from '../../Utils/helperFunctions';
+import {height, screenDiagonal, width} from '../../Utils/helperFunctions';
 import {data} from '../../Utils/Dummy';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Color} from '../../Utils/Color';
 import {CompatibilityArrow} from '../../Components/SvgComponent';
+import Carousel from 'react-native-reanimated-carousel';
+import LinearGradient from 'react-native-linear-gradient';
+import {useFocusEffect} from '@react-navigation/native';
+import {MainContext} from '../../Confg/Context';
 const dgl = screenDiagonal();
 const CompatibilityScreen = ({navigation}) => {
   /**
@@ -29,13 +39,19 @@ const CompatibilityScreen = ({navigation}) => {
    *
    */
   const ref = useRef(null);
-  const ref2 = useRef(null);
+  // const ref2 = useRef(null);
   const [index, setindex] = useState(0);
   const [Myindex, setMyindex] = useState(3);
+  const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
+    useContext(MainContext);
   useEffect(() => {
     handleScrollIndex();
   }, [index, Myindex, navigation]);
-
+  useFocusEffect(
+    useCallback(() => {
+      setFooterVisible(true);
+    }, []),
+  );
   const handleScrollIndex = () => {
     ref.current?.scrollToIndex({
       index: index == 8 ? 0 : index,
@@ -43,75 +59,77 @@ const CompatibilityScreen = ({navigation}) => {
       viewOffset: 0.5 || 1 ? 0 : SPACING,
     });
   };
-
+  const data = [
+    {id: 1, img: require('../../Assets/Compatibility/aries.png')},
+    {id: 1, img: require('../../Assets/Compatibility/xsscs2.png')},
+    {id: 1, img: require('../../Assets/Compatibility/aries.png')},
+    {id: 1, img: require('../../Assets/Compatibility/aries.png')},
+  ];
   return (
     <ImageBackground
       source={require('../../Assets/Compatibility/ComponentBG3.png')}
       resizeMode="cover"
-      style={styles.imageBgView}>
+      style={styles.imageBgViewCustom}>
       <SafeAreaView style={styles.safeArea}>
-        <FlatList
-          ref={ref2}
-          initialScrollIndex={index}
-          style={{flexGrow: 0}}
+        <Carousel
+          loop
+          width={width}
+          height={dgl * 0.2}
+          autoPlay={false}
           data={data}
-          keyExtractor={item => item.key}
-          contentContainerStyle={{paddingLeft: SPACING}}
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          renderItem={({item, index: fIndex}) => {
-            return (
+          scrollAnimationDuration={1000}
+          style={{marginLeft: 30}}
+          onSnapToItem={index => setMyindex(index)}
+          renderItem={({item, index}) => (
+            <View>
               <View style={styles.zodiacBox}>
-                <View
+                <LinearGradient
+                  colors={[Color.lightBlue, Color.primaryBlue]}
                   style={[
                     styles.compatibilityContainer,
                     {
                       backgroundColor:
-                        Myindex === fIndex
+                        Myindex === index
                           ? Color.lightBlue
                           : Color.regularViolet,
                     },
                   ]}>
                   <Image
-                    source={require('../../Assets/Compatibility/aries.png')}
+                    source={item.img}
                     style={styles.zodiaImageView}
                     resizeMode="center"
                   />
-                  {Myindex === fIndex && (
+                  {Myindex === index && (
                     <View style={styles.zodiaActive}>
                       <Text style={{color: Color.white}}>You</Text>
                     </View>
                   )}
-                  {/* <DearSvg width={dgl * 0.1} height={dgl * 0.1} /> */}
-                </View>
+                </LinearGradient>
               </View>
-            );
-          }}
+              <View style={styles.compatibilityView}>
+                <Text style={styles.compatibilityText}>Capricus</Text>
+                <Text style={styles.compatibilitySubText}>Mar 22 - Apr 19</Text>
+              </View>
+            </View>
+          )}
         />
-        <FlatList
-          ref={ref}
-          initialScrollIndex={index}
-          style={{flexGrow: 0}}
-          data={data}
-          keyExtractor={item => item.key}
-          contentContainerStyle={{paddingLeft: SPACING}}
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          renderItem={({item, index: fIndex}) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  if (index == 0) {
-                    setindex(index + 1);
-                  }
-                  if (data.length - 1) {
-                    setindex(index + 1);
-                  }
-                }}
-                style={styles.flatListView1}>
-                <View
+
+        <Carousel
+          loop
+          width={width}
+          height={dgl * 0.2}
+          autoPlay={false}
+          data={[...new Array(6).keys()]}
+          scrollAnimationDuration={1000}
+          onSnapToItem={index => setindex(index)}
+          style={{marginLeft: 30, alignItems: 'center'}}
+          renderItem={({index: fIndex}) => (
+            <View style={{}}>
+              <View style={styles.zodiacBox}>
+                <LinearGradient
+                  colors={[Color.lightBlue, Color.primaryBlue]}
                   style={[
-                    styles.zodiaNormal,
+                    styles.compatibilityContainer,
                     {
                       backgroundColor:
                         index === fIndex
@@ -121,38 +139,46 @@ const CompatibilityScreen = ({navigation}) => {
                   ]}>
                   <Image
                     source={require('../../Assets/Compatibility/aries.png')}
-                    style={styles.zodiaImageView2}
+                    style={styles.zodiaImageView}
+                    resizeMode="center"
                   />
-                  {/* <DearSvg width={dgl * 0.1} height={dgl * 0.1} /> */}
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-          // getItemLayout={getItemLayoutfn}
+                  {/* {Myindex === fIndex && (
+                  <View style={styles.zodiaActive}>
+                    <Text style={{color: Color.white}}>You</Text>
+                  </View>
+                )} */}
+                </LinearGradient>
+              </View>
+              <View style={styles.compatibilityView}>
+                <Text style={styles.compatibilityText}>Capricus</Text>
+                <Text style={styles.compatibilitySubText}>Mar 22 - Apr 19</Text>
+              </View>
+            </View>
+          )}
         />
+        {/* </View> */}
+
         <View style={styles.arrowStyle}>
-          <View style={{transform: [{rotate: '180deg'}]}}>
-            <TouchableOpacity
-              onPress={() => {
-                if (index === 0) return;
+          <TouchableOpacity
+            style={{transform: [{rotate: '180deg'}]}}
+            onPress={() => {
+              if (index === 0) return;
 
-                setindex(index - 1);
-              }}>
-              <CompatibilityArrow />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                if (index === data.length - 1) {
-                  return;
-                }
+              setindex(index - 1);
+            }}>
+            <CompatibilityArrow />
+          </TouchableOpacity>
 
-                setindex(index + 1);
-              }}>
-              <CompatibilityArrow />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              if (index === data.length - 1) {
+                return;
+              }
+
+              setindex(index + 1);
+            }}>
+            <CompatibilityArrow />
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
       <View style={{flex: 1}}>

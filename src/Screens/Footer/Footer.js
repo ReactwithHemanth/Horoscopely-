@@ -12,6 +12,7 @@ import {screenDiagonal} from '../../Utils/helperFunctions';
 import {Image} from 'react-native-svg';
 import {ActionSheetView} from '../../Components/ActionSheet';
 import {MainContext} from '../../Confg/Context';
+import {getIcon} from '../../Components/GetIcon';
 
 const dgl = screenDiagonal();
 
@@ -38,6 +39,14 @@ const Footer = props => {
       console.error('Error signing out:', error);
     }
   };
+  const handleActionDown = async () => {
+    try {
+      // await auth().signOut();
+      actionSheetRef.current?.hide();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   const ItemRender = ({value}) => {
     const _navigate = value => {
@@ -54,25 +63,10 @@ const Footer = props => {
         key={value.id}
         style={styles.footerButton}
         onPress={() => _navigate(value.value)}>
-        {_getIcon(value)}
+        {getIcon(value, active)}
         <Text style={styles.buttonText}>{value.label}</Text>
       </TouchableOpacity>
     );
-  };
-
-  const _getIcon = value => {
-    const isActive =
-      active == value?.value ? Color.regularViolet : Color.lightViolet;
-    switch (value?.value) {
-      case 'Home':
-        return <SaturnSvg fill={isActive} />;
-      case 'Compatibility':
-        return <OrbitSvg fill={isActive} />;
-      case 'Remedy':
-        return <SolidSvg fill={isActive} />;
-      case 'More':
-        return <MoreSvg fill={isActive} />;
-    }
   };
 
   const LogoTitle = () => {
@@ -92,13 +86,20 @@ const Footer = props => {
 
   return (
     <>
-      <ActionSheetView ref={actionSheetRef} />
-      <View
-        style={[styles.footer, {display: FooterVisibility ? 'flex' : 'none'}]}>
-        {item.map((item, idx) => {
-          return <ItemRender key={idx} value={item} />;
-        })}
-      </View>
+      <ActionSheetView
+        ref={actionSheetRef}
+        navigation={navigation}
+        onPress={() => handleActionDown()}
+      />
+      {FooterVisibility ? (
+        <View style={[styles.footer]}>
+          {item.map((item, idx) => {
+            return <ItemRender key={idx} value={item} />;
+          })}
+        </View>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

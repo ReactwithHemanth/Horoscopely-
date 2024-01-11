@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {useAuth} from '../../hooks/useAuth';
 import {
   ArrowLeft,
@@ -14,27 +14,33 @@ import {
 } from '../../Components/CustomComponents';
 import LinearGradient from 'react-native-linear-gradient';
 import CircularProgress from 'react-native-circular-progress-indicator';
-import {screenDiagonal} from '../../Utils/helperFunctions';
-import styles from '../../Styles/styles';
+import styles, {SPACING} from '../../Styles/styles';
 import {Color} from '../../Utils/Color';
 import {dummies} from '../../Utils/Dummy';
-import auth from '@react-native-firebase/auth';
+import {MainContext} from '../../Confg/Context';
+import {useFocusEffect} from '@react-navigation/native';
 
-const dgl = screenDiagonal();
 const Home = ({navigation}) => {
   const user = useAuth();
+  const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
+    useContext(MainContext);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setFooterVisible(true);
+    }, []),
+  );
   const [loading, setLoading] = useState(false);
   const [SelectFilter, setSelectFilter] = useState('Today');
 
-  const handleSignOut = async () => {
-    try {
-      await auth().signOut();
-      console.log('Signed out successfully');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
+  // const handleSignOut = async () => {
+  //   try {
+  //     await auth().signOut();
+  //     console.log('Signed out successfully');
+  //   } catch (error) {
+  //     console.error('Error signing out:', error);
+  //   }
+  // };
 
   if (loading) {
     return <LoadingView />;
@@ -55,7 +61,6 @@ const Home = ({navigation}) => {
             <ArrowLeft fill={iconColor} />
           </View>
         </View>
-        {/* CalenderSvg */}
       </TouchableOpacity>
     );
   };
@@ -65,22 +70,24 @@ const Home = ({navigation}) => {
       <LinearGradient colors={['#32A0EE', '#9713C6']} style={styles.LinearView}>
         <View style={styles.LinearLineAlign}>
           <View>
-            <Text style={{fontSize: 20}}>Hello,harper</Text>
-            <Text>january 1 , 1998 09</Text>
+            <Text style={styles.nameText}>Hello,harper</Text>
+            <Text style={styles.dateText}>January 1 , 1998 09</Text>
           </View>
           <DearSvg fill={Color.shadedWhite} />
         </View>
         <View style={styles.LinearLineAlign}>
           <View style={styles.alignView}>
             <CircularProgress
-              value={60}
+              value={80}
               radius={30}
               duration={2000}
+              activeStrokeWidth={5}
+              inActiveStrokeWidth={4}
               progressValueColor={'#ecf0f1'}
+              progressValueStyle={{fontWeight: '400'}}
               valueSuffix={'%'}
               maxValue={100}
               activeStrokeColor={'#84CAFF'}
-              titleColor={'white'}
             />
             <Text style={styles.textMargin}> Love</Text>
           </View>
@@ -90,19 +97,24 @@ const Home = ({navigation}) => {
               radius={30}
               duration={2000}
               valueSuffix={'%'}
+              activeStrokeWidth={5}
+              inActiveStrokeWidth={4}
+              progressValueStyle={{fontWeight: '400'}}
               progressValueColor={'#ecf0f1'}
               activeStrokeColor={'#84CAFF'}
               maxValue={100}
-              titleColor={'white'}
             />
             <Text style={styles.textMargin}> Career</Text>
           </View>
           <View style={styles.alignView}>
             <CircularProgress
-              value={60}
+              value={50}
               radius={30}
               valueSuffix={'%'}
               duration={2000}
+              activeStrokeWidth={5}
+              inActiveStrokeWidth={4}
+              progressValueStyle={{fontWeight: '400'}}
               progressValueColor={Color.shadedWhite}
               activeStrokeColor={Color.lightBlue}
               maxValue={100}
