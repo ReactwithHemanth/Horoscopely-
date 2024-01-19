@@ -19,14 +19,19 @@ const ActionSheetView = forwardRef((props, ref) => {
   // const actionSheetRef = useRef(null);
   const offset = 150;
   const listItem = [
-    {id: 0, name: 'Subscription Packages', value: 'bell', nav: 'ManageIntrest'},
+    {
+      id: 0,
+      name: 'Subscription Packages',
+      value: 'bell',
+      nav: 'PackageDetails',
+    },
     {id: 1, name: 'Manage Interest', value: 'like', nav: 'ManageIntrest'},
     {id: 1, name: 'View Profile', value: 'CircleProfile', nav: 'Profile'},
     {id: 1, name: 'Invite Friends', value: 'invite', nav: 'ManageIntrest'},
-    {id: 1, name: 'View Reports', value: 'File', nav: 'ManageIntrest'},
+    {id: 1, name: 'View Reports', value: 'File', nav: 'ViewReports'},
     {id: 1, name: 'Manage Payment', value: 'payment', nav: 'ManageIntrest'},
     {id: 1, name: 'Settings', value: 'settings', nav: 'Settings'},
-    {id: 1, name: 'FAQs', value: 'FAQ', nav: 'ManageIntrest'},
+    {id: 1, name: 'FAQs', value: 'FAQ', nav: 'FAQ'},
     {id: 1, name: 'Help', value: 'help', nav: 'ManageIntrest'},
     {id: 1, name: 'Terms and Privacy', value: 'terms', nav: 'ManageIntrest'},
     {id: 1, name: 'App Info', value: 'info', nav: 'ManageIntrest'},

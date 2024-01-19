@@ -10,4 +10,5 @@ export const Color = {
   regularViolet: '#D04EFF',
   lightBlue: '#84CAFF',
   primaryBlue: '#328AEE',
+  shadedBlack: '#1B1D20',
 };

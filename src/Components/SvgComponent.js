@@ -7534,3 +7534,33 @@ export const FixedBoxSvg = props => (
     <Path transform="translate(4 6)" d="M0 0H6V2H0z" fill="#fff" />
   </Svg>
 );
+export const CloseSvg = props => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={15}
+    height={15}
+    viewBox="0 0 15 15"
+    {...props}>
+    <Path
+      d="M8.874 7.5l5.841-5.836A.973.973 0 0013.341.285L7.5 6.126 1.659.285A.973.973 0 00.285 1.664L6.126 7.5.285 13.341a.972.972 0 101.374 1.374L7.5 8.874l5.841 5.841a.972.972 0 101.374-1.374zm0 0"
+      fill="#1076eb"
+    />
+  </Svg>
+);
+export const MinusSvg = props => (
+  <Svg
+    width="800px"
+    height="800px"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}>
+    <Path
+      fill="none"
+      stroke="#000"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4 12L20 12"
+    />
+  </Svg>
+);

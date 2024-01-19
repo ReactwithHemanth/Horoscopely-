@@ -32,7 +32,9 @@ const Home = ({navigation}) => {
   );
   const [loading, setLoading] = useState(false);
   const [SelectFilter, setSelectFilter] = useState('Today');
-
+  const duration = 2000;
+  const ACTIVE_STROKE = 5;
+  const INACTIVE_STROKE = 4;
   // const handleSignOut = async () => {
   //   try {
   //     await auth().signOut();
@@ -80,11 +82,11 @@ const Home = ({navigation}) => {
             <CircularProgress
               value={80}
               radius={30}
-              duration={2000}
-              activeStrokeWidth={5}
-              inActiveStrokeWidth={4}
+              duration={duration}
+              activeStrokeWidth={ACTIVE_STROKE}
+              inActiveStrokeWidth={INACTIVE_STROKE}
               progressValueColor={'#ecf0f1'}
-              progressValueStyle={{fontWeight: '400'}}
+              progressValueStyle={styles.weight400}
               valueSuffix={'%'}
               maxValue={100}
               activeStrokeColor={'#84CAFF'}
@@ -95,11 +97,11 @@ const Home = ({navigation}) => {
             <CircularProgress
               value={60}
               radius={30}
-              duration={2000}
+              duration={duration}
               valueSuffix={'%'}
-              activeStrokeWidth={5}
-              inActiveStrokeWidth={4}
-              progressValueStyle={{fontWeight: '400'}}
+              activeStrokeWidth={ACTIVE_STROKE}
+              inActiveStrokeWidth={INACTIVE_STROKE}
+              progressValueStyle={styles.weight400}
               progressValueColor={'#ecf0f1'}
               activeStrokeColor={'#84CAFF'}
               maxValue={100}
@@ -111,10 +113,10 @@ const Home = ({navigation}) => {
               value={50}
               radius={30}
               valueSuffix={'%'}
-              duration={2000}
-              activeStrokeWidth={5}
-              inActiveStrokeWidth={4}
-              progressValueStyle={{fontWeight: '400'}}
+              duration={duration}
+              activeStrokeWidth={ACTIVE_STROKE}
+              inActiveStrokeWidth={INACTIVE_STROKE}
+              progressValueStyle={styles.weight400}
               progressValueColor={Color.shadedWhite}
               activeStrokeColor={Color.lightBlue}
               maxValue={100}
@@ -143,7 +145,14 @@ const Home = ({navigation}) => {
       </LinearGradient>
     );
   };
-
+  const FilterDate = () => {
+    return (
+      <View style={styles.filterStyle}>
+        <Text style={styles.filterTextStyle}>Today</Text>
+        <ArrowLeft fill={'#fff'} />
+      </View>
+    );
+  };
   return (
     <ImageBackgroundView>
       <LinearWidget />
@@ -159,13 +168,10 @@ const Home = ({navigation}) => {
               <CalenderSvg fill={Color.white} />
             </View>
           </View>
-          <View style={styles.filterStyle}>
-            <Text style={styles.filterTextStyle}>Today</Text>
-            <ArrowLeft fill={'#fff'} />
-          </View>
+          <FilterDate />
         </View>
         <View style={styles.Cpadding}>
-          <Text style={{color: Color.white}}>{dummies}</Text>
+          <Text style={styles.Desctext}>{dummies}</Text>
         </View>
         {/* </View> */}
       </View>

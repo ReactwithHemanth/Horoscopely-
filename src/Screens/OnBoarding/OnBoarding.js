@@ -27,7 +27,6 @@ import {
 } from '../../Components/CustomComponents';
 import {useAuth} from '../../hooks/useAuth';
 import DatePicker from 'react-native-date-picker';
-import {Picker} from '@react-native-picker/picker';
 import {Color} from '../../Utils/Color';
 import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
 import {RnGet, RnStore} from '../../hooks/RnstoreHook';
@@ -369,42 +368,24 @@ const OnBoarding = ({navigation, route}) => {
             }}>
             <Text style={styles.titleText}>Place of birth</Text>
 
-            <View
-              style={{
-                padding: SPACING,
-                flexDirection: 'row',
-                width: width - 20,
-                flexWrap: 'wrap',
-                justifyContent: 'space-evenly',
-                alignSelf: 'center',
-              }}>
+            <View style={styles.RelationShipStatusView}>
               {RelationShipStatus.map((item, index) => {
                 return (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      width: dgl * 0.16,
-                    }}>
+                  <View style={styles.RelationShipStatusView2}>
                     <View style={styles.radiostyle}>
                       <TouchableOpacity
-                        style={{
-                          padding: dgl * 0.008,
-                          backgroundColor:
-                            index == RelationShipIndex ? '#B342F2' : '#FFFF',
-                          borderRadius: 20,
-                        }}
+                        style={[
+                          styles.radioButton,
+                          {
+                            backgroundColor:
+                              index == RelationShipIndex ? '#B342F2' : '#FFFF',
+                          },
+                        ]}
                         onPress={() => changeRelationShipStatus(index)}
                       />
                     </View>
 
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        marginLeft: 10,
-                        marginVertical: 10,
-                      }}>
-                      {item.value}
-                    </Text>
+                    <Text style={styles.itemValue}>{item.value}</Text>
                   </View>
                 );
               })}
@@ -429,13 +410,7 @@ const OnBoarding = ({navigation, route}) => {
               const layout = event.nativeEvent.layout;
               dataSourceCords[9] = layout.x; // we store this offset values in an array
             }}>
-            <View
-              style={{
-                padding: SPACING,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
+            <View style={styles.pushNotificationSwitch}>
               <Text style={styles.titleText}>Push Notification</Text>
               <View>
                 <Switch
@@ -457,16 +432,8 @@ const OnBoarding = ({navigation, route}) => {
           </View>
         </>
       </ScrollView>
-      <View
-        style={{
-          position: 'absolute',
-          bottom: SPACING * 2,
-          width: width,
-          padding: SPACING * 2,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
-        <View style={{padding: SPACING}}>
+      <View style={styles.OnBoardingParts}>
+        <View style={styles.padded}>
           <Text>
             {scrollToIndex}/{sectionNames.length - 1}
           </Text>

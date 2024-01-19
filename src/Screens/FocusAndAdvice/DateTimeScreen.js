@@ -16,7 +16,6 @@ import {
 } from '../../Components/CustomComponents';
 import {useAuth} from '../../hooks/useAuth';
 import DatePicker from 'react-native-date-picker';
-import {Picker} from '@react-native-picker/picker';
 import {Color} from '../../Utils/Color';
 import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
 import styles, {SPACING} from '../../Styles/styles';

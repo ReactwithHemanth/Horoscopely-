@@ -285,3 +285,37 @@ export const Backdrop = ({movies, scrollX}) => {
 export const LogoTitle = () => {
   return <Image source={require('../Assets/Home/LogoHeader1.png')} />;
 };
+
+export const ErrorView = props => {
+  // const [isLoading, setisLoading] = useState(true);
+
+  return (
+    <View style={styles.aligncenter}>
+      <Image
+        source={require('../Assets/error/error.png')}
+        style={styles.ErrorView1}
+        resizeMode="contain"
+      />
+      {/* <Image
+        source={require('../Assets/loading/circleBg.png')}
+        style={{width: width / 2, height: height + 30, alignSelf: 'center'}}
+        resizeMode="contain"
+      /> */}
+
+      {/* <View style={styles.svgCenter}>
+        <HIcon width={50} height={50} />
+      </View> */}
+
+      <View style={styles.ErrorTextView}>
+        <Text style={styles.ErrorText}>Page Not Found...</Text>
+        <Text style={styles.ErrorSubText}>
+          This page is unknown or does not exist.
+        </Text>
+      </View>
+      {/* <Text style={styles.text1}>Welcome {user?.email}</Text>
+    <Text onPress={handleSignOut} style={styles.text1}>
+      SignOut {user?.email}
+    </Text> */}
+    </View>
+  );
+};

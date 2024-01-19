@@ -1,12 +1,7 @@
-import {View, Text, Image, Touchable, TouchableOpacity} from 'react-native';
-import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {
-  NavigationContainer,
-  getFocusedRouteNameFromRoute,
-  useNavigation,
-  useNavigationState,
-} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 //screens
@@ -28,7 +23,6 @@ import Settings from '../Screens/Notification/Settings';
 import DateTimeScreen from '../Screens/FocusAndAdvice/DateTimeScreen';
 import FocusDay from '../Screens/FocusAndAdvice/FocusDay';
 import CalenderAdvice from '../Screens/FocusAndAdvice/CalenderAdvice';
-import {useAuth} from '../hooks/useAuth';
 import CompatibilityDetails from '../Screens/Footer/compatibilityDetails';
 import {MainContext} from '../Confg/Context';
 import {LogoTitle} from '../Components/CustomComponents';
@@ -40,6 +34,9 @@ import Profile from '../Screens/ActionSheetScreens/Profile';
 import ViewReports from '../Screens/ActionSheetScreens/ViewReports';
 import Share from 'react-native-share';
 import PlanetScreen from '../Screens/ProfileScreen/PlanetScreen';
+import ReportDetails from '../Screens/ActionSheetScreens/ReportDetails';
+import FAQ from '../Screens/ActionSheetScreens/FAQ';
+import PackageDetails from '../Screens/ActionSheetScreens/PackageDetails';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -126,7 +123,7 @@ const UserStack = ({navigation, route}) => {
     headerBackTitleVisible: false,
     headerTintColor: Color.shadedWhite,
     headerTitleStyle: {color: Color.white},
-    headerTintColor: Color.primaryBlue,
+    // headerTintColor: Color.primaryBlue,
   };
   return (
     <Stack.Navigator
@@ -230,6 +227,21 @@ const UserStack = ({navigation, route}) => {
         name="ViewReports"
         component={ViewReports}
         options={{...customOptions}}
+      />
+      <Stack.Screen
+        name="ReportDetails"
+        component={ReportDetails}
+        options={{...defaultOptions}}
+      />
+      <Stack.Screen name="FAQ" component={FAQ} options={{...customOptions}} />
+      <Stack.Screen
+        name="PackageDetails"
+        component={PackageDetails}
+        options={{
+          ...defaultOptions,
+          title: 'Packages',
+          headerRight: () => <ShareButton />,
+        }}
       />
     </Stack.Navigator>
   );

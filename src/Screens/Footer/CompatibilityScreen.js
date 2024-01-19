@@ -1,5 +1,4 @@
 import {
-  FlatList,
   Image,
   ImageBackground,
   StyleSheet,
