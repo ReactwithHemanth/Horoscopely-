@@ -19,7 +19,6 @@ const Settings = ({navigation}) => {
   const [PaymentNotify, setPaymentNotify] = useState(false);
   const [EmailNotify, setEmailNotify] = useState(false);
   const [smsNotify, setSmsNotify] = useState(false);
-  // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const ItemList = props => {
     const {title, sub, onValueChanged, value} = props;

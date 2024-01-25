@@ -6,13 +6,15 @@ const {StyleSheet, Dimensions} = require('react-native');
 const {width, height} = Dimensions.get('window');
 const dgl = screenDiagonal();
 
-//common C
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
     backgroundColor: '#F7F6F8',
     justifyContent: 'center',
     padding: SPACING * 2,
+  },
+  ContainerF1: {
+    flex: 1,
   },
   InputContainer: {
     flexDirection: 'row',
@@ -33,6 +35,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   aligncenter: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+  subscriptionAd: {
+    flex: 4,
+    backgroundColor: Color.shadedViolet,
+    marginHorizontal: dgl * 0.02,
+    marginVertical: dgl * 0.05,
+    alignItems: 'center',
+    borderRadius: 10,
+    flexDirection: 'column',
+  },
   CWidth: {width: '100%', padding: SPACING * 2},
   CRow: {flex: 1, flexDirection: 'row'},
   Cmargin: {margin: 20},
@@ -70,8 +81,6 @@ const styles = StyleSheet.create({
   compatibilityView: {
     alignItems: 'center',
     padding: SPACING,
-    // right: 20,
-    // marginLeft: 20,
   },
   compatibilityText: {
     fontSize: 20,
@@ -100,7 +109,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: dgl * 0.3,
     height: height,
-    // backgroundColor: 'red',
   },
   ErrorText: {
     fontSize: 20,
@@ -116,6 +124,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontFamily: 'SFProDisplay-Regular',
   },
+  wentWrongText: {
+    fontSize: 20,
+    width: dgl * 0.34,
+    color: Color.black,
+    textAlign: 'center',
+    marginTop: 10,
+    fontFamily: 'SFProDisplay-Regular',
+  },
   loadingText: {fontSize: 20, color: Color.white},
   titleText2: {fontSize: 18, paddingLeft: SPACING},
   loading: {
@@ -124,15 +140,12 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   ErrorTextView: {
-    // position: 'absolute',
-    flex: 0.5,
+    flex: 1,
     bottom: 0,
     marginBottom: 50,
   },
   SubTitileTextNotifications: {
     fontSize: dgl * 0.015,
-    // marginTop: SPACING,
-    // color: Color.grey,
   },
   SubTitileDark: {
     fontSize: dgl * 0.016,
@@ -150,7 +163,6 @@ const styles = StyleSheet.create({
     right: 0,
   },
   ReportDetailsDesc: {flex: 1, padding: 20, marginTop: 20},
-  //HeaderReportDetailsDesc:{
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -223,11 +235,8 @@ const styles = StyleSheet.create({
     shadowOffset: {width: -2, height: 4},
   },
   DateTimeInput: {
-    // width: width / 4,
     height: 40,
     textAlign: 'left',
-    // marginLeft: 10,
-    // backgroundColor: 'red',
   },
   paginationView: {
     position: 'absolute',
@@ -246,22 +255,22 @@ const styles = StyleSheet.create({
   },
   input3: {
     height: 40,
-    // width: '100%',
+
     color: Color.grey,
     borderColor: 'gray',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    // paddingHorizontal: SPACING,
+
     borderRadius: 5,
     margin: 10,
   },
   Editinput3: {
     height: 40,
-    // width: '100%',
+
     color: Color.grey,
     borderColor: 'gray',
     borderWidth: StyleSheet.hairlineWidth,
     paddingHorizontal: SPACING,
-    // borderRadius: 5,
+
     backgroundColor: Color.shadedWhite,
     margin: 10,
   },
@@ -274,7 +283,6 @@ const styles = StyleSheet.create({
 
   //Custom
   LinearBotton: {
-    width: '90%',
     borderRadius: 20,
     margin: SPACING * 2,
     padding: SPACING,
@@ -289,6 +297,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: Color.shadedWhite,
     fontSize: 12,
+  },
+  TextWhiteS10: {
+    textAlign: 'center',
+    color: Color.shadedWhite,
+    fontSize: 10,
   },
   viewToRender: {
     position: 'absolute',
@@ -307,6 +320,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Color.shadedWhite,
     width: width / 3,
+  },
+  SemiBoldTextfw: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: Color.shadedWhite,
+    width: width,
   },
   normalText1: {
     fontSize: 15,
@@ -332,12 +351,11 @@ const styles = StyleSheet.create({
     height: height,
   },
   PackageBG: {
-    // backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
     width: dgl * 0.45,
     height: 470,
-    // position: 'absolute',
+
     top: 0,
   },
 
@@ -354,7 +372,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     right: 1,
-    // marginTop: SPACING,
   },
   filterStyle: {
     backgroundColor: '#CDA3EF',
@@ -389,7 +406,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   BoxView2: {
-    // width: dgl * 0.38,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -420,12 +436,9 @@ const styles = StyleSheet.create({
   cardSpace: {
     width: width,
     height: height / 3,
-    // marginRight: SPACING,
     padding: SPACING,
     margin: 5,
-    // alignSelf: 'center',
     borderRadius: 15,
-    // backgroundColor: 'red',
   },
   signupButton: {
     width: dgl * 0.35,
@@ -434,7 +447,6 @@ const styles = StyleSheet.create({
   },
   welcomeContainer: {
     alignItems: 'flex-start',
-    // alignSelf: 'flex-start',
     padding: SPACING,
     marginLeft: SPACING * 2,
   },
@@ -444,18 +456,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     height: 70,
-    // padding: 8,
-    backgroundColor: Color.darkViolet, // Set your preferred background color
+    backgroundColor: Color.darkViolet,
   },
   footerButton: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'red',
   },
   buttonText: {
     fontSize: 12,
-    color: Color.regularViolet, // Set your preferred text color
+    color: Color.regularViolet,
   },
   ItemListView: {
     flex: 1,
@@ -463,7 +473,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: SPACING * 2,
     backgroundColor: Color.white,
-    // marginBottom: SPACING,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBlockColor: Color.grey,
   },
@@ -514,7 +523,6 @@ const styles = StyleSheet.create({
   rowBox: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // width: dgl * 0.38,
   },
   rowBoxHeadline: {
     flexDirection: 'row',
@@ -522,7 +530,6 @@ const styles = StyleSheet.create({
     borderBottomColor: Color.white,
     borderBottomWidth: 1,
     padding: 10,
-    // width: dgl * 0.38,
   },
 
   zodiacBox: {
@@ -557,7 +564,6 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 2.6,
-    // backgroundColor: 'red',
     marginTop: 80,
     justifyContent: 'space-around',
   },
@@ -578,7 +584,6 @@ const styles = StyleSheet.create({
   zodiaImageView2: {width: dgl * 0.07, height: dgl * 0.07},
   zodiaActive: {
     backgroundColor: '#6F4ED0',
-    // alignItems: 'center',
     paddingHorizontal: 8,
     borderRadius: 10,
     marginBottom: 5,
@@ -620,7 +625,6 @@ const styles = StyleSheet.create({
   svgBox: {flex: 1, flexDirection: 'row'},
   filterTextStyle: {color: '#fff', width: dgl * 0.06},
   IntrestBox: {
-    // padding: SPACING,
     width: dgl * 0.15,
     height: dgl * 0.15,
     borderRadius: 20,
@@ -661,7 +665,6 @@ const styles = StyleSheet.create({
     padding: 2,
     marginVertical: 10,
     borderRadius: 20,
-    // marginLeft: 10,
   },
 
   MainBox: {
@@ -681,18 +684,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: SPACING,
-
-    // width: dgl * 0.38,
   },
-  // SubTitileText: {
-  //   fontSize: dgl * 0.015,
-  //   paddingLeft: SPACING,
-  //   color: Color.grey,
-  // },
+
   ColoumBox: {
     margin: SPACING,
     width: dgl * 0.38,
-    // flexDirection: 'column',
   },
   BoxTitle: {
     fontSize: 18,
@@ -720,13 +716,11 @@ const styles = StyleSheet.create({
     fontSize: dgl * 0.011,
     padding: SPACING,
     color: Color.lightBlue,
-    // fontFamily: '',
   },
   box: {
     width: dgl * 0.2,
     height: dgl * 0.01,
     marginVertical: 20,
-    // borderColor: '#000000',
     borderRadius: 7.0,
     backgroundColor: '#08407E',
   },
@@ -734,13 +728,11 @@ const styles = StyleSheet.create({
   ProfileText: {
     fontSize: 18,
     color: Color.white,
-    // fontFamily: 'SFProDisplay-Regular',
     fontWeight: '700',
   },
   TextAlign: {textAlign: 'center'},
   ProfileSubText: {
     fontSize: 13,
-    // fontFamily: 'SFProDisplay-Regular',
     color: Color.white,
     fontWeight: '300',
   },
@@ -801,7 +793,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: 'red',
     alignSelf: 'center',
     height: '100%',
     marginTop: 80,
@@ -860,12 +851,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: '#fff',
     borderTopEndRadius: 20,
     borderTopStartRadius: 20,
   },
   tables: {
-    // borderWidth: StyleSheet.hairlineWidth,
     borderColor: Color.shadedWhite,
     marginBottom: 10,
     marginTop: 30,
@@ -880,8 +869,6 @@ const styles = StyleSheet.create({
   },
   head: {
     height: 40,
-    // borderTopEndRadius: 30,
-    // borderTopStartRadius: 30,
   },
   headText: {textAlign: 'center', fontWeight: 'bold', color: 'white'},
   cellText: {textAlign: 'center', color: 'white'},
@@ -891,7 +878,6 @@ const styles = StyleSheet.create({
     width: width,
     flex: 0.08,
     backgroundColor: Color.white,
-    // position: 'absolute',
     top: 0,
     padding: 20,
   },
@@ -934,8 +920,6 @@ const styles = StyleSheet.create({
   },
   reportContainerStyle: {flexDirection: 'row', justifyContent: 'space-evenly'},
   FaqContainerStyle: {
-    // width: '100%',
-
     flexDirection: 'column',
     margin: 10,
     alignItems: 'center',
@@ -1008,7 +992,6 @@ const styles = StyleSheet.create({
     shadowColor: Color.grey,
     shadowOpacity: 1,
     shadowOffset: {width: -2, height: 4},
-    // top: 40,
   },
   packageDetailsView2: {
     width: dgl * 0.3,
@@ -1050,10 +1033,204 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   SecondContainer: {
-    width: dgl * 0.4,
+    width: dgl * 0.38,
     height: dgl * 0.28,
     borderRadius: 20,
+    padding: 20,
     backgroundColor: Color.white,
+  },
+  helpDesk: {
+    fontSize: 16,
+    marginTop: 10,
+    color: Color.shadedBlack,
+  },
+  helpDeskTitle: {fontSize: 20},
+  dot: {
+    width: 10,
+    height: 10,
+    backgroundColor: Color.primaryBlue,
+    borderRadius: 10,
+  },
+  dotWhite: {
+    width: 7,
+    height: 7,
+    backgroundColor: Color.white,
+    borderRadius: 10,
+  },
+  dotText: {
+    marginLeft: 10,
+  },
+  customDot: {
+    color: Color.white,
+    marginLeft: 10,
+  },
+  //make payment screeen
+  ViewPlanButton: {
+    width: dgl * 0.15,
+    height: 45,
+    borderRadius: 40,
+    backgroundColor: Color.shadedWhite,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Color.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowRadius: 26,
+    shadowColor: 'grey',
+    shadowOpacity: 0.8,
+    shadowOffset: {width: -2, height: 4},
+  },
+  MontlyPlanText: {
+    width: dgl * 0.1,
+    marginBottom: 20,
+    color: Color.white,
+  },
+  amountText: {
+    width: dgl * 0.2,
+    fontSize: dgl * 0.025,
+    paddingVertical: 8,
+    color: Color.white,
+    fontWeight: '600',
+  },
+  currentPlanText: {
+    marginBottom: 20,
+    fontWeight: '500',
+    fontSize: dgl * 0.018,
+    color: Color.white,
+  },
+  makePaymantView: {flexDirection: 'row', alignItems: 'center'},
+  LinearPaymentView: {
+    flex: 1,
+    width: width - 30,
+    height: dgl * 0.25,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    padding: 20,
+    borderRadius: 10,
+    borderWidth: 5,
+    borderColor: Color.primaryBlue,
+  },
+  outerTitle: {
+    fontSize: dgl * 0.02,
+    padding: 10,
+    color: Color.white,
+    marginTop: 20,
+  },
+  valueStye: {color: Color.white, fontSize: dgl * 0.018},
+  valueStyeMain: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    color: Color.white,
+  },
+  valueText: {
+    fontSize: dgl * 0.018,
+    width: dgl * 0.16,
+    marginLeft: dgl * 0.02,
+    color: Color.white,
+  },
+  valueBox: {
+    flex: 5,
+    backgroundColor: Color.whiteOpacityL2,
+    height: dgl * 0.2,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Color.white,
+    borderRadius: 20,
+    marginBottom: 20,
+  },
+  DotView: {flex: 1, flexDirection: 'row', alignItems: 'center'},
+  OrderedList: {
+    flex: 1,
+    width: dgl * 0.3,
+    backgroundColor: Color.whiteOpacityL2,
+    marginBottom: 20,
+    borderRadius: 10,
+    padding: 20,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Color.white,
+  },
+  modelOpcityBox: {
+    flex: 0.45,
+    width: dgl * 0.3,
+    backgroundColor: Color.whiteOpacityL2,
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  modelViewAlign: {
+    paddingLeft: 30,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  CloseSvgView: {
+    flex: 0.1,
+    width: dgl * 0.3,
+    marginBottom: 20,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  subscriptionContainer: {
+    flex: 0.1,
+    width: dgl * 0.3,
+    marginBottom: 20,
+    marginTop: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  flex4Container: {
+    flex: 0.45,
+    width: dgl * 0.3,
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  swtichView: {
+    flex: 0.2,
+    width: dgl * 0.38,
+    padding: 10,
+    marginBottom: 20,
+    paddingHorizontal: 30,
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
+    alignItems: 'center',
+    borderColor: Color.whiteOpacity,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  packagedetailsText: {fontSize: 20, fontWeight: 'bold'},
+  packagedetailsText2: {flex: 6, flexDirection: 'column', marginTop: 10},
+  containerStyle: {margin: 30, alignItems: 'center'},
+  containerStyle2: {
+    overflow: 'hidden',
+    borderRadius: 20,
+  },
+  compatiblityView3: {
+    height: dgl * 0.1,
+    width: dgl * 0.1,
+    backgroundColor: Color.whiteOpacity,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: dgl * 0.009,
+  },
+  compatiblityView4: {
+    marginTop: dgl * 0.06,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  align: {alignItems: 'center'},
+  tabView: {
+    height: height / 2,
+    width: width,
+    padding: SPACING * 3,
+  },
+  GotText: {
+    fontSize: 20,
+    fontFamily: 'SFProDisplay-Regular',
+    color: Color.primaryBlue,
+  },
+  gotView: {flex: 1, alignItems: 'center', width: width},
+  helpContainer: {
+    flex: 5,
+    alignItems: 'flex-start',
+    marginHorizontal: 30,
+    marginTop: 30,
   },
 });
 

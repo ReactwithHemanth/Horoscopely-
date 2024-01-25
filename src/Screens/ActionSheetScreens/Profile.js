@@ -55,11 +55,11 @@ const Profile = ({navigation}) => {
     setFooterVisible(true);
   }, []);
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     setFooterVisible(false);
-  //   }, [navigation]),
-  // );
+  useFocusEffect(
+    useCallback(() => {
+      setFooterVisible(false);
+    }, [navigation]),
+  );
 
   const getIcon = icon => {
     switch (icon.zodiac) {
@@ -234,7 +234,6 @@ const Profile = ({navigation}) => {
                 style={i !== TABS.length - 1 ? styles.tab : styles.tab}
                 onPress={() => {
                   HandleTabs(tab);
-                  // HandleTabView(tab);
                 }}>
                 <Text
                   style={[
@@ -249,12 +248,7 @@ const Profile = ({navigation}) => {
           })}
         </LinearGradient>
         <Animated.View style={[styles.animatedBorder, animatedStyles]} />
-        {/* <View
-          style={{
-            backgroundColor: 'red',
-            height: height / 2,
-            width: width,
-          }}></View> */}
+
         {HandleTabView(Tabs)}
       </View>
     );
@@ -263,11 +257,12 @@ const Profile = ({navigation}) => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <Animated.View style={styles.profileContainer}>
         <Animated.View
-          style={{
-            overflow: 'hidden',
-            borderRadius: 20,
-            height: AnimHight,
-          }}>
+          style={[
+            styles.containerStyle2,
+            {
+              height: AnimHight,
+            },
+          ]}>
           <Animated.Image
             source={require('../../Assets/Profile/ComponentBg.png')}
             resizeMode="cover"
@@ -304,7 +299,7 @@ const Profile = ({navigation}) => {
             keyExtractor={item => item.sub}
             renderItem={({item, index}) => {
               return (
-                <View style={{margin: 30, alignItems: 'center'}}>
+                <View style={styles.containerStyle}>
                   <TouchableOpacity>
                     {/* <CapricornSvg /> */}
                     {getIcon(item)}
@@ -385,7 +380,7 @@ const Profile = ({navigation}) => {
             <TextInput
               placeholder="Place of Birth"
               style={ToggleEdit ? styles.Editinput3 : styles.input3}
-              value={Result?.Pob}
+              value={Result?.POB}
             />
           </View>
           <View>
@@ -417,7 +412,7 @@ const Profile = ({navigation}) => {
             <TextInput
               placeholder="Relationship Status"
               style={ToggleEdit ? styles.Editinput3 : styles.input3}
-              value={Result?.RelationShip}
+              value={Result?.relationShip}
             />
           </View>
         </View>

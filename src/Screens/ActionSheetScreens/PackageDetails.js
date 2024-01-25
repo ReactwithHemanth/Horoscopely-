@@ -1,4 +1,4 @@
-import {View, Text, ImageBackground, Image} from 'react-native';
+import {View, Text, ImageBackground, Image, ScrollView} from 'react-native';
 import React, {useState} from 'react';
 import styles from '../../Styles/styles';
 import {screenDiagonal, width} from '../../Utils/helperFunctions';
@@ -6,16 +6,16 @@ import Carousel from 'react-native-reanimated-carousel';
 import {Color} from '../../Utils/Color';
 import LinearGradient from 'react-native-linear-gradient';
 import {Pack} from '../../Utils/Dummy';
+import {LinearCommonButton} from '../../Components/CustomComponents';
 const dgl = screenDiagonal();
 
-const PackageDetails = () => {
+const PackageDetails = ({navigation}) => {
   const [Myindex, setMyindex] = useState(3);
   const baseOptions = {
     vertical: false,
     width: width,
     height: width * 0.6,
   };
-  // const cardWidth = dgl * 0.3;s
 
   const RenderItem = props => {
     const {id, daysFree, isActive, price} = props.item;
@@ -64,7 +64,44 @@ const PackageDetails = () => {
           renderItem={({item}) => <RenderItem item={item} />}
         />
       </ImageBackground>
-      <View style={styles.SecondContainer}></View>
+      <ScrollView>
+        <View style={styles.SecondContainer}>
+          <Text style={styles.packagedetailsText}>Features</Text>
+          <View style={styles.packagedetailsText2}>
+            <View style={styles.DotView}>
+              <View style={styles.dot} />
+              <Text style={styles.dotText}> Acces to limited content only</Text>
+            </View>
+            <View style={styles.DotView}>
+              <View style={styles.dot} />
+              <Text style={styles.dotText}> There will be ads</Text>
+            </View>
+            <View style={styles.DotView}>
+              <View style={styles.dot} />
+              <Text style={styles.dotText}> Acces to limited content only</Text>
+            </View>
+            <View style={styles.DotView}>
+              <View style={styles.dot} />
+              <Text style={styles.dotText}> There will be ads</Text>
+            </View>
+            <View style={styles.DotView}>
+              <View style={styles.dot} />
+              <Text style={styles.dotText}> Acces to limited content only</Text>
+            </View>
+            <View style={styles.DotView}>
+              <View style={styles.dot} />
+              <Text style={styles.dotText}> There will be ads</Text>
+            </View>
+          </View>
+        </View>
+        <LinearCommonButton
+          title={'Get Pack'}
+          width={dgl * 0.28}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+      </ScrollView>
     </View>
   );
 };

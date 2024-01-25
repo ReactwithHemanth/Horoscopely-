@@ -111,5 +111,3 @@ const ManageIntrest = () => {
   );
 };
 export default ManageIntrest;
-
-// const styles = StyleSheet.create({});

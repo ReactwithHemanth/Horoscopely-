@@ -98,22 +98,6 @@ const Footer = props => {
     );
   }
   return;
-  // return (
-  //   <>
-  //     <ActionSheetView
-  //       ref={actionSheetRef}
-  //       navigation={navigation}
-  //       onPress={() => handleActionDown()}
-  //     />
-  //     {FooterVisibility && (
-  //       <View style={[styles.footer]}>
-  //         {item.map((item, idx) => {
-  //           return <ItemRender key={idx} value={item} />;
-  //         })}
-  //       </View>
-  //     )}
-  //   </>
-  // );
 };
 
 export default Footer;

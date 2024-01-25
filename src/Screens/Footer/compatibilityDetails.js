@@ -12,13 +12,14 @@ import React, {useState} from 'react';
 import styles, {SPACING} from '../../Styles/styles';
 import {height, screenDiagonal, width} from '../../Utils/helperFunctions';
 import {Color} from '../../Utils/Color';
-import SimpleGradientProgressbarView from 'react-native-simple-gradient-progressbar-view';
+// import SimpleGradientProgressbarView from 'react-native-simple-gradient-progressbar-view';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {dummyText, traits} from '../../Utils/Dummy';
 const dgl = screenDiagonal();
 
 const CompatibilityDetails = () => {
@@ -48,74 +49,28 @@ const CompatibilityDetails = () => {
       })();
       offset.value = withTiming(newOffset);
     };
-
+    const animatedStyles = useAnimatedStyle(() => ({
+      transform: [{translateX: offset.value}],
+    }));
     const HandleTabView = tab => {
       switch (tab) {
         case 'Friendship':
           return (
-            <View
-              style={{
-                height: height / 2,
-                width: width,
-                padding: SPACING * 3,
-              }}>
-              <Text style={styles.traitsText}>
-                You may have had trouble communicating in early life. Perhaps
-                you suffer from feelings of inadequacy. You overcome these
-                feelings through sheer necessity, for you have determination in
-                achieving your goals and purposes in life. You will have strong
-                likes and dislikes, and can be very reserved and dignified,
-                though when vexed you are apt to be sharp and sarcastic if not
-                actually cruel. Avoid pride, cultivate sympathy and endeavour to
-                see things from others standpoints as well as your own.
-              </Text>
-              {/* <PlanetTables /> */}
+            <View style={styles.tabView}>
+              <Text style={styles.traitsText}>{dummyText}</Text>
             </View>
           );
         case 'Destiny':
           return (
-            <View
-              style={{
-                height: height / 2,
-                width: width,
-                padding: SPACING * 3,
-              }}>
-              <Text style={styles.traitsText}>
-                for you have determination in achieving your goals and purposes
-                in life. You will have strong likes and dislikes, and can be
-                very reserved and dignified, though when vexed you are apt to be
-                sharp and sarcastic if not actually cruel. Avoid pride,
-                cultivate sympathy and endeavour to see things from others
-                standpoints as well as your own.
-              </Text>
-              {/* <HouseTables /> */}
+            <View style={styles.tabView}>
+              <Text style={styles.traitsText}>{dummyText}</Text>
             </View>
           );
         case 'Romance':
           return (
-            <View
-              style={{
-                height: height / 2,
-                width: width,
-                padding: SPACING * 3,
-              }}>
-              <Text style={styles.traitsText}>
-                You may have had trouble communicating in early life. Perhaps
-                you suffer from feelings of inadequacy. You overcome these
-                feelings through sheer necessity, for you have determination in
-                achieving your goals and purposes in life. You will have strong
-                likes and dislikes, and can be very reserved and dignified,
-                though when vexed you are apt to be sharp and sarcastic if not
-                actually cruel. Avoid pride, cultivate sympathy and endeavour to
-                see things from others standpoints as well as your own.
-              </Text>
-              <Text style={styles.traitsText}>
-                You will have strong likes and dislikes, and can be very
-                reserved and dignified, though when vexed you are apt to be
-                sharp and sarcastic if not actually cruel. Avoid pride,
-                cultivate sympathy and endeavour to see things from others
-                standpoints as well as your own.
-              </Text>
+            <View style={styles.tabView}>
+              <Text style={styles.traitsText}>{dummyText}</Text>
+              <Text style={styles.traitsText}>{traits}</Text>
               <View style={styles.TabTextView}>
                 <Text style={styles.SemiBoldText1}>Spiritual lesson </Text>
                 <Text style={styles.normalText1}>
@@ -132,16 +87,13 @@ const CompatibilityDetails = () => {
           return (
             <View
               style={{
-                backgroundColor: 'red',
                 height: height / 2,
                 width: width,
               }}></View>
           );
       }
     };
-    const animatedStyles = useAnimatedStyle(() => ({
-      transform: [{translateX: offset.value}],
-    }));
+
     return (
       <View style={styles.tabsView}>
         <View style={styles.tabsView2}>
@@ -165,10 +117,7 @@ const CompatibilityDetails = () => {
             );
           })}
         </View>
-        {/* <Animated.View style={styles.animatedBorderbg}> */}
         <Animated.View style={[styles.animatedBorder, animatedStyles]} />
-        {/* </Animated.View> */}
-
         {HandleTabView(Tabs)}
       </View>
     );
@@ -183,22 +132,9 @@ const CompatibilityDetails = () => {
           flex: 1,
           alignItems: 'center',
         }}>
-        <View
-          style={{
-            marginTop: dgl * 0.06,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <View style={{alignItems: 'center'}}>
-            <View
-              style={{
-                height: dgl * 0.1,
-                width: dgl * 0.1,
-                backgroundColor: Color.whiteOpacity,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: dgl * 0.009,
-              }}>
+        <View style={styles.compatiblityView4}>
+          <View style={styles.align}>
+            <View style={styles.compatiblityView3}>
               <LinearGradient
                 colors={[Color.lightBlue, Color.primaryBlue]}
                 style={styles.compatibilityContainer}>
@@ -207,11 +143,6 @@ const CompatibilityDetails = () => {
                   style={styles.zodiaImageView}
                   resizeMode="center"
                 />
-                {/* {Myindex === fIndex && (
-                  <View style={styles.zodiaActive}>
-                    <Text style={{color: Color.white}}>You</Text>
-                  </View>
-                )} */}
               </LinearGradient>
             </View>
 
@@ -224,26 +155,15 @@ const CompatibilityDetails = () => {
             <Text style={[styles.TextWhite, {padding: 20}]}>+</Text>
           </View>
 
-          <View style={{alignItems: 'center'}}>
+          <View style={styles.align}>
             <LinearGradient
               colors={[Color.lightBlue, Color.primaryBlue]}
-              style={[
-                styles.compatibilityContainer,
-                // {
-                //   backgroundColor:
-                //     index === fIndex ? Color.lightBlue : Color.regularViolet,
-                // },
-              ]}>
+              style={[styles.compatibilityContainer]}>
               <Image
                 source={require('../../Assets/Compatibility/aries.png')}
                 style={styles.zodiaImageView}
                 resizeMode="center"
               />
-              {/* {Myindex === fIndex && (
-                  <View style={styles.zodiaActive}>
-                    <Text style={{color: Color.white}}>You</Text>
-                  </View>
-                )} */}
             </LinearGradient>
             <View style={styles.compatibilityView}>
               <Text style={styles.compatibilityText}>Capricus</Text>
@@ -255,20 +175,19 @@ const CompatibilityDetails = () => {
         <ScrollView
           style={{
             flex: 2,
-            // backgroundColor: 'cyan',
             marginTop: dgl * 0.05,
             padding: SPACING * 2,
           }}>
           <View style={[styles.rowBox, styles.alignItemStyle]}>
             <Text style={{fontSize: 20}}>Overall</Text>
-            <SimpleGradientProgressbarView
+            {/* <SimpleGradientProgressbarView
               style={styles.box}
               fromColor={Color.regularViolet}
               toColor={'#F785FF'}
               progress={0.5}
               maskedCorners={[1, 1, 1, 1]}
               cornerRadius={7.0}
-            />
+            /> */}
             <Text>50%</Text>
           </View>
           <Text style={styles.textMargin}>{dummy}</Text>

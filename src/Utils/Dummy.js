@@ -105,3 +105,45 @@ export const Pack = [
   {id: 1, price: '9.99', daysFree: 4, isActive: false},
   {id: 2, price: '15.89', daysFree: 30, isActive: false},
 ];
+
+export const sectionNames = [
+  {value: 1, text: 'Section 1'},
+  {value: 2, text: 'Section 2'},
+  {value: 3, text: 'Section 2'},
+  {value: 4, text: 'Section 2'},
+  {value: 5, text: 'Section 2'},
+  {value: 6, text: 'Section 2'},
+  {value: 7, text: 'Section 2'},
+  {value: 8, text: 'Section 2'},
+  {value: 9, text: 'Section 2'},
+];
+
+export const dummyText = `You may have had trouble communicating in early life. Perhaps
+you suffer from feelings of inadequacy. You overcome these
+feelings through sheer necessity, for you have determination in
+achieving your goals and purposes in life. You will have strong
+likes and dislikes, and can be very reserved and dignified,
+though when vexed you are apt to be sharp and sarcastic if not
+actually cruel. Avoid pride, cultivate sympathy and endeavour to
+see things from others standpoints as well as your own.`;
+
+export const traits = `You will have strong likes and dislikes, and can be very
+reserved and dignified, though when vexed you are apt to be
+sharp and sarcastic if not actually cruel. Avoid pride,
+cultivate sympathy and endeavour to see things from others
+standpoints as well as your own.`;
+
+export const LoremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+malesuada ullamcorper lorem, in tempor lectus accumsan sed.
+Pellentesque dictum nunc a viverra placerat. Fusce eget luctus est,
+nec aliquam neque. Maecenas nec magna velit. Donec sollicitudin ex
+sit amet magna lobortis feugiat. Phasellus interdum porta pulvinar.
+Proin in arcu libero. Nunc consequat, metus at scelerisque
+sollicitudin, arcu ipsum blandit ante, vel consequat urna lectus non
+enim. Fusce feugiat felis felis, non sollicitudin magna aliquet non.
+Proin eget eleifend libero. Quisque et ex suscipit, faucibus ante
+eget, dictum lorem. Sed a gravida lectus. Praesent et enim laoreet,
+laoreet massa ut, commodo risus. Vivamus eget vehicula dui. Aliquam
+a ipsum mi. Pellentesque semper id sem vel sollicitudin. Morbi vitae
+nunc tellus. Suspendisse hendrerit nibh eu commodo tristique.
+Vestibulum rhoncus malesuada est`;

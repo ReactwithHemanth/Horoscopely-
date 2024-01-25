@@ -1,22 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {width} from '../../Utils/helperFunctions';
-// import styles from '../../Styles/styles';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {
   FirstTheme,
   LinearCommonButton,
   WelcomeText,
 } from '../../Components/CustomComponents';
-import {useAuth} from '../../hooks/useAuth';
 import DatePicker from 'react-native-date-picker';
-import {Color} from '../../Utils/Color';
 import {RelationShipStatus, data, genderArray} from '../../Utils/Dummy';
 import styles, {SPACING} from '../../Styles/styles';
 

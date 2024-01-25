@@ -19,7 +19,6 @@ const DateInput = props => {
 
     // Format the given date string
     formatDate(props.dateTime);
-    // console.log(props.dateTime);
   }, [props.dateTime]);
 
   return (

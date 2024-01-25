@@ -3,7 +3,10 @@ import {
   Image,
   ImageBackground,
   Keyboard,
+  SafeAreaView,
   ScrollView,
+  StyleSheet,
+  Switch,
   Text,
   TextInput,
   TouchableOpacity,
@@ -11,19 +14,25 @@ import {
 } from 'react-native';
 import React, {Children, useEffect, useState} from 'react';
 
-import LinearGradient from 'react-native-linear-gradient';
 import styles, {SPACING} from '../Styles/styles';
-import {HIcon, SignUpTheme3} from './SvgComponent';
+import {CloseSvg, HIcon, SignUpTheme3} from './SvgComponent';
 import {height, screenDiagonal, width} from '../Utils/helperFunctions';
 import Animated from 'react-native-reanimated';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import {Color} from '../Utils/Color';
+import LinearGradient from 'react-native-linear-gradient';
 const dgl = screenDiagonal();
 export const LinearCommonButton = props => {
   return (
     <LinearGradient
       colors={['#32A0EE', '#9713C6']}
       start={{x: 0, y: 0}}
-      style={props.style ?? styles.LinearBotton}>
+      style={
+        props.style ?? [
+          styles.LinearBotton,
+          {width: props.width ? props.width : '90%'},
+        ]
+      }>
       <TouchableOpacity onPress={props.onPress}>
         <Text style={styles.TextWhite}>{props.title}</Text>
       </TouchableOpacity>
@@ -196,7 +205,6 @@ export const LoadingView2 = props => {
       source={require('../Assets/Splash_screen/BgScreen.png')}
       style={styles.imageBgView}
     />
-    // style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}></Image>
   );
 };
 export const ImageBackgroundView = props => {
@@ -225,9 +233,7 @@ export const WelcomeText = props => {
   );
 };
 
-// const SPACING = 10;
 const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
-// const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 const BACKDROP_HEIGHT = height * 0.65;
 
 const zodiacData = ['pices', 'sprites', 'Cancer'];
@@ -246,7 +252,6 @@ export const Backdrop = ({movies, scrollX}) => {
           const translateX = scrollX.interpolate({
             inputRange: [(index - 2) * ITEM_SIZE, (index - 1) * ITEM_SIZE],
             outputRange: [0, width],
-            // extrapolate: 'clamp',
           });
           return (
             <Animated.View
@@ -287,8 +292,6 @@ export const LogoTitle = () => {
 };
 
 export const ErrorView = props => {
-  // const [isLoading, setisLoading] = useState(true);
-
   return (
     <View style={styles.aligncenter}>
       <Image
@@ -296,26 +299,30 @@ export const ErrorView = props => {
         style={styles.ErrorView1}
         resizeMode="contain"
       />
-      {/* <Image
-        source={require('../Assets/loading/circleBg.png')}
-        style={{width: width / 2, height: height + 30, alignSelf: 'center'}}
-        resizeMode="contain"
-      /> */}
-
-      {/* <View style={styles.svgCenter}>
-        <HIcon width={50} height={50} />
-      </View> */}
-
       <View style={styles.ErrorTextView}>
         <Text style={styles.ErrorText}>Page Not Found...</Text>
         <Text style={styles.ErrorSubText}>
           This page is unknown or does not exist.
         </Text>
       </View>
-      {/* <Text style={styles.text1}>Welcome {user?.email}</Text>
-    <Text onPress={handleSignOut} style={styles.text1}>
-      SignOut {user?.email}
-    </Text> */}
+    </View>
+  );
+};
+
+export const SomeThingWentWrongView = props => {
+  return (
+    <View style={styles.aligncenter}>
+      <Image
+        source={require('../Assets/errorpage/Component.png')}
+        style={styles.ErrorView1}
+        resizeMode="contain"
+      />
+      <View style={styles.ErrorTextView}>
+        <Text style={styles.ErrorText}>Something went wrong....</Text>
+        <Text style={styles.wentWrongText}>
+          Check your internet connection or, Please try again.
+        </Text>
+      </View>
     </View>
   );
 };

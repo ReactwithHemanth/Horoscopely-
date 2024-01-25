@@ -43,7 +43,6 @@ const FAQ = () => {
 
   const DropDownItem = props => {
     const {id, name, desc} = props.data;
-    // setindex(id);
     const isExpanded = selectedItem.includes(id);
 
     return (
@@ -63,7 +62,11 @@ const FAQ = () => {
               selectItems(props.data);
               ToggleHeight(id);
             }}>
-            {!isExpanded ? <CloseSvg /> : <MinusSvg width={20} height={20} />}
+            {!isExpanded ? (
+              <CloseSvg fill={Color.primaryBlue} />
+            ) : (
+              <MinusSvg width={20} height={20} />
+            )}
           </TouchableOpacity>
         </View>
         <View style={styles.dropdownStyle}>

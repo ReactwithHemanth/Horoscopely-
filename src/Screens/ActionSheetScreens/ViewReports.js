@@ -22,7 +22,7 @@ const ViewReports = ({navigation}) => {
             <Text>31 Dec 2020 - 05 Feb 2021</Text>
           </View>
           <View style={styles.reportHeaderAlign}>
-            <CloseSvg />
+            <CloseSvg fill={Color.primaryBlue} />
           </View>
 
           <CalenderSvg fill={Color.primaryBlue} />
