@@ -183,10 +183,6 @@ export const LoadingView = props => {
       <View style={styles.loading}>
         <Text style={styles.loadingText}>Loading...</Text>
       </View>
-      {/* <Text style={styles.text1}>Welcome {user?.email}</Text>
-    <Text onPress={handleSignOut} style={styles.text1}>
-      SignOut {user?.email}
-    </Text> */}
     </View>
   );
 };
