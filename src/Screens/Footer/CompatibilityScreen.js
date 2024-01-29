@@ -1,5 +1,4 @@
 import {
-  FlatList,
   Image,
   ImageBackground,
   StyleSheet,
@@ -39,7 +38,6 @@ const CompatibilityScreen = ({navigation}) => {
    *
    */
   const ref = useRef(null);
-  // const ref2 = useRef(null);
   const [index, setindex] = useState(0);
   const [Myindex, setMyindex] = useState(3);
   const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
@@ -142,11 +140,6 @@ const CompatibilityScreen = ({navigation}) => {
                     style={styles.zodiaImageView}
                     resizeMode="center"
                   />
-                  {/* {Myindex === fIndex && (
-                  <View style={styles.zodiaActive}>
-                    <Text style={{color: Color.white}}>You</Text>
-                  </View>
-                )} */}
                 </LinearGradient>
               </View>
               <View style={styles.compatibilityView}>
@@ -156,7 +149,6 @@ const CompatibilityScreen = ({navigation}) => {
             </View>
           )}
         />
-        {/* </View> */}
 
         <View style={styles.arrowStyle}>
           <TouchableOpacity

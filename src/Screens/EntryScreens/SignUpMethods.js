@@ -29,13 +29,13 @@ const SignUp = props => {
     useContext(MainContext);
 
   useEffect(() => {
-    //Is lauching app for first time...
     setFirstLaunched(true);
-    return appleAuth.onCredentialRevoked(async () => {
-      console.warn(
-        'If this function executes, User Credentials have been Revoked',
-      );
-    });
+    if (appleAuth.isSupported)
+      return appleAuth.onCredentialRevoked(async () => {
+        console.warn(
+          'If this function executes, User Credentials have been Revoked',
+        );
+      });
   }, []);
 
   const SignButtons = ({nav, BgColor, icon, title, textColor}) => {
@@ -55,45 +55,41 @@ const SignUp = props => {
   };
 
   const onAppleButtonPress = async () => {
-    /**
-     * 'TODO: Test authentication in iOS'
-     *  Apple authentication
-     */
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-    });
-    const credentialsState = await appleAuth.getCredentialStateForUser(
-      appleAuthRequestResponse.user,
-    );
-    if (credentialsState === appleAuth.State.AUTHORIZED) {
+    if (appleAuth.isSupported) {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+      });
+      const credentialsState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
+
       //user autherised
-      console.log(credentialsState);
+      if (credentialsState === appleAuth.State.AUTHORIZED) {
+        console.log(credentialsState);
+      }
     }
   };
 
-  async function revokeSignInWithAppleToken() {
-    // Get an authorizationCode from Apple
-    const {authorizationCode} = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.REFRESH,
-    });
+  // async function revokeSignInWithAppleToken() {
+  //   // Get an authorizationCode from Apple
+  //   const {authorizationCode} = await appleAuth.performRequest({
+  //     requestedOperation: appleAuth.Operation.REFRESH,
+  //   });
 
-    // Ensure Apple returned an authorizationCode
-    if (!authorizationCode) {
-      throw new Error(
-        'Apple Revocation failed - no authorizationCode returned',
-      );
-    }
+  //   if (!authorizationCode) {
+  //     throw new Error(
+  //       'Apple Revocation failed - no authorizationCode returned',
+  //     );
+  //   }
 
-    // Revoke the token
-    return auth().revokeToken(authorizationCode);
-  }
+  //   return auth().revokeToken(authorizationCode);
+  // }
   return (
     <View style={styles.Container}>
       <View style={styles.TopRightSvgStyle}>
         <SignUpBgTheme />
       </View>
-      {/* <View style={styles.Container}> */}
       <View style={styles.signUpMethView2}>
         <Image
           source={require('../../Assets/Signup/AppName.png')}
@@ -127,6 +123,7 @@ const SignUp = props => {
           icon={<GoogleSvg />}
           textColor={Color.grey}
           BgColor={colorArray[2]}
+          nav={'EmailSignUp'}
         />
         <SignButtons
           title="Sign In With Facebook"
@@ -134,7 +131,7 @@ const SignUp = props => {
           textColor={Color.white}
           BgColor={colorArray[3]}
         />
-        {!appleAuthAndroid.isSupported && (
+        {appleAuthAndroid.isSupported && (
           <AppleButton
             buttonStyle={AppleButton.Style.DEFAULT}
             buttonType={AppleButton.Type.SIGN_IN}
@@ -162,7 +159,6 @@ const SignUp = props => {
       <View style={styles.BottomSvgStyle}>
         <SignUpTheme2 heigth={310} />
       </View>
-      {/* </View> */}
     </View>
   );
 };

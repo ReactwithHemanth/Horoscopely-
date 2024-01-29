@@ -8,6 +8,12 @@ import {
   FAQSvg,
   FileSvg,
   InfoSvg,
+  Intrest1,
+  Intrest2,
+  Intrest3,
+  Intrest4,
+  Intrest5,
+  Intrest6,
   LikeSvg,
   MoreSvg,
   OrbitSvg,
@@ -50,17 +56,17 @@ export const getIcon = (value, Active) => {
       return <CircleHelpSvg fill={Color.primaryBlue} />;
     case 'settings':
       return <SettingSvg2 fill={Color.primaryBlue} />;
-    case 'settings':
-      return <Intrest1 />;
-    case 'settings':
-      return <Intrest2 fill={Color.primaryBlue} />;
-    case 'settings':
-      return <Intrest3 fill={Color.primaryBlue} />;
-    case 'settings':
-      return <Intrest4 fill={Color.primaryBlue} />;
-    case 'settings':
-      return <Intrest5 fill={Color.primaryBlue} />;
-    case 'settings':
-      return <Intrest6 fill={Color.primaryBlue} />;
+    case 'Profession':
+      return <Intrest1 fill={Color.black} />;
+    case 'Personal':
+      return <Intrest2 fill={Color.black} />;
+    case 'Travel':
+      return <Intrest3 fill={Color.black} />;
+    case 'Health':
+      return <Intrest4 fill={Color.black} />;
+    case 'Luck':
+      return <Intrest5 fill={Color.black} />;
+    case 'Emotion':
+      return <Intrest6 fill={Color.black} />;
   }
 };

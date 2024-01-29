@@ -9,8 +9,10 @@ import {
   SunSvg,
 } from '../../Components/SvgComponent';
 import {
+  ErrorView,
   ImageBackgroundView,
   LoadingView,
+  ShowSubscriptionAd,
 } from '../../Components/CustomComponents';
 import LinearGradient from 'react-native-linear-gradient';
 import CircularProgress from 'react-native-circular-progress-indicator';
@@ -25,26 +27,32 @@ const Home = ({navigation}) => {
   const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
     useContext(MainContext);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      setFooterVisible(true);
-    }, []),
-  );
+  useFocusEffect(React.useCallback(() => {}, []));
   const [loading, setLoading] = useState(false);
   const [SelectFilter, setSelectFilter] = useState('Today');
+  const duration = 2000;
+  const ACTIVE_STROKE = 5;
+  const INACTIVE_STROKE = 4;
 
-  // const handleSignOut = async () => {
-  //   try {
-  //     await auth().signOut();
-  //     console.log('Signed out successfully');
-  //   } catch (error) {
-  //     console.error('Error signing out:', error);
-  //   }
-  // };
+  useEffect(() => {
+    // set interval based in the logic of ads
+    // const interval = setInterval(() => {
+    //   navigation.navigate('subscriptionAd');
+    // }, 7000);
+
+    setFooterVisible(true);
+
+    // return () => {
+    //   clearInterval(interval);
+    // };
+  }, []);
 
   if (loading) {
     return <LoadingView />;
   }
+  // if (true) {
+  //   return <SomeThingWentWrongView />;
+  // }
 
   const SvgBox = props => {
     const {backgroundColor, iconColor, title, icon, onPress} = props;
@@ -80,11 +88,11 @@ const Home = ({navigation}) => {
             <CircularProgress
               value={80}
               radius={30}
-              duration={2000}
-              activeStrokeWidth={5}
-              inActiveStrokeWidth={4}
+              duration={duration}
+              activeStrokeWidth={ACTIVE_STROKE}
+              inActiveStrokeWidth={INACTIVE_STROKE}
               progressValueColor={'#ecf0f1'}
-              progressValueStyle={{fontWeight: '400'}}
+              progressValueStyle={styles.weight400}
               valueSuffix={'%'}
               maxValue={100}
               activeStrokeColor={'#84CAFF'}
@@ -95,11 +103,11 @@ const Home = ({navigation}) => {
             <CircularProgress
               value={60}
               radius={30}
-              duration={2000}
+              duration={duration}
               valueSuffix={'%'}
-              activeStrokeWidth={5}
-              inActiveStrokeWidth={4}
-              progressValueStyle={{fontWeight: '400'}}
+              activeStrokeWidth={ACTIVE_STROKE}
+              inActiveStrokeWidth={INACTIVE_STROKE}
+              progressValueStyle={styles.weight400}
               progressValueColor={'#ecf0f1'}
               activeStrokeColor={'#84CAFF'}
               maxValue={100}
@@ -111,10 +119,10 @@ const Home = ({navigation}) => {
               value={50}
               radius={30}
               valueSuffix={'%'}
-              duration={2000}
-              activeStrokeWidth={5}
-              inActiveStrokeWidth={4}
-              progressValueStyle={{fontWeight: '400'}}
+              duration={duration}
+              activeStrokeWidth={ACTIVE_STROKE}
+              inActiveStrokeWidth={INACTIVE_STROKE}
+              progressValueStyle={styles.weight400}
               progressValueColor={Color.shadedWhite}
               activeStrokeColor={Color.lightBlue}
               maxValue={100}
@@ -143,12 +151,18 @@ const Home = ({navigation}) => {
       </LinearGradient>
     );
   };
-
+  const FilterDate = () => {
+    return (
+      <View style={styles.filterStyle}>
+        <Text style={styles.filterTextStyle}>Today</Text>
+        <ArrowLeft fill={'#fff'} />
+      </View>
+    );
+  };
   return (
     <ImageBackgroundView>
       <LinearWidget />
       <View style={styles.homeView2}>
-        {/* <View style={styles.homeView3}> */}
         <Text style={styles.homeheading}>Your Horoscope of the Day</Text>
         <View style={styles.BoxView2}>
           <View style={[styles.LinearLineAlign]}>
@@ -159,20 +173,12 @@ const Home = ({navigation}) => {
               <CalenderSvg fill={Color.white} />
             </View>
           </View>
-          <View style={styles.filterStyle}>
-            <Text style={styles.filterTextStyle}>Today</Text>
-            <ArrowLeft fill={'#fff'} />
-          </View>
+          <FilterDate />
         </View>
         <View style={styles.Cpadding}>
-          <Text style={{color: Color.white}}>{dummies}</Text>
+          <Text style={styles.Desctext}>{dummies}</Text>
         </View>
-        {/* </View> */}
       </View>
-      {/* <Text style={styles.text1}>Welcome {user?.email}</Text>
-      <Text onPress={handleSignOut} style={styles.text1}>
-        SignOut {user?.email}
-      </Text> */}
     </ImageBackgroundView>
   );
 };

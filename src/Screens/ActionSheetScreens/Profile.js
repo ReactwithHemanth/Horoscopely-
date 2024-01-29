@@ -4,20 +4,12 @@ import {
   ImageBackground,
   Pressable,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  useAnimatedValue,
 } from 'react-native';
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import styles, {SPACING} from '../../Styles/styles';
 import {height, screenDiagonal, width} from '../../Utils/helperFunctions';
 import LinearGradient from 'react-native-linear-gradient';
@@ -37,24 +29,20 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import {useFocusEffect} from '@react-navigation/native';
 import {MainContext} from '../../Confg/Context';
 import {RnGet} from '../../hooks/RnstoreHook';
 import {Table, Row, Rows} from 'react-native-table-component';
+import {DateInput} from './DatePicker';
+import {TimePicker} from './TimePicker';
+import {menuList, tableData, tableData2} from '../../Utils/Dummy';
 const dgl = screenDiagonal();
-const menuList = [
-  {id: 0, sub: 'Sun sign', zodiac: 'Capricorn'},
-  {id: 1, sub: 'Zodiac sign', zodiac: 'Aries'},
-  {id: 2, sub: 'Modality', zodiac: 'Fixed'},
-  {id: 3, sub: 'Moon sign', zodiac: 'Leo'},
-  {id: 4, sub: 'Element', zodiac: 'Air'},
-  {id: 5, sub: 'Ascedant', zodiac: 'Capricorn'},
-];
+
 const TAB_WIDTH = 120;
 const DOWN_VALUE = 400;
 const TABS = ['Planets', 'Houses', 'Traits'];
-const Profile = () => {
+const Profile = ({navigation}) => {
   const [ToggleView, setToggleView] = useState(false);
+  const [ToggleEdit, setToggleEdit] = useState(false);
   const [Tabs, setTabs] = useState('Planets');
   const [Result, setResult] = useState([]);
   const offset = useSharedValue(-TAB_WIDTH);
@@ -64,12 +52,13 @@ const Profile = () => {
   const AnimHight = useSharedValue(height);
   useEffect(() => {
     CheckLaunchedFirst();
+    setFooterVisible(true);
   }, []);
 
   useFocusEffect(
     useCallback(() => {
       setFooterVisible(false);
-    }, []),
+    }, [navigation]),
   );
 
   const getIcon = icon => {
@@ -99,7 +88,7 @@ const Profile = () => {
 
     AnimHight.value = ToggleView
       ? withSpring(height)
-      : withSpring(AnimHight.value + DOWN_VALUE);
+      : withSpring(AnimHight.value - DOWN_VALUE);
   };
   const animatedStyles = useAnimatedStyle(() => ({
     transform: [{translateX: offset.value}],
@@ -127,7 +116,6 @@ const Profile = () => {
         return (
           <View
             style={{
-              // backgroundColor: 'red',
               height: height / 2,
               width: width - 20,
             }}>
@@ -193,19 +181,7 @@ const Profile = () => {
 
   const PlanetTables = () => {
     const planetHead = ['Name', 'Deg', 'Sign', 'House'];
-    const planetHouse = ['House', 'Sign', 'Deg'];
-    const tableData = [
-      ['Sun', '54.1', 'Capricorn', '10'],
-      ['Moon', '54.1', 'sagittarius', '12'],
-      ['Mercury', '54.1', 'Aries', '1'],
-      ['Venus', '54.1', 'Leo', '2'],
-      ['Mars', '24.1', 'Capricorn', '3'],
-      ['Jupiter', '24.1', 'sagittarius', '4'],
-      ['Saturn', '24.1', 'Aries', '5'],
-      ['Uranus', '24.1', 'Leo', '6'],
-      ['Neptune', '24.1', 'Aries', '7'],
-      ['Pluto', '54.1', 'Aries', '8'],
-    ];
+
     return (
       <View style={styles.tableContainer}>
         <Table borderStyle={styles.border}>
@@ -215,7 +191,7 @@ const Profile = () => {
             textStyle={styles.headText}
           />
           <Rows
-            data={tableData}
+            data={tableData2}
             style={styles.rows}
             textStyle={styles.cellText}
           />
@@ -225,18 +201,7 @@ const Profile = () => {
   };
   const HouseTables = () => {
     const planetHouse = ['House', 'Sign', 'Deg'];
-    const tableData = [
-      ['10', 'Capricorn', '54.1'],
-      ['12', 'sagittarius', '54.1'],
-      ['1', 'Aries', '54.1'],
-      ['2', 'Leo', '54.1'],
-      ['3', 'Capricorn', '24.1'],
-      ['4', 'sagittarius', '24.1'],
-      ['5', 'Aries', '24.1'],
-      ['6', 'Leo', '24.1'],
-      ['7', 'Aries', '24.1'],
-      ['8', 'Leo', '54.1'],
-    ];
+
     return (
       <View style={styles.tableContainer}>
         <Table borderStyle={styles.border}>
@@ -269,7 +234,6 @@ const Profile = () => {
                 style={i !== TABS.length - 1 ? styles.tab : styles.tab}
                 onPress={() => {
                   HandleTabs(tab);
-                  // HandleTabView(tab);
                 }}>
                 <Text
                   style={[
@@ -284,12 +248,7 @@ const Profile = () => {
           })}
         </LinearGradient>
         <Animated.View style={[styles.animatedBorder, animatedStyles]} />
-        {/* <View
-          style={{
-            backgroundColor: 'red',
-            height: height / 2,
-            width: width,
-          }}></View> */}
+
         {HandleTabView(Tabs)}
       </View>
     );
@@ -298,11 +257,12 @@ const Profile = () => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <Animated.View style={styles.profileContainer}>
         <Animated.View
-          style={{
-            overflow: 'hidden',
-            borderRadius: 20,
-            height: AnimHight,
-          }}>
+          style={[
+            styles.containerStyle2,
+            {
+              height: AnimHight,
+            },
+          ]}>
           <Animated.Image
             source={require('../../Assets/Profile/ComponentBg.png')}
             resizeMode="cover"
@@ -334,10 +294,12 @@ const Profile = () => {
           <FlatList
             data={menuList}
             numColumns={3}
+            showsVerticalScrollIndicator={false}
             style={styles.ProfileView3}
+            keyExtractor={item => item.sub}
             renderItem={({item, index}) => {
               return (
-                <View style={{margin: 30, alignItems: 'center'}}>
+                <View style={styles.containerStyle}>
                   <TouchableOpacity>
                     {/* <CapricornSvg /> */}
                     {getIcon(item)}
@@ -356,9 +318,11 @@ const Profile = () => {
               HandlePress();
             }}
             style={styles.viewMore1}>
-            <Text style={styles.viewMore}>View more</Text>
+            <Text style={styles.viewMore}>
+              {ToggleView ? 'View more' : 'View Less'}
+            </Text>
             <View
-              style={{transform: [{rotate: ToggleView ? '180deg' : '0deg'}]}}>
+              style={{transform: [{rotate: !ToggleView ? '180deg' : '0deg'}]}}>
               <ArrowLeft fill={Color.shadedWhite} />
             </View>
           </TouchableOpacity>
@@ -372,46 +336,58 @@ const Profile = () => {
         style={styles.imageBgView}>
         <View style={[styles.CRow, styles.justifyView, styles.CWidth]}>
           <Text style={styles.textBold}>Basic details</Text>
-          <Text style={styles.EditText}>Edit</Text>
+          <Text
+            onPress={() => setToggleEdit(!ToggleEdit)}
+            style={styles.EditText}>
+            Edit
+          </Text>
         </View>
         <View style={{flex: 16, justifyContent: 'flex-start', width: '90%'}}>
           <View>
             <Text style={styles.textSemiBold}>Name</Text>
             <TextInput
               placeholder="Name"
-              style={styles.input3}
+              style={ToggleEdit ? styles.Editinput3 : styles.input3}
               value={Result?.name}
             />
           </View>
           <View>
             <Text style={styles.textSemiBold}>Date of Birth</Text>
-            <TextInput
-              placeholder="Date of Birth"
-              style={styles.input3}
-              value={Result?.DOB}
-            />
+            {ToggleEdit ? (
+              <TextInput
+                placeholder="Date of Birth"
+                style={ToggleEdit ? styles.Editinput3 : styles.input3}
+                value={Result?.DOB}
+              />
+            ) : (
+              <DateInput dateTime={Result?.DOB} />
+            )}
           </View>
           <View>
             <Text style={styles.textSemiBold}>Time of Birth</Text>
-            <TextInput
-              placeholder="Time of Birth"
-              style={styles.input3}
-              value={Result?.TOB}
-            />
+            {ToggleEdit ? (
+              <TextInput
+                placeholder="Time of Birth"
+                style={ToggleEdit ? styles.Editinput3 : styles.input3}
+                value={Result?.TOB}
+              />
+            ) : (
+              <TimePicker dateTime={Result?.TOB} />
+            )}
           </View>
           <View>
             <Text style={styles.textSemiBold}>Place of Birth</Text>
             <TextInput
               placeholder="Place of Birth"
-              style={styles.input3}
-              value={'Result'}
+              style={ToggleEdit ? styles.Editinput3 : styles.input3}
+              value={Result?.POB}
             />
           </View>
           <View>
             <Text style={styles.textSemiBold}>Email ID</Text>
             <TextInput
               placeholder="Email ID"
-              style={styles.input3}
+              style={ToggleEdit ? styles.Editinput3 : styles.input3}
               value={Result?.email}
             />
           </View>
@@ -419,7 +395,7 @@ const Profile = () => {
             <Text style={styles.textSemiBold}>Mobile Number</Text>
             <TextInput
               placeholder="Mobile Number"
-              style={styles.input3}
+              style={ToggleEdit ? styles.Editinput3 : styles.input3}
               value={Result?.number}
             />
           </View>
@@ -427,7 +403,7 @@ const Profile = () => {
             <Text style={styles.textSemiBold}>Birth Gender</Text>
             <TextInput
               placeholder="Birth Gender"
-              style={styles.input3}
+              style={ToggleEdit ? styles.Editinput3 : styles.input3}
               value={Result?.gender}
             />
           </View>
@@ -435,8 +411,8 @@ const Profile = () => {
             <Text style={styles.textSemiBold}>Relationship Status</Text>
             <TextInput
               placeholder="Relationship Status"
-              style={styles.input3}
-              value={Result?.RelationShip}
+              style={ToggleEdit ? styles.Editinput3 : styles.input3}
+              value={Result?.relationShip}
             />
           </View>
         </View>

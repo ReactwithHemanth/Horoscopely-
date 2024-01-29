@@ -16,7 +16,6 @@ import Share from 'react-native-share';
 const dgl = screenDiagonal();
 
 const RemedyScreen = () => {
-  //TODO:add share url
   const HandleShare = () => {
     let randonString = 'KJSKFDNSKJ';
     Share.open({url: 'https://horoscope.ly' + randonString})

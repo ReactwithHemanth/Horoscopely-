@@ -29,7 +29,6 @@ const EmailSignUp = ({navigation}) => {
   const signInFn = async () => {
     setloading(true);
     try {
-      // const res = await auth().signInWithEmailAndPassword(email, password);
       const res = await auth().signInAnonymously();
       if (res)
         Toast('sign In Succesfull', 'Your Email Address has been verified');
@@ -46,18 +45,6 @@ const EmailSignUp = ({navigation}) => {
       setloading(false);
     }
   };
-
-  //Sign Up function
-  // const signUpFn = async () => {
-  //   setloading(true);
-  //   try {
-  //     const res = await auth().createUserWithEmailAndPassword(email, password);
-  //   } catch (error) {
-  //     Alert.alert('sign Up failed: ' + error.message);
-  //   } finally {
-  //     setloading(false);
-  //   }
-  // };
 
   if (loading) return <LoadingView />;
 

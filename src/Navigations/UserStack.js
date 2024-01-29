@@ -1,11 +1,10 @@
-import {View, Text, Image, Touchable, TouchableOpacity} from 'react-native';
-import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   NavigationContainer,
-  getFocusedRouteNameFromRoute,
+  StackActions,
   useNavigation,
-  useNavigationState,
 } from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -28,7 +27,6 @@ import Settings from '../Screens/Notification/Settings';
 import DateTimeScreen from '../Screens/FocusAndAdvice/DateTimeScreen';
 import FocusDay from '../Screens/FocusAndAdvice/FocusDay';
 import CalenderAdvice from '../Screens/FocusAndAdvice/CalenderAdvice';
-import {useAuth} from '../hooks/useAuth';
 import CompatibilityDetails from '../Screens/Footer/compatibilityDetails';
 import {MainContext} from '../Confg/Context';
 import {LogoTitle} from '../Components/CustomComponents';
@@ -39,12 +37,17 @@ import ManagePayment from '../Screens/ActionSheetScreens/ManagePayment';
 import Profile from '../Screens/ActionSheetScreens/Profile';
 import ViewReports from '../Screens/ActionSheetScreens/ViewReports';
 import Share from 'react-native-share';
-import PlanetScreen from '../Screens/ProfileScreen/PlanetScreen';
+import ReportDetails from '../Screens/ActionSheetScreens/ReportDetails';
+import FAQ from '../Screens/ActionSheetScreens/FAQ';
+import PackageDetails from '../Screens/ActionSheetScreens/PackageDetails';
+import HelpSection from '../Screens/ActionSheetScreens/HelpSection';
+import MakePayment from '../Screens/ActionSheetScreens/MakePayment';
+import ShowSubscriptionAd from '../Screens/ProfileScreen/SubscriptionAds';
+import ShowSubscriptionNext from '../Screens/ProfileScreen/SubscriptionAdsNext';
+import AppInfo from '../Screens/ProfileScreen/Appinfo';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-// const Top=createMaterialTopTabNavigator();
-const dgl = screenDiagonal();
 
 const Notify = () => {
   const navigation = useNavigation();
@@ -52,7 +55,6 @@ const Notify = () => {
     <TouchableOpacity
       style={styles.headerContainer}
       onPress={() => navigation.navigate('Notification')}>
-      {/* Your icon */}
       <NotificationSvg fill={Color.white} />
       <View style={styles.headerNotifyBar}>
         <Text style={{color: Color.shadedWhite}}>3</Text>
@@ -85,15 +87,6 @@ const ShareButton = () => {
   );
 };
 
-const ProfileStack = () => {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name="Planet" component={PlanetScreen} />
-      <Tab.Screen name="Houses" component={PlanetScreen} />
-      <Tab.Screen name="Traits" component={PlanetScreen} />
-    </Tab.Navigator>
-  );
-};
 const UserStack = ({navigation, route}) => {
   const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
     useContext(MainContext);
@@ -107,7 +100,6 @@ const UserStack = ({navigation, route}) => {
     const user = await RnGet('userData');
     if (user?.name != '') {
       setDetailsExist(true);
-      // navigation.navigate('Home');
       setFirstLaunched(false);
     } else {
       setFirstLaunched(false);
@@ -117,7 +109,6 @@ const UserStack = ({navigation, route}) => {
     headerShown: true,
     headerTitleStyle: {color: Color.black},
     headerTintColor: Color.primaryBlue,
-    // headerRight: () => <LogoTitle />,
   };
   const defaultOptions = {
     headerShown: true,
@@ -126,111 +117,161 @@ const UserStack = ({navigation, route}) => {
     headerBackTitleVisible: false,
     headerTintColor: Color.shadedWhite,
     headerTitleStyle: {color: Color.white},
-    headerTintColor: Color.primaryBlue,
   };
   return (
     <Stack.Navigator
       initialRouteName={FirstLaunched ? 'onBoarding' : 'Home'}
       screenOptions={{
-        // headerTransparent: true,
         headerBack: {color: Color.darkViolet},
         headerBackTitleVisible: false,
         headerTintColor: Color.shadedWhite,
         headerTitleStyle: {fontFamily: 'Molle-Italic'},
       }}>
-      <Stack.Screen
-        name="onBoarding"
-        component={OnBoarding}
-        options={{
+      <Stack.Group>
+        <Stack.Screen
+          name="onBoarding"
+          component={OnBoarding}
+          options={{
+            headerShown: false,
+            headerTitleStyle: {color: Color.black},
+            headerTintColor: Color.primaryBlue,
+            headerRight: () => <SettingsButton />,
+          }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerTitle: () => <LogoTitle />,
+            headerRight: () => <Notify />,
+            headerLeft: () => <></>,
+            headerTransparent: true,
+          }}
+        />
+        <Stack.Screen
+          name="DateTimeScreen"
+          component={DateTimeScreen}
+          options={{
+            headerShown: false,
+            headerTintColor: Color.black,
+          }}
+        />
+        <Stack.Screen
+          name="Notification"
+          component={Notification}
+          options={{...customOptions, headerRight: () => <SettingsButton />}}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
+          options={{headerShown: true, headerTintColor: Color.black}}
+        />
+        <Stack.Screen
+          name="Compatibility"
+          component={CompatibilityScreen}
+          options={{
+            ...defaultOptions,
+            headerLeft: () => <></>,
+          }}
+        />
+        <Stack.Screen
+          name="Remedy"
+          component={RemedyScreen}
+          options={defaultOptions}
+        />
+        <Stack.Screen
+          name="FocusDay"
+          component={FocusDay}
+          options={{...customOptions}}
+        />
+        <Stack.Screen
+          name="CalenderAdvice"
+          component={CalenderAdvice}
+          options={{...customOptions}}
+        />
+        <Stack.Screen
+          name="CompatibilityDetails"
+          component={CompatibilityDetails}
+          options={{...defaultOptions}}
+        />
+        <Stack.Screen
+          name="ManageIntrest"
+          component={ManageIntrest}
+          options={{...customOptions}}
+        />
+        <Stack.Screen
+          name="InviteFriend"
+          component={InviteFriend}
+          options={{...customOptions}}
+        />
+        <Stack.Screen
+          name="ManagePayment"
+          component={ManagePayment}
+          options={{...customOptions}}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{...defaultOptions, headerRight: () => <ShareButton />}}
+        />
+        <Stack.Screen
+          name="ViewReports"
+          component={ViewReports}
+          options={{...customOptions}}
+        />
+        <Stack.Screen
+          name="ReportDetails"
+          component={ReportDetails}
+          options={{...defaultOptions}}
+        />
+        <Stack.Screen name="FAQ" component={FAQ} options={{...customOptions}} />
+        <Stack.Screen
+          name="PackageDetails"
+          component={PackageDetails}
+          options={{
+            ...defaultOptions,
+            title: 'Packages',
+            headerRight: () => <ShareButton />,
+          }}
+        />
+        <Stack.Screen
+          name="HelpSection"
+          component={HelpSection}
+          options={{
+            headerShown: false,
+            headerRight: () => <ShareButton />,
+          }}
+        />
+        <Stack.Screen
+          name="MakePayment"
+          component={MakePayment}
+          options={{
+            ...defaultOptions,
+            headerRight: () => <ShareButton />,
+          }}
+        />
+        <Stack.Screen
+          name="AppInfo"
+          component={AppInfo}
+          options={{
+            ...defaultOptions,
+            headerRight: () => <ShareButton />,
+          }}
+        />
+      </Stack.Group>
+      <Stack.Group
+        screenOptions={{
+          presentation: 'transparentModal',
+          contentStyle: {backgroundColor: '#40404040'},
           headerShown: false,
-          headerTitleStyle: {color: Color.black},
-          headerTintColor: Color.primaryBlue,
-          headerRight: () => <SettingsButton />,
-        }}
-      />
-      <Stack.Screen
-        name="Home"
-        component={Home}
-        options={{
-          headerTitle: () => <LogoTitle />,
-          headerRight: () => <Notify />,
-          headerLeft: () => <></>,
-          headerTransparent: true,
-        }}
-      />
-      <Stack.Screen
-        name="DateTimeScreen"
-        component={DateTimeScreen}
-        options={{
-          headerShown: false,
-          headerTintColor: Color.black,
-          // headerRight: () => <Notify />,
-        }}
-      />
-      <Stack.Screen
-        name="Notification"
-        component={Notification}
-        options={{...customOptions, headerRight: () => <SettingsButton />}}
-      />
-      <Stack.Screen
-        name="Settings"
-        component={Settings}
-        options={{headerShown: true, headerTintColor: Color.black}}
-      />
-      <Stack.Screen
-        name="Compatibility"
-        component={CompatibilityScreen}
-        options={{
-          ...defaultOptions,
-          headerLeft: () => <></>,
-        }}
-      />
-      <Stack.Screen
-        name="Remedy"
-        component={RemedyScreen}
-        options={defaultOptions}
-      />
-      <Stack.Screen
-        name="FocusDay"
-        component={FocusDay}
-        options={{...customOptions}}
-      />
-      <Stack.Screen
-        name="CalenderAdvice"
-        component={CalenderAdvice}
-        options={{...customOptions}}
-      />
-      <Stack.Screen
-        name="CompatibilityDetails"
-        component={CompatibilityDetails}
-        options={{...defaultOptions}}
-      />
-      <Stack.Screen
-        name="ManageIntrest"
-        component={ManageIntrest}
-        options={{...customOptions}}
-      />
-      <Stack.Screen
-        name="InviteFriend"
-        component={InviteFriend}
-        options={{...customOptions}}
-      />
-      <Stack.Screen
-        name="ManagePayment"
-        component={ManagePayment}
-        options={{...customOptions}}
-      />
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        // component={ProfileStack}
-        options={{...defaultOptions, headerRight: () => <ShareButton />}}
-      />
-      <Stack.Screen
-        name="ViewReports"
-        component={ViewReports}
-        options={{...customOptions}}
-      />
+          gestureEnabled: true,
+        }}>
+        <Stack.Screen name="subscriptionAd" component={ShowSubscriptionAd} />
+        <Stack.Screen
+          name="ShowSubscriptionNext"
+          component={ShowSubscriptionNext}
+        />
+      </Stack.Group>
     </Stack.Navigator>
   );
 };

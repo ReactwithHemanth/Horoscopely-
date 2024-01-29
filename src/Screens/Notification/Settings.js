@@ -15,10 +15,14 @@ const dgl = screenDiagonal();
 
 const Settings = ({navigation}) => {
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const [NotificationEnabled, setNotificationEnabled] = useState(false);
+  const [PaymentNotify, setPaymentNotify] = useState(false);
+  const [EmailNotify, setEmailNotify] = useState(false);
+  const [smsNotify, setSmsNotify] = useState(false);
 
   const ItemList = props => {
-    const {title, sub, onValueChanged, enabled} = props;
+    const {title, sub, onValueChanged, value} = props;
+    const toggleSwitch = () => onValueChanged(previousState => !previousState);
     return (
       <View style={styles.ItemListView}>
         <View style={{width: width / 1.9}}>
@@ -28,10 +32,10 @@ const Settings = ({navigation}) => {
         <View>
           <Switch
             trackColor={{false: '#767577', true: Color.regularViolet}}
-            thumbColor={enabled ? Color.white : '#f4f3f4'}
-            ios_backgroundColor="#EDF0F1"
-            onValueChange={() => onValueChanged}
-            enabled={enabled}
+            thumbColor={isEnabled ?? Color.white}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={value}
           />
         </View>
       </View>
@@ -65,14 +69,18 @@ const Settings = ({navigation}) => {
         <ItemList
           title={'Horoscope'}
           sub={'Get notified of the horoscope'}
-          onValueChanged={toggleSwitch}
+          onValueChanged={() => setIsEnabled(!isEnabled)}
           value={isEnabled}
         />
         <ItemList
           title={'push Notification'}
           sub={'Receive notifications of Horoscope and Payment Details'}
+          onValueChanged={setNotificationEnabled}
+          value={NotificationEnabled}
         />
         <ItemList
+          onValueChanged={setPaymentNotify}
+          value={PaymentNotify}
           title={'Payment Details'}
           sub={'Get notified at the end of the subscription plan'}
         />
@@ -82,12 +90,16 @@ const Settings = ({navigation}) => {
           navigate={() => navigation.navigate('DateTimeScreen')}
         />
         <ItemList
+          onValueChanged={setEmailNotify}
+          value={EmailNotify}
           title={'Emails'}
           sub={
             'Receive Promotions / Campaigns Get promotions & campaigns through email'
           }
         />
         <ItemList
+          onValueChanged={setSmsNotify}
+          value={smsNotify}
           title={'SMS'}
           sub={
             'Receive Promotions / Campaigns Get promotions & campaigns through SMS'

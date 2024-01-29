@@ -31,9 +31,8 @@ const Footer = props => {
     {id: 4, value: 'More', label: 'MORE'},
   ];
 
-  const handleSignOut = async () => {
+  const handleShowActionSheet = async () => {
     try {
-      // await auth().signOut();
       actionSheetRef.current?.show();
     } catch (error) {
       console.error('Error signing out:', error);
@@ -41,7 +40,6 @@ const Footer = props => {
   };
   const handleActionDown = async () => {
     try {
-      // await auth().signOut();
       actionSheetRef.current?.hide();
     } catch (error) {
       console.error('Error signing out:', error);
@@ -51,7 +49,7 @@ const Footer = props => {
   const ItemRender = ({value}) => {
     const _navigate = value => {
       if (value == 'More') {
-        handleSignOut();
+        handleShowActionSheet();
       } else {
         setActive(value);
         navigation.navigate(value);
@@ -78,30 +76,28 @@ const Footer = props => {
           width: dgl * 0.3,
           height: dgl * 0.9,
           alignSelf: 'center',
-          backgroundColor: 'cyan',
         }}
       />
     );
   };
+  if (FooterVisibility) {
+    return (
+      <>
+        <ActionSheetView
+          ref={actionSheetRef}
+          navigation={navigation}
+          onPress={() => handleActionDown()}
+        />
 
-  return (
-    <>
-      <ActionSheetView
-        ref={actionSheetRef}
-        navigation={navigation}
-        onPress={() => handleActionDown()}
-      />
-      {FooterVisibility ? (
         <View style={[styles.footer]}>
           {item.map((item, idx) => {
             return <ItemRender key={idx} value={item} />;
           })}
         </View>
-      ) : (
-        <></>
-      )}
-    </>
-  );
+      </>
+    );
+  }
+  return;
 };
 
 export default Footer;

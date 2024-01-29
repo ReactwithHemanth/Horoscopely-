@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Horoscope.ly</string>
+    <string name="facebook_app_id">907392430973554</string>
+   <string name="facebook_client_token">23e8296052b9c83c2bc839723dc58ddb</string>
 </resources>
