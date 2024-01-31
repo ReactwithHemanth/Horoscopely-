@@ -1,8 +1,8 @@
 import {Color} from '../Utils/Color';
 import {screenDiagonal} from '../Utils/helperFunctions';
 export const SPACING = 10;
-
-const {StyleSheet, Dimensions} = require('react-native');
+export const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 5;
+import {Dimensions, StyleSheet} from 'react-native';
 const {width, height} = Dimensions.get('window');
 const dgl = screenDiagonal();
 
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
   },
   //Home
   text1: {fontSize: 20, marginLeft: 30},
-  Desctext: {color: Color.white, fontSize: dgl * 0.015},
+  Desctext: {color: Color.white, fontSize: dgl * 0.015, textAlign: 'left'},
   textBold: {fontSize: 20, fontWeight: 'bold'},
   textSemiBold: {fontSize: 15, fontWeight: 'bold', marginLeft: SPACING},
   width: width / 2,
@@ -425,7 +425,10 @@ const styles = StyleSheet.create({
   alignView: {alignItems: 'center'},
   textMargin: {marginTop: SPACING, color: Color.white},
   textMarginBlack: {marginTop: SPACING, color: Color.black},
-  LinearLineAlign: {flexDirection: 'row', justifyContent: 'space-between'},
+  LinearLineAlign: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   reportAlign: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -610,11 +613,9 @@ const styles = StyleSheet.create({
   arrowStyle: {
     position: 'absolute',
     flexDirection: 'row',
-    width: width,
+    width: width / 1.5,
     justifyContent: 'space-between',
-    paddingHorizontal: dgl * 0.08,
-    alignItems: 'center',
-    marginLeft: dgl * 0.02,
+    alignSelf: 'center',
     top: dgl * 0.25,
   },
   compatibilityButon: {
@@ -688,7 +689,7 @@ const styles = StyleSheet.create({
 
   ColoumBox: {
     margin: SPACING,
-    width: dgl * 0.38,
+    width: dgl * 0.35,
   },
   BoxTitle: {
     fontSize: 18,
@@ -1231,6 +1232,18 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginHorizontal: 30,
     marginTop: 30,
+  },
+  contentInset: {
+    // iOS ONLY
+    top: 0,
+    left: SPACING_FOR_CARD_INSET, // Left spacing for the very first card
+    bottom: 0,
+    right: SPACING_FOR_CARD_INSET,
+  },
+  scrollContainer: {
+    flex: 2,
+    marginTop: dgl * 0.05,
+    padding: SPACING * 2,
   },
 });
 

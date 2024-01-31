@@ -34,7 +34,7 @@ import {RnGet} from '../../hooks/RnstoreHook';
 import {Table, Row, Rows} from 'react-native-table-component';
 import {DateInput} from './DatePicker';
 import {TimePicker} from './TimePicker';
-import {menuList, tableData, tableData2} from '../../Utils/Dummy';
+import {menuList, tableData, tableData2, traits} from '../../Utils/Dummy';
 const dgl = screenDiagonal();
 
 const TAB_WIDTH = 120;
@@ -140,23 +140,8 @@ const Profile = ({navigation}) => {
               width: width,
               padding: SPACING * 2,
             }}>
-            <Text style={styles.traitsText}>
-              You may have had trouble communicating in early life. Perhaps you
-              suffer from feelings of inadequacy. You overcome these feelings
-              through sheer necessity, for you have determination in achieving
-              your goals and purposes in life. You will have strong likes and
-              dislikes, and can be very reserved and dignified, though when
-              vexed you are apt to be sharp and sarcastic if not actually cruel.
-              Avoid pride, cultivate sympathy and endeavour to see things from
-              others standpoints as well as your own.
-            </Text>
-            <Text style={styles.traitsText}>
-              You will have strong likes and dislikes, and can be very reserved
-              and dignified, though when vexed you are apt to be sharp and
-              sarcastic if not actually cruel. Avoid pride, cultivate sympathy
-              and endeavour to see things from others standpoints as well as
-              your own.
-            </Text>
+            <Text style={styles.traitsText}>{traits}</Text>
+            <Text style={styles.traitsText}>{traits}</Text>
             <View style={styles.TabTextView}>
               <Text style={styles.SemiBoldText1}>Spiritual lesson </Text>
               <Text style={styles.normalText1}>: Sociability (lighten up)</Text>

@@ -27,8 +27,6 @@ const dgl = screenDiagonal();
 const CompatibilityScreen = ({navigation}) => {
   /**
    * TODO:
-   * Remove inline-styles
-   * API integration
    * save user Zodiac index
    * calculation based on compatibility
    * add animation
@@ -76,10 +74,10 @@ const CompatibilityScreen = ({navigation}) => {
           autoPlay={false}
           data={data}
           scrollAnimationDuration={1000}
-          style={{marginLeft: 30}}
+          style={{alignSelf: 'center'}}
           onSnapToItem={index => setMyindex(index)}
           renderItem={({item, index}) => (
-            <View>
+            <View style={{alignItems: 'center'}}>
               <View style={styles.zodiacBox}>
                 <LinearGradient
                   colors={[Color.lightBlue, Color.primaryBlue]}
@@ -120,9 +118,9 @@ const CompatibilityScreen = ({navigation}) => {
           data={[...new Array(6).keys()]}
           scrollAnimationDuration={1000}
           onSnapToItem={index => setindex(index)}
-          style={{marginLeft: 30, alignItems: 'center'}}
+          style={{alignSelf: 'center'}}
           renderItem={({index: fIndex}) => (
-            <View style={{}}>
+            <View style={{alignItems: 'center'}}>
               <View style={styles.zodiacBox}>
                 <LinearGradient
                   colors={[Color.lightBlue, Color.primaryBlue]}
@@ -151,26 +149,12 @@ const CompatibilityScreen = ({navigation}) => {
         />
 
         <View style={styles.arrowStyle}>
-          <TouchableOpacity
-            style={{transform: [{rotate: '180deg'}]}}
-            onPress={() => {
-              if (index === 0) return;
-
-              setindex(index - 1);
-            }}>
+          <View style={{transform: [{rotate: '180deg'}]}}>
             <CompatibilityArrow />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              if (index === data.length - 1) {
-                return;
-              }
-
-              setindex(index + 1);
-            }}>
+          </View>
+          <View>
             <CompatibilityArrow />
-          </TouchableOpacity>
+          </View>
         </View>
       </SafeAreaView>
       <View style={{flex: 1}}>

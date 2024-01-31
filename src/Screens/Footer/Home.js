@@ -21,7 +21,9 @@ import {Color} from '../../Utils/Color';
 import {dummies} from '../../Utils/Dummy';
 import {MainContext} from '../../Confg/Context';
 import {useFocusEffect} from '@react-navigation/native';
-
+import {RnGet} from '../../hooks/RnstoreHook';
+import {FormateDate} from '../../Utils/helperFunctions';
+import {FB_ID} from '@env';
 const Home = ({navigation}) => {
   const user = useAuth();
   const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
@@ -29,6 +31,7 @@ const Home = ({navigation}) => {
 
   useFocusEffect(React.useCallback(() => {}, []));
   const [loading, setLoading] = useState(false);
+  const [Result, setResult] = useState([]);
   const [SelectFilter, setSelectFilter] = useState('Today');
   const duration = 2000;
   const ACTIVE_STROKE = 5;
@@ -41,6 +44,7 @@ const Home = ({navigation}) => {
     // }, 7000);
 
     setFooterVisible(true);
+    CheckLaunchedFirst();
 
     // return () => {
     //   clearInterval(interval);
@@ -54,6 +58,13 @@ const Home = ({navigation}) => {
   //   return <SomeThingWentWrongView />;
   // }
 
+  const CheckLaunchedFirst = async () => {
+    const user = await RnGet('userData');
+    if (user == undefined) {
+      navigation.navigate('onBoarding');
+    }
+    setResult(user);
+  };
   const SvgBox = props => {
     const {backgroundColor, iconColor, title, icon, onPress} = props;
     return (
@@ -78,8 +89,8 @@ const Home = ({navigation}) => {
       <LinearGradient colors={['#32A0EE', '#9713C6']} style={styles.LinearView}>
         <View style={styles.LinearLineAlign}>
           <View>
-            <Text style={styles.nameText}>Hello,harper</Text>
-            <Text style={styles.dateText}>January 1 , 1998 09</Text>
+            <Text style={styles.nameText}>Hello,{Result?.name}</Text>
+            <Text style={styles.dateText}>{FormateDate(Result?.DOB)}</Text>
           </View>
           <DearSvg fill={Color.shadedWhite} />
         </View>

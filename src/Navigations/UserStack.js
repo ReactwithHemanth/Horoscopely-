@@ -45,6 +45,7 @@ import MakePayment from '../Screens/ActionSheetScreens/MakePayment';
 import ShowSubscriptionAd from '../Screens/ProfileScreen/SubscriptionAds';
 import ShowSubscriptionNext from '../Screens/ProfileScreen/SubscriptionAdsNext';
 import AppInfo from '../Screens/ProfileScreen/Appinfo';
+import NotificationDetails from '../Screens/Notification/NotificationDetails';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -159,7 +160,11 @@ const UserStack = ({navigation, route}) => {
         <Stack.Screen
           name="Notification"
           component={Notification}
-          options={{...customOptions, headerRight: () => <SettingsButton />}}
+          options={{
+            ...customOptions,
+            title: 'Notification',
+            headerRight: () => <SettingsButton />,
+          }}
         />
         <Stack.Screen
           name="Settings"
@@ -256,6 +261,15 @@ const UserStack = ({navigation, route}) => {
           options={{
             ...defaultOptions,
             headerRight: () => <ShareButton />,
+          }}
+        />
+        <Stack.Screen
+          name="NotificationDetails"
+          component={NotificationDetails}
+          options={{
+            ...customOptions,
+            title: 'Notification',
+            headerRight: () => <SettingsButton />,
           }}
         />
       </Stack.Group>
