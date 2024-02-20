@@ -27,6 +27,7 @@ const Notification = props => {
   const ListItem = ({item, index}) => {
     return (
       <TouchableOpacity
+        key={item?.id}
         style={styles.MainBoxNotifications}
         onPress={() => {
           props.navigation.navigate('NotificationDetails', {

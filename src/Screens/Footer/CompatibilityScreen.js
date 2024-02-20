@@ -209,7 +209,7 @@ const CompatibilityScreen = ({navigation}) => {
             parallaxAdjacentItemScale: 0.7,
           }}
           onSnapToItem={index => setindex(index)}
-          style={{alignSelf: 'center', backgroundColor: 'red'}}
+          style={{alignSelf: 'center'}}
           renderItem={({index: fIndex}) => (
             <View
               style={{
