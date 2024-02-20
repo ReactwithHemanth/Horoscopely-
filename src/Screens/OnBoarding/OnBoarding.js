@@ -37,6 +37,7 @@ import {
 import {RnGet, RnStore} from '../../hooks/RnstoreHook';
 import {useIsFocused} from '@react-navigation/native';
 import {MainContext} from '../../Confg/Context';
+import ShakeAnimation from '../../Animated/ShakeAnimation';
 
 const OnBoarding = ({navigation, route}) => {
   const user = useAuth();
@@ -62,7 +63,7 @@ const OnBoarding = ({navigation, route}) => {
   const CARD_WIDTH = Dimensions.get('window').width * 0.8;
 
   useEffect(() => {
-    setFooterVisible();
+    setFooterVisible(false);
   }, []);
 
   //First launched && check userdata is already stored
@@ -94,6 +95,7 @@ const OnBoarding = ({navigation, route}) => {
       if (status) {
         setFirstLaunched(false);
         navigation.navigate('Home');
+        setFooterVisible(true);
       }
     } catch (error) {
       console.error('Error handleGetStarted', error);
@@ -137,7 +139,6 @@ const OnBoarding = ({navigation, route}) => {
       setEmail(text);
     }
   };
-
   return (
     <View style={styles1.container2}>
       <FirstTheme item={'topImage'} />
@@ -200,6 +201,8 @@ const OnBoarding = ({navigation, route}) => {
               value={user?.email ?? email}
               onChangeText={e => validate(e)}
             />
+            {/* <Text style={styles.AttributeText}>Please provide your email</Text> */}
+            {/* <ShakeAnimation /> */}
             <LinearCommonButton
               title={'Continue'}
               onPress={() => {
@@ -221,7 +224,7 @@ const OnBoarding = ({navigation, route}) => {
               placeholder="Phone Number"
               style={styles.input}
               keyboardType="number-pad"
-              value={number}
+              value={user?.phoneNumber ?? number}
               onChangeText={e => setNumber(e)}
             />
             <LinearCommonButton

@@ -43,6 +43,21 @@ export const Methods = [
     icon: <AppleIcon />,
   },
 ];
+export const monthArray = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+export const FilterDate = ['Today', 'Yesterday', 'Last week', 'Last month'];
 
 export const data = [
   {id: '1', label: 'nameInput'},
@@ -55,8 +70,8 @@ export const data = [
   {id: '8', label: 'push'},
 ];
 export const genderArray = [
-  {label: 'Male', value: 'male'},
-  {label: 'Female', value: 'female'},
+  {label: 'Male', value: 'Male'},
+  {label: 'Female', value: 'Female'},
 ];
 export const RelationShipStatus = [
   {label: 'single', value: 'single'},
@@ -121,6 +136,30 @@ export const FooterItem = [
   {id: 3, value: 'Remedy', label: 'REMEDY'},
   {id: 4, value: 'More', label: 'MORE'},
 ];
+export const listItem = [
+  {
+    id: 0,
+    name: 'Subscription Packages',
+    value: 'bell',
+    nav: 'PackageDetails',
+  },
+  {id: 1, name: 'Manage Interest', value: 'like', nav: 'ManageIntrest'},
+  {id: 2, name: 'View Profile', value: 'CircleProfile', nav: 'Profile'},
+  {id: 3, name: 'Invite Friends', value: 'invite', nav: 'ManageIntrest'},
+  {id: 4, name: 'View Reports', value: 'File', nav: 'ViewReports'},
+  {id: 5, name: 'Manage Payment', value: 'payment', nav: 'MakePayment'},
+  {id: 6, name: 'Settings', value: 'settings', nav: 'Settings'},
+  {id: 7, name: 'FAQs', value: 'FAQ', nav: 'FAQ'},
+  {id: 8, name: 'Help', value: 'help', nav: 'HelpSection'},
+  {id: 9, name: 'Terms and Privacy', value: 'terms', nav: 'ManageIntrest'},
+  {id: 10, name: 'App Info', value: 'info', nav: 'AppInfo'},
+  {
+    id: 11,
+    name: 'Sign Out',
+    value: 'info',
+    nav: 'signout',
+  },
+];
 export const Remedy = [
   {
     id: 0,
@@ -163,6 +202,24 @@ malesuada ullamcorper`,
     desc: `Lorem ipsum dolor sit amet, consectetur adipis cing elit. Sed
 malesuada ullamcorper`,
     grd: {Color1: '#B442EC', Color2: '#833DFE'},
+  },
+];
+
+export const FAQData = [
+  {
+    id: 0,
+    name: 'Question heading will be here',
+    desc: 'Answer here lorem here lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor ',
+  },
+  {
+    id: 1,
+    name: 'Question heading will be here',
+    desc: 'Answer here lorem ipsum dolor sit amet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada ullamcorper Lorem ipsum dolor sit amet, consectetur adipiscing elit. ajsfa ahfksjfa aslfaj afjl al fjalsf alsjf',
+  },
+  {
+    id: 2,
+    name: 'Question heading will be here',
+    desc: 'Answer here lorem ipsum dolor sit amet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada ullamcorper Lorem ipsum dolor sit amet, consectetur adipiscing elit.ksjfa aslfaj afjl al fjalsf alsjf',
   },
 ];
 export const dummyText = `You may have had trouble communicating in early life. Perhaps

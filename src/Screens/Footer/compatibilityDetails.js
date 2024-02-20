@@ -15,12 +15,14 @@ import {Color} from '../../Utils/Color';
 // import SimpleGradientProgressbarView from 'react-native-simple-gradient-progressbar-view';
 import Animated, {
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import {dummyText, traits} from '../../Utils/Dummy';
 import LinearGradient from 'react-native-linear-gradient';
+import {ReText, concat4} from 'react-native-redash';
 const dgl = screenDiagonal();
 
 const CompatibilityDetails = () => {
@@ -125,6 +127,10 @@ const CompatibilityDetails = () => {
       </View>
     );
   };
+  const ProgressText = useDerivedValue(() => {
+    return `${Math.floor(AnimWidth.value / 2)}%`;
+  });
+
   const LinearProgressBar = props => {
     const {value} = props;
     useEffect(() => {
@@ -132,13 +138,14 @@ const CompatibilityDetails = () => {
     }, []);
 
     const progress = value => {
-      AnimWidth.value = withSpring((value / 100) * 100);
+      AnimWidth.value = withSpring((value * 200) / 100);
     };
+
     return (
       <View
         style={{
           height: 10,
-          width: dgl * 0.2,
+          width: 200,
           backgroundColor: Color.darkViolet,
           borderRadius: 10,
         }}>
@@ -154,16 +161,13 @@ const CompatibilityDetails = () => {
       </View>
     );
   };
+  // const percent = new Value(70);
   return (
     <ImageBackground
       source={require('../../Assets/Compatibilitydetail/Component_711.png')}
       resizeMode="cover"
       style={styles.imageBgView}>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          alignItems: 'center',
-        }}>
+      <SafeAreaView style={styles.safeAreaContainer}>
         <View style={styles.compatiblityView4}>
           <View style={styles.align}>
             <View style={styles.compatiblityView3}>
@@ -206,17 +210,20 @@ const CompatibilityDetails = () => {
 
         <ScrollView style={styles.scrollContainer}>
           <View style={[styles.rowBox, styles.alignItemStyle]}>
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: '600',
-                color: Color.shadedWhite,
-              }}>
-              Overall
-            </Text>
+            <Text style={styles.overAllText}>Overall</Text>
 
             <LinearProgressBar value={80} />
-            <Text>50%</Text>
+            {/* <Text>50%</Text> */}
+            <View>
+              <ReText
+                text={ProgressText}
+                style={{
+                  color: Color.white,
+                  fontSize: 17,
+                  fontVariant: ['tabular-nums'],
+                }}
+              />
+            </View>
           </View>
           <Text style={styles.textMargin}>{dummy}</Text>
           <LinearGradient

@@ -1,12 +1,5 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Color} from '../../Utils/Color';
-import {
-  MoreSvg,
-  OrbitSvg,
-  SaturnSvg,
-  SolidSvg,
-} from '../../Components/SvgComponent';
 import styles from '../../Styles/styles';
 import {screenDiagonal} from '../../Utils/helperFunctions';
 import {Image} from 'react-native-svg';

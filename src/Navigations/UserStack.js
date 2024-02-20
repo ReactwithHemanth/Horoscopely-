@@ -58,7 +58,7 @@ const Notify = () => {
       onPress={() => navigation.navigate('Notification')}>
       <NotificationSvg fill={Color.white} />
       <View style={styles.headerNotifyBar}>
-        <Text style={{color: Color.shadedWhite}}>3</Text>
+        <Text style={styles.notifyRedDot}>3</Text>
       </View>
     </TouchableOpacity>
   );
@@ -79,7 +79,6 @@ const ShareButton = () => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      style={styles.headerContainer}
       onPress={() =>
         Share.open({url: 'https://horoscope.ly' + '/mbaksmhdfgab'})
       }>
@@ -121,7 +120,7 @@ const UserStack = ({navigation, route}) => {
   };
   return (
     <Stack.Navigator
-      initialRouteName={FirstLaunched ? 'onBoarding' : 'Home'}
+      initialRouteName={FirstLaunched ? 'HelpSection' : 'Home'}
       screenOptions={{
         headerBack: {color: Color.darkViolet},
         headerBackTitleVisible: false,

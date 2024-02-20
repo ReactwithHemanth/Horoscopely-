@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import styles, {SPACING} from '../../Styles/styles';
+import styles from '../../Styles/styles';
 import {ShareSvg} from '../../Components/SvgComponent';
 import {Color} from '../../Utils/Color';
 import {screenDiagonal} from '../../Utils/helperFunctions';
@@ -19,9 +19,13 @@ import {Remedy} from '../../Utils/Dummy';
 const dgl = screenDiagonal();
 
 const RemedyScreen = () => {
-  const HandleShare = () => {
-    let randonString = 'KJSKFDNSKJ';
-    Share.open({url: 'https://horoscope.ly' + randonString})
+  const HandleShare = item => {
+    const shareOption = {
+      title: 'Share file',
+      message: item,
+      url: 'https://google.com',
+    };
+    Share.open(shareOption)
       .then(res => {
         console.log(res);
       })
@@ -41,7 +45,7 @@ const RemedyScreen = () => {
         <View style={styles.ColoumBox}>
           <View style={styles.rowBox}>
             <Text style={styles.BoxTitle}>{Title}</Text>
-            <TouchableOpacity onPress={HandleShare}>
+            <TouchableOpacity onPress={() => HandleShare(Description)}>
               <ShareSvg fill={Color.white} />
             </TouchableOpacity>
           </View>

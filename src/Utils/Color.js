@@ -13,4 +13,6 @@ export const Color = {
   primaryBlue: '#328AEE',
   shadedBlack: '#1B1D20',
   shadedViolet: '#52198BFC',
+  disireRed: '#eb3b5a',
+  cyanBlue: '#4BD4FF',
 };

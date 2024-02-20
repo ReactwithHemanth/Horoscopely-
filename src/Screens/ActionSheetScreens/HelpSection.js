@@ -1,11 +1,26 @@
-import {View, Text, Image, SafeAreaView} from 'react-native';
-import React from 'react';
-import {width} from '../../Utils/helperFunctions';
-import {Color} from '../../Utils/Color';
+import {View, Text, Image, SafeAreaView, TouchableOpacity} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
 import styles from '../../Styles/styles';
 import {LoremIpsum} from '../../Utils/Dummy';
+import {MainContext} from '../../Confg/Context';
+import {RnGet} from '../../hooks/RnstoreHook';
+import {Toast} from '../../Utils/helperFunctions';
 
-const HelpSection = () => {
+const HelpSection = ({navigation}) => {
+  const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
+    useContext(MainContext);
+  const [result, setResult] = useState([]);
+  useEffect(() => {
+    setFooterVisible(false);
+    CheckLaunchedFirst();
+  }, []);
+
+  const CheckLaunchedFirst = async () => {
+    const user = await RnGet('userData');
+    // setResult(user);
+    if (user != undefined)
+      Toast('Continue with User', 'You can continue with Previous User');
+  };
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 2, alignItems: 'center'}}>
@@ -47,9 +62,11 @@ const HelpSection = () => {
           </Text>
         </View>
       </View>
-      <View style={styles.gotView}>
+      <TouchableOpacity
+        style={styles.gotView}
+        onPress={() => navigation.navigate('onBoarding')}>
         <Text style={styles.GotText}>Got it</Text>
-      </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

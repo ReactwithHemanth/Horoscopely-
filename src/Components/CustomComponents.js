@@ -155,16 +155,18 @@ const PickerComponent = props => {
 };
 
 export const LoadingView = props => {
-  const [isLoading, setisLoading] = useState(true);
+  const [isLoading, setisLoading] = useState(props?.loading);
+  const DELAY = 1000;
+
   useEffect(() => {
     const Timeout = setTimeout(() => {
       setisLoading(false);
-    });
+    }, DELAY);
     return () => clearTimeout(Timeout);
   });
 
   return (
-    <View style={styles.aligncenter}>
+    <View style={styles.loadingView2}>
       <Image
         source={require('../Assets/loading/bgimage.png')}
         style={styles.loadingView1}
@@ -204,12 +206,13 @@ export const LoadingView2 = props => {
   );
 };
 export const ImageBackgroundView = props => {
-  const {style, children} = props;
+  const {style, children, disableScroll} = props;
   return (
     <ImageBackground
       source={require('../Assets/Home/Component1.png')}
       style={styles.imageBgView}>
       <ScrollView
+        scrollEnabled={disableScroll}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={
           style ?? {alignItems: 'center', padding: SPACING}

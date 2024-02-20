@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import styles from '../../Styles/styles';
 import {
   BottomImage,
@@ -17,12 +17,14 @@ import {
   LoadingView,
 } from '../../Components/CustomComponents';
 import auth from '@react-native-firebase/auth';
-import {RnStore} from '../../hooks/RnstoreHook';
 import {Toast, screenDiagonal} from '../../Utils/helperFunctions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useAuth} from '../../hooks/useAuth';
+
 const dgl = screenDiagonal();
 
 const EmailSignUp = ({navigation}) => {
+  const user = useAuth();
+
   const [email, setEmail] = useState('infoappmaker@gmail.com');
   const [loading, setloading] = useState(false);
 
