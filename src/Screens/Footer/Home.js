@@ -1,5 +1,11 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {useAuth} from '../../hooks/useAuth';
 import {
   ArrowLeft,
@@ -16,11 +22,17 @@ import {
 } from '../../Components/CustomComponents';
 import LinearGradient from 'react-native-linear-gradient';
 import CircularProgress from 'react-native-circular-progress-indicator';
-import styles, {SPACING} from '../../Styles/styles';
+import styles from '../../Styles/styles';
 import {Color} from '../../Utils/Color';
 import {dummies} from '../../Utils/Dummy';
 import {MainContext} from '../../Confg/Context';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {RnGet} from '../../hooks/RnstoreHook';
+import {FormateDate} from '../../Utils/helperFunctions';
+import FilterAnimation from '../../Animated/filterAnimation';
+import Share from 'react-native-share';
+import ActionSheet from 'react-native-actions-sheet';
+import {Calendar} from 'react-native-calendars';
 
 const Home = ({navigation}) => {
   const user = useAuth();
@@ -29,7 +41,9 @@ const Home = ({navigation}) => {
 
   useFocusEffect(React.useCallback(() => {}, []));
   const [loading, setLoading] = useState(false);
-  const [SelectFilter, setSelectFilter] = useState('Today');
+  const [Result, setResult] = useState([]);
+  const [selectdate, setSelectedate] = useState([]);
+  const calenderRef = useRef(null);
   const duration = 2000;
   const ACTIVE_STROKE = 5;
   const INACTIVE_STROKE = 4;
@@ -41,11 +55,18 @@ const Home = ({navigation}) => {
     // }, 7000);
 
     setFooterVisible(true);
+    CheckLaunchedFirst();
 
     // return () => {
     //   clearInterval(interval);
     // };
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      setFooterVisible(true);
+    }, []),
+  );
 
   if (loading) {
     return <LoadingView />;
@@ -54,13 +75,25 @@ const Home = ({navigation}) => {
   //   return <SomeThingWentWrongView />;
   // }
 
+  const CheckLaunchedFirst = async () => {
+    const user = await RnGet('userData');
+    if (user == undefined) {
+      navigation.navigate('onBoarding');
+    }
+    setResult(user);
+  };
+
+  const ShareButton = () => {
+    Share.open({url: 'https://horoscope.ly' + '/mbaksmhdfgab'});
+  };
+
   const SvgBox = props => {
     const {backgroundColor, iconColor, title, icon, onPress} = props;
     return (
       <TouchableOpacity
         onPress={onPress}
         style={[styles.BoxView, {backgroundColor: backgroundColor}]}>
-        <View style={{flex: 1}}>
+        <View style={styles.homeView2}>
           <Text style={{color: iconColor}}>{title}</Text>
         </View>
         <View style={styles.SvgView}>
@@ -78,8 +111,8 @@ const Home = ({navigation}) => {
       <LinearGradient colors={['#32A0EE', '#9713C6']} style={styles.LinearView}>
         <View style={styles.LinearLineAlign}>
           <View>
-            <Text style={styles.nameText}>Hello,harper</Text>
-            <Text style={styles.dateText}>January 1 , 1998 09</Text>
+            <Text style={styles.nameText}>Hello,{Result?.name}</Text>
+            <Text style={styles.dateText}>{FormateDate(Result?.DOB)}</Text>
           </View>
           <DearSvg fill={Color.shadedWhite} />
         </View>
@@ -151,35 +184,56 @@ const Home = ({navigation}) => {
       </LinearGradient>
     );
   };
-  const FilterDate = () => {
-    return (
-      <View style={styles.filterStyle}>
-        <Text style={styles.filterTextStyle}>Today</Text>
-        <ArrowLeft fill={'#fff'} />
-      </View>
-    );
+
+  const handleCalender = () => {
+    calenderRef.current?.show();
   };
+  const CalenderActions = useCallback(() => {
+    return (
+      <Calendar
+        onDayPress={day => setSelectedate(day.dateString)}
+        style={{paddingBottom: 25}}
+        markedDates={{
+          [selectdate]: {
+            selectdate: true,
+            marked: true,
+            disableTouchEvent: true,
+            selectedDotColor: 'orange',
+          },
+        }}
+      />
+    );
+  }, [selectdate]);
   return (
-    <ImageBackgroundView>
-      <LinearWidget />
-      <View style={styles.homeView2}>
-        <Text style={styles.homeheading}>Your Horoscope of the Day</Text>
-        <View style={styles.BoxView2}>
-          <View style={[styles.LinearLineAlign]}>
-            <View style={styles.Cmargin}>
-              <ShareSvg fill={Color.white} />
+    <>
+      <ImageBackgroundView>
+        <LinearWidget />
+        <View style={styles.homeView2}>
+          <Text style={styles.homeheading}>Your Horoscope of the Day</Text>
+          <View style={styles.BoxView2}>
+            <View style={styles.LinearLineAlign}>
+              <TouchableOpacity
+                onPress={() => ShareButton()}
+                style={styles.Cmargin}>
+                <ShareSvg fill={Color.white} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.Cmargin}
+                onPress={() => handleCalender()}>
+                <CalenderSvg fill={Color.white} />
+              </TouchableOpacity>
             </View>
-            <View style={styles.Cmargin}>
-              <CalenderSvg fill={Color.white} />
-            </View>
+            <FilterAnimation />
           </View>
-          <FilterDate />
+          <View style={styles.Cpadding}>
+            <Text style={styles.Desctext}>{dummies}</Text>
+          </View>
         </View>
-        <View style={styles.Cpadding}>
-          <Text style={styles.Desctext}>{dummies}</Text>
-        </View>
-      </View>
-    </ImageBackgroundView>
+        <ActionSheet gestureEnabled animated closable ref={calenderRef}>
+          <CalenderActions />
+        </ActionSheet>
+      </ImageBackgroundView>
+    </>
   );
 };
 const styles1 = StyleSheet.create({});

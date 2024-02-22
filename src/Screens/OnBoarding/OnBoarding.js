@@ -19,7 +19,7 @@ import {
   View,
 } from 'react-native';
 import {screenDiagonal, width} from '../../Utils/helperFunctions';
-import styles, {SPACING} from '../../Styles/styles';
+import styles, {SPACING, SPACING_FOR_CARD_INSET} from '../../Styles/styles';
 import {
   FirstTheme,
   LinearCommonButton,
@@ -37,9 +37,12 @@ import {
 import {RnGet, RnStore} from '../../hooks/RnstoreHook';
 import {useIsFocused} from '@react-navigation/native';
 import {MainContext} from '../../Confg/Context';
+import ShakeAnimation from '../../Animated/ShakeAnimation';
 
 const OnBoarding = ({navigation, route}) => {
   const user = useAuth();
+  const ref = useRef();
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState(user?.email);
   const [number, setNumber] = useState(0);
@@ -49,30 +52,23 @@ const OnBoarding = ({navigation, route}) => {
   const [EnablePush, setEnablePush] = useState(true);
   const [gender, setGender] = useState(genderArray[0].value);
   const [activeGender, setactiveGender] = useState(0);
-  const [date, setDate] = useState(new Date());
   const [RelationShip, setRelationShip] = useState(
     RelationShipStatus[0]?.value,
   );
-  const dgl = screenDiagonal();
-
-  const ref = useRef();
   const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
     useContext(MainContext);
-
   const [RelationShipIndex, setRelationShipIndex] = useState(0);
   const [dataSourceCords, setDataSourceCords] = useState([]);
   const [scrollToIndex, setScrollToIndex] = useState(0);
   const CARD_WIDTH = Dimensions.get('window').width * 0.8;
-  const CARD_HEIGHT = Dimensions.get('window').height * 0.7;
-  const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 5;
 
   useEffect(() => {
-    setFooterVisible();
+    setFooterVisible(false);
   }, []);
 
   //First launched && check userdata is already stored
+  //userdata is already stored
   const CheckLaunchedFirst = async () => {
-    //userdata is already stored
     const user = await RnGet('userData');
     if (user) {
       setFirstLaunched(false);
@@ -99,6 +95,7 @@ const OnBoarding = ({navigation, route}) => {
       if (status) {
         setFirstLaunched(false);
         navigation.navigate('Home');
+        setFooterVisible(true);
       }
     } catch (error) {
       console.error('Error handleGetStarted', error);
@@ -119,17 +116,29 @@ const OnBoarding = ({navigation, route}) => {
   };
 
   //use scroll handler to scroll x direction
+  //we get the offset value from array based on key
   const scrollHandler = key => {
     setScrollToIndex(key - 1);
     if (dataSourceCords.length > scrollToIndex) {
       ref?.current.scrollTo({
         x: dataSourceCords[key],
-        y: 0, //we get the offset value from array based on key
+        y: 0,
         animated: true,
       });
     }
   };
-
+  const validate = text => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (reg.test(text) == false) {
+      //email is not valid
+      console.log('Email is Not Correct');
+      setEmail(text);
+      return false;
+    } else {
+      console.log('Email is Correct');
+      setEmail(text);
+    }
+  };
   return (
     <View style={styles1.container2}>
       <FirstTheme item={'topImage'} />
@@ -144,13 +153,7 @@ const OnBoarding = ({navigation, route}) => {
         decelerationRate={0}
         snapToAlignment={'center'}
         snapToInterval={CARD_WIDTH + 10}
-        contentInset={{
-          // iOS ONLY
-          top: 0,
-          left: SPACING_FOR_CARD_INSET, // Left spacing for the very first card
-          bottom: 0,
-          right: SPACING_FOR_CARD_INSET,
-        }} // Right spacing for the very last card
+        contentInset={styles.contentInset}
         contentContainerStyle={{
           // contentInset alternative for Android
           paddingHorizontal:
@@ -191,11 +194,15 @@ const OnBoarding = ({navigation, route}) => {
             <TextInput
               placeholder="Email"
               autoFocus
+              textContentType="emailAddress"
+              keyboardType="email-address"
               style={styles.input}
               defaultValue={email}
               value={user?.email ?? email}
-              onChangeText={e => setEmail(e)}
+              onChangeText={e => validate(e)}
             />
+            {/* <Text style={styles.AttributeText}>Please provide your email</Text> */}
+            {/* <ShakeAnimation /> */}
             <LinearCommonButton
               title={'Continue'}
               onPress={() => {
@@ -216,7 +223,8 @@ const OnBoarding = ({navigation, route}) => {
               autoFocus
               placeholder="Phone Number"
               style={styles.input}
-              value={number}
+              keyboardType="number-pad"
+              value={user?.phoneNumber ?? number}
               onChangeText={e => setNumber(e)}
             />
             <LinearCommonButton

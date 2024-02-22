@@ -43,9 +43,22 @@ export const Methods = [
     icon: <AppleIcon />,
   },
 ];
-export const dummies = [
-  'Adopting a healthy lifestyle is on the cards and will lead you to total fitness. Chance for setting out on a pilgrimage may materialise. High rentals may discourage some from shifting residence to someplace decent. A outstanding payment is likely to be received soon and add to your wealth. Your eye for detail and willingness to put in extra hours at work will be richly rewarded on the professional front.',
+export const monthArray = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
+export const FilterDate = ['Today', 'Yesterday', 'Last week', 'Last month'];
+
 export const data = [
   {id: '1', label: 'nameInput'},
   {id: '2', label: 'emailInput'},
@@ -57,8 +70,8 @@ export const data = [
   {id: '8', label: 'push'},
 ];
 export const genderArray = [
-  {label: 'Male', value: 'male'},
-  {label: 'Female', value: 'female'},
+  {label: 'Male', value: 'Male'},
+  {label: 'Female', value: 'Female'},
 ];
 export const RelationShipStatus = [
   {label: 'single', value: 'single'},
@@ -117,7 +130,98 @@ export const sectionNames = [
   {value: 8, text: 'Section 2'},
   {value: 9, text: 'Section 2'},
 ];
+export const FooterItem = [
+  {id: 1, value: 'Home', label: 'HOME'},
+  {id: 2, value: 'Compatibility', label: 'COMPATIBILITY'},
+  {id: 3, value: 'Remedy', label: 'REMEDY'},
+  {id: 4, value: 'More', label: 'MORE'},
+];
+export const listItem = [
+  {
+    id: 0,
+    name: 'Subscription Packages',
+    value: 'bell',
+    nav: 'PackageDetails',
+  },
+  {id: 1, name: 'Manage Interest', value: 'like', nav: 'ManageIntrest'},
+  {id: 2, name: 'View Profile', value: 'CircleProfile', nav: 'Profile'},
+  {id: 3, name: 'Invite Friends', value: 'invite', nav: 'ManageIntrest'},
+  {id: 4, name: 'View Reports', value: 'File', nav: 'ViewReports'},
+  {id: 5, name: 'Manage Payment', value: 'payment', nav: 'MakePayment'},
+  {id: 6, name: 'Settings', value: 'settings', nav: 'Settings'},
+  {id: 7, name: 'FAQs', value: 'FAQ', nav: 'FAQ'},
+  {id: 8, name: 'Help', value: 'help', nav: 'HelpSection'},
+  {id: 9, name: 'Terms and Privacy', value: 'terms', nav: 'ManageIntrest'},
+  {id: 10, name: 'App Info', value: 'info', nav: 'AppInfo'},
+  {
+    id: 11,
+    name: 'Sign Out',
+    value: 'info',
+    nav: 'signout',
+  },
+];
+export const Remedy = [
+  {
+    id: 0,
+    remedy: 'Health',
+    desc: `Lorem ipsum dolor sit amet, consectetur adipis cing elit. Sed
+malesuada ullamcorper`,
+    grd: {Color1: '#14C17B', Color2: '#30D2C2'},
+  },
+  {
+    id: 1,
+    remedy: 'Careers',
+    desc: `Lorem ipsum dolor sit amet, consectetur adipis cing elit. Sed
+malesuada ullamcorper`,
+    grd: {Color1: '#446FFE', Color2: '#0ACDFF'},
+  },
+  {
+    id: 2,
+    remedy: 'Love',
+    desc: `Lorem ipsum dolor sit amet, consectetur adipis cing elit. Sed
+malesuada ullamcorper`,
+    grd: {Color1: '#FF6BBA', Color2: '#FE3D91'},
+  },
+  {
+    id: 3,
+    remedy: 'Health',
+    desc: `Lorem ipsum dolor sit amet, consectetur adipis cing elit. Sed
+malesuada ullamcorper`,
+    grd: {Color1: '#FFDA72', Color2: '#D4A63D'},
+  },
+  {
+    id: 4,
+    remedy: 'Health',
+    desc: `Lorem ipsum dolor sit amet, consectetur adipis cing elit. Sed
+malesuada ullamcorper`,
+    grd: {Color1: '#FF736E', Color2: '#EF4040'},
+  },
+  {
+    id: 5,
+    remedy: 'Health',
+    desc: `Lorem ipsum dolor sit amet, consectetur adipis cing elit. Sed
+malesuada ullamcorper`,
+    grd: {Color1: '#B442EC', Color2: '#833DFE'},
+  },
+];
 
+export const FAQData = [
+  {
+    id: 0,
+    name: 'Question heading will be here',
+    desc: 'Answer here lorem here lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor sithere lorem ipsum dolor ',
+  },
+  {
+    id: 1,
+    name: 'Question heading will be here',
+    desc: 'Answer here lorem ipsum dolor sit amet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada ullamcorper Lorem ipsum dolor sit amet, consectetur adipiscing elit. ajsfa ahfksjfa aslfaj afjl al fjalsf alsjf',
+  },
+  {
+    id: 2,
+    name: 'Question heading will be here',
+    desc: 'Answer here lorem ipsum dolor sit amet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada ullamcorper Lorem ipsum dolor sit amet, consectetur adipiscing elit.ksjfa aslfaj afjl al fjalsf alsjf',
+  },
+];
 export const dummyText = `You may have had trouble communicating in early life. Perhaps
 you suffer from feelings of inadequacy. You overcome these
 feelings through sheer necessity, for you have determination in
@@ -132,7 +236,9 @@ reserved and dignified, though when vexed you are apt to be
 sharp and sarcastic if not actually cruel. Avoid pride,
 cultivate sympathy and endeavour to see things from others
 standpoints as well as your own.`;
-
+export const dummies = [
+  `Adopting a healthy lifestyle is on the cards and will lead you to total fitness.Chance for setting out on a pilgrimage may materialise. High rentals may discourage some from shifting residence to someplace decent. A outstanding payment is likely to be received soon and add to your wealth. Your eye for detail and willingness to put in extra hours at work will be richly rewarded on the professional front.`,
+];
 export const LoremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
 malesuada ullamcorper lorem, in tempor lectus accumsan sed.
 Pellentesque dictum nunc a viverra placerat. Fusce eget luctus est,

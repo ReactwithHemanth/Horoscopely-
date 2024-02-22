@@ -45,6 +45,7 @@ import MakePayment from '../Screens/ActionSheetScreens/MakePayment';
 import ShowSubscriptionAd from '../Screens/ProfileScreen/SubscriptionAds';
 import ShowSubscriptionNext from '../Screens/ProfileScreen/SubscriptionAdsNext';
 import AppInfo from '../Screens/ProfileScreen/Appinfo';
+import NotificationDetails from '../Screens/Notification/NotificationDetails';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,7 +58,7 @@ const Notify = () => {
       onPress={() => navigation.navigate('Notification')}>
       <NotificationSvg fill={Color.white} />
       <View style={styles.headerNotifyBar}>
-        <Text style={{color: Color.shadedWhite}}>3</Text>
+        <Text style={styles.notifyRedDot}>3</Text>
       </View>
     </TouchableOpacity>
   );
@@ -78,7 +79,6 @@ const ShareButton = () => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      style={styles.headerContainer}
       onPress={() =>
         Share.open({url: 'https://horoscope.ly' + '/mbaksmhdfgab'})
       }>
@@ -120,7 +120,7 @@ const UserStack = ({navigation, route}) => {
   };
   return (
     <Stack.Navigator
-      initialRouteName={FirstLaunched ? 'onBoarding' : 'Home'}
+      initialRouteName={FirstLaunched ? 'HelpSection' : 'Home'}
       screenOptions={{
         headerBack: {color: Color.darkViolet},
         headerBackTitleVisible: false,
@@ -159,7 +159,11 @@ const UserStack = ({navigation, route}) => {
         <Stack.Screen
           name="Notification"
           component={Notification}
-          options={{...customOptions, headerRight: () => <SettingsButton />}}
+          options={{
+            ...customOptions,
+            title: 'Notification',
+            headerRight: () => <SettingsButton />,
+          }}
         />
         <Stack.Screen
           name="Settings"
@@ -256,6 +260,15 @@ const UserStack = ({navigation, route}) => {
           options={{
             ...defaultOptions,
             headerRight: () => <ShareButton />,
+          }}
+        />
+        <Stack.Screen
+          name="NotificationDetails"
+          component={NotificationDetails}
+          options={{
+            ...customOptions,
+            title: 'Notification',
+            headerRight: () => <SettingsButton />,
           }}
         />
       </Stack.Group>

@@ -1,8 +1,8 @@
 import {Color} from '../Utils/Color';
 import {screenDiagonal} from '../Utils/helperFunctions';
 export const SPACING = 10;
-
-const {StyleSheet, Dimensions} = require('react-native');
+export const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 5;
+import {Dimensions, StyleSheet} from 'react-native';
 const {width, height} = Dimensions.get('window');
 const dgl = screenDiagonal();
 
@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   ContainerF1: {
     flex: 1,
   },
+  headerContainer: {},
   InputContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     marginHorizontal: 5,
   },
-  aligncenter: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+  loadingView2: {flex: 1, alignItems: 'center', justifyContent: 'center'},
   subscriptionAd: {
     flex: 4,
     backgroundColor: Color.shadedViolet,
@@ -53,6 +54,16 @@ const styles = StyleSheet.create({
     padding: SPACING,
     marginLeft: SPACING,
     color: Color.grey,
+    fontFamily: 'SFProDisplay-Regular',
+  },
+  AttributeText: {
+    fontSize: 15,
+    padding: SPACING,
+    marginLeft: SPACING,
+    color: Color.disireRed,
+    width: '90%',
+    textAlign: 'right',
+    // backgroundColor: 'red',
     fontFamily: 'SFProDisplay-Regular',
   },
   dateText: {
@@ -81,6 +92,7 @@ const styles = StyleSheet.create({
   compatibilityView: {
     alignItems: 'center',
     padding: SPACING,
+    width: dgl * 0.5,
   },
   compatibilityText: {
     fontSize: 20,
@@ -311,7 +323,7 @@ const styles = StyleSheet.create({
   },
   //Home
   text1: {fontSize: 20, marginLeft: 30},
-  Desctext: {color: Color.white, fontSize: dgl * 0.015},
+  Desctext: {color: Color.white, fontSize: dgl * 0.015, textAlign: 'left'},
   textBold: {fontSize: 20, fontWeight: 'bold'},
   textSemiBold: {fontSize: 15, fontWeight: 'bold', marginLeft: SPACING},
   width: width / 2,
@@ -375,14 +387,14 @@ const styles = StyleSheet.create({
   },
   filterStyle: {
     backgroundColor: '#CDA3EF',
-    paddingHorizontal: 30,
-    paddingVertical: 8,
+    // paddingHorizontal: 30,
+    padding: 8,
     borderRadius: 20,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: '#BF7AF3',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
-    width: dgl * 0.13,
+    width: dgl * 0.15,
     justifyContent: 'space-between',
   },
   LinearView: {
@@ -425,7 +437,10 @@ const styles = StyleSheet.create({
   alignView: {alignItems: 'center'},
   textMargin: {marginTop: SPACING, color: Color.white},
   textMarginBlack: {marginTop: SPACING, color: Color.black},
-  LinearLineAlign: {flexDirection: 'row', justifyContent: 'space-between'},
+  LinearLineAlign: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   reportAlign: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -461,10 +476,12 @@ const styles = StyleSheet.create({
   footerButton: {
     flex: 1,
     justifyContent: 'center',
+
     alignItems: 'center',
   },
   buttonText: {
     fontSize: 12,
+    paddingVertical: 5,
     color: Color.regularViolet,
   },
   ItemListView: {
@@ -533,10 +550,10 @@ const styles = StyleSheet.create({
   },
 
   zodiacBox: {
-    height: dgl * 0.1,
-    width: dgl * 0.1,
-    padding: dgl * 0.03,
-    marginHorizontal: width / 3,
+    height: dgl * 0.15,
+    width: dgl * 0.15,
+    // padding: dgl * 0.03,
+    // marginHorizontal: width / 9,
     backgroundColor: Color.whiteOpacity,
     justifyContent: 'center',
     borderRadius: dgl * 0.009,
@@ -566,10 +583,11 @@ const styles = StyleSheet.create({
     flex: 2.6,
     marginTop: 80,
     justifyContent: 'space-around',
+    alignItems: 'center',
   },
   compatibilityContainer: {
-    height: dgl * 0.09,
-    width: dgl * 0.09,
+    height: dgl * 0.135,
+    width: dgl * 0.135,
     justifyContent: 'center',
     borderRadius: dgl * 0.009,
     shadowColor: 'grey',
@@ -610,11 +628,9 @@ const styles = StyleSheet.create({
   arrowStyle: {
     position: 'absolute',
     flexDirection: 'row',
-    width: width,
+    width: width / 1.5,
     justifyContent: 'space-between',
-    paddingHorizontal: dgl * 0.08,
-    alignItems: 'center',
-    marginLeft: dgl * 0.02,
+    alignSelf: 'center',
     top: dgl * 0.25,
   },
   compatibilityButon: {
@@ -623,7 +639,8 @@ const styles = StyleSheet.create({
     borderRadius: dgl * 0.05,
   },
   svgBox: {flex: 1, flexDirection: 'row'},
-  filterTextStyle: {color: '#fff', width: dgl * 0.06},
+  filterTextStyle: {color: '#fff', width: dgl * 0.1, padding: dgl * 0.002},
+  filterTextStyle2: {color: '#fff', width: dgl * 0.1},
   IntrestBox: {
     width: dgl * 0.15,
     height: dgl * 0.15,
@@ -688,7 +705,7 @@ const styles = StyleSheet.create({
 
   ColoumBox: {
     margin: SPACING,
-    width: dgl * 0.38,
+    width: dgl * 0.35,
   },
   BoxTitle: {
     fontSize: 18,
@@ -864,11 +881,11 @@ const styles = StyleSheet.create({
   tableContainer: {flex: 1, padding: 10, paddingTop: 30},
   border: {
     borderWidth: 1,
-    borderColor: Color.whiteOpacity,
+    borderColor: Color.white,
     borderTopEndRadius: 20,
   },
   head: {
-    height: 40,
+    height: 30,
   },
   headText: {textAlign: 'center', fontWeight: 'bold', color: 'white'},
   cellText: {textAlign: 'center', color: 'white'},
@@ -920,10 +937,11 @@ const styles = StyleSheet.create({
   },
   reportContainerStyle: {flexDirection: 'row', justifyContent: 'space-evenly'},
   FaqContainerStyle: {
-    flexDirection: 'column',
     margin: 10,
+    flexGrow: 1,
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    // backgroundColor: 'yellowgreen',
     padding: SPACING,
     shadowRadius: 10,
     shadowColor: Color.grey,
@@ -934,8 +952,9 @@ const styles = StyleSheet.create({
   dropdownStyle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 20,
-    width: '100%',
+    padding: SPACING,
+    width: '100%%',
+    marginBottom: 10,
   },
   compatibilityView2: {
     width: width - 30,
@@ -1232,6 +1251,28 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     marginTop: 30,
   },
+  contentInset: {
+    // iOS ONLY
+    top: 0,
+    left: SPACING_FOR_CARD_INSET, // Left spacing for the very first card
+    bottom: 0,
+    right: SPACING_FOR_CARD_INSET,
+  },
+  scrollContainer: {
+    flex: 2,
+    marginTop: dgl * 0.05,
+    padding: SPACING * 2,
+  },
+  safeAreaContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  overAllText: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: Color.shadedWhite,
+  },
+  notifyRedDot: {color: Color.shadedWhite},
 });
 
 export default styles;

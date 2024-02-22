@@ -1,34 +1,59 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import styles from '../../Styles/styles';
 import {ImageBackgroundView} from '../../Components/CustomComponents';
 
-const Notification = () => {
-  const ArrayList = [1, 2, 3, 4, 5];
-  const ListItem = () => {
+const Notification = props => {
+  const ArrayList = [
+    {
+      id: 0,
+      Title: 'Horoscope',
+      updated: '3 minutes ago',
+      desc: `Lorem ipsum dolor sit amet, conse ctetur adipis cing elit. Se malesuada ullamcorper`,
+    },
+    {
+      id: 1,
+      Title: 'Horoscope',
+      updated: '4 minutes ago',
+      desc: `Lorem ipsum dolor sit amet, conse ctetur adipis cing elit. Sed malesuada ullamcorper`,
+    },
+    {
+      id: 1,
+      Title: 'Horoscope',
+      updated: '4 minutes ago',
+      desc: `Lorem ipsum dolor sit amet, conse ctetur adipis cing elit. Sed malesuada ullamcorper`,
+    },
+  ];
+  const ListItem = ({item, index}) => {
     return (
-      <View style={styles.MainBoxNotifications}>
+      <TouchableOpacity
+        key={item?.id}
+        style={styles.MainBoxNotifications}
+        onPress={() => {
+          props.navigation.navigate('NotificationDetails', {
+            params: item,
+          });
+        }}>
         <View style={styles.notificationsIndication} />
         <View style={styles.ColoumBoxNotification}>
           <View style={styles.rowBox1}>
-            <Text style={styles.titleText2}>Horoscope</Text>
-            <Text style={styles.SubTitileTextNotifications}>3 mintute ago</Text>
-          </View>
-          <View style={styles.padded}>
+            <Text style={styles.titleText2}>{item.Title}</Text>
             <Text style={styles.SubTitileTextNotifications}>
-              Lorem ipsum dolor sit amet, conse ctetur adipis cing elit. Sed
-              malesuada ullamcorper
+              {item.updated}
             </Text>
           </View>
+          <View style={styles.padded}>
+            <Text style={styles.SubTitileTextNotifications}>{item.desc}</Text>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
   return (
     <ImageBackgroundView>
-      {ArrayList.map(() => (
+      {ArrayList.map((item, idx) => (
         <>
-          <ListItem />
+          <ListItem item={item} index={idx} />
         </>
       ))}
     </ImageBackgroundView>

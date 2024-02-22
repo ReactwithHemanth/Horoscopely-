@@ -8,26 +8,31 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles, {SPACING} from '../../Styles/styles';
 import {height, screenDiagonal, width} from '../../Utils/helperFunctions';
 import {Color} from '../../Utils/Color';
 // import SimpleGradientProgressbarView from 'react-native-simple-gradient-progressbar-view';
-import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
+  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import {dummyText, traits} from '../../Utils/Dummy';
+import LinearGradient from 'react-native-linear-gradient';
+import {ReText, concat4} from 'react-native-redash';
 const dgl = screenDiagonal();
 
 const CompatibilityDetails = () => {
   const [Tabs, setTabs] = useState('Friendship');
+  const AnimWidth = useSharedValue(0);
   const TAB_WIDTH = 120;
-
   const offset = useSharedValue(-TAB_WIDTH);
-
+  const [progress, setProgress] = useState(0);
+  const AnimatedLinearView = Animated.createAnimatedComponent(LinearGradient);
+  // let animation = useRef(Animated.Value(0));
   const dummy =
     'Taurus tend to focus on one thing at a time while Gemini keeps shifting its interest from one point to another, they both can learn a lot from each other. Gemini is versatile and flexible. While Taurus is determined and practical. Taurus demands total devotion from his partner, and Gemini is unable to give it. Gemini prefers change and Taurus needs stability. Their married life is usually unstable.';
   const TABS = ['Friendship', 'Destiny', 'Romance'];
@@ -122,16 +127,47 @@ const CompatibilityDetails = () => {
       </View>
     );
   };
+  const ProgressText = useDerivedValue(() => {
+    return `${Math.floor(AnimWidth.value / 2)}%`;
+  });
+
+  const LinearProgressBar = props => {
+    const {value} = props;
+    useEffect(() => {
+      progress(value);
+    }, []);
+
+    const progress = value => {
+      AnimWidth.value = withSpring((value * 200) / 100);
+    };
+
+    return (
+      <View
+        style={{
+          height: 10,
+          width: 200,
+          backgroundColor: Color.darkViolet,
+          borderRadius: 10,
+        }}>
+        <AnimatedLinearView
+          colors={[Color.lightViolet, Color.regularViolet]}
+          start={{x: 0, y: 1.5}}
+          end={{x: 1, y: 1.5}}
+          style={[
+            StyleSheet.absoluteFill,
+            {backgroundColor: '#8BED4F', width: AnimWidth, borderRadius: 10},
+          ]}
+        />
+      </View>
+    );
+  };
+  // const percent = new Value(70);
   return (
     <ImageBackground
       source={require('../../Assets/Compatibilitydetail/Component_711.png')}
       resizeMode="cover"
       style={styles.imageBgView}>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          alignItems: 'center',
-        }}>
+      <SafeAreaView style={styles.safeAreaContainer}>
         <View style={styles.compatiblityView4}>
           <View style={styles.align}>
             <View style={styles.compatiblityView3}>
@@ -172,23 +208,22 @@ const CompatibilityDetails = () => {
           </View>
         </View>
 
-        <ScrollView
-          style={{
-            flex: 2,
-            marginTop: dgl * 0.05,
-            padding: SPACING * 2,
-          }}>
+        <ScrollView style={styles.scrollContainer}>
           <View style={[styles.rowBox, styles.alignItemStyle]}>
-            <Text style={{fontSize: 20}}>Overall</Text>
-            {/* <SimpleGradientProgressbarView
-              style={styles.box}
-              fromColor={Color.regularViolet}
-              toColor={'#F785FF'}
-              progress={0.5}
-              maskedCorners={[1, 1, 1, 1]}
-              cornerRadius={7.0}
-            /> */}
-            <Text>50%</Text>
+            <Text style={styles.overAllText}>Overall</Text>
+
+            <LinearProgressBar value={80} />
+            {/* <Text>50%</Text> */}
+            <View>
+              <ReText
+                text={ProgressText}
+                style={{
+                  color: Color.white,
+                  fontSize: 17,
+                  fontVariant: ['tabular-nums'],
+                }}
+              />
+            </View>
           </View>
           <Text style={styles.textMargin}>{dummy}</Text>
           <LinearGradient

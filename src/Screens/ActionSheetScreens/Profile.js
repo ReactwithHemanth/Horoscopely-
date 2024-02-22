@@ -9,9 +9,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import styles, {SPACING} from '../../Styles/styles';
-import {height, screenDiagonal, width} from '../../Utils/helperFunctions';
+import {
+  FormateDate,
+  height,
+  screenDiagonal,
+  width,
+} from '../../Utils/helperFunctions';
 import LinearGradient from 'react-native-linear-gradient';
 import {Color} from '../../Utils/Color';
 import {
@@ -34,31 +39,40 @@ import {RnGet} from '../../hooks/RnstoreHook';
 import {Table, Row, Rows} from 'react-native-table-component';
 import {DateInput} from './DatePicker';
 import {TimePicker} from './TimePicker';
-import {menuList, tableData, tableData2} from '../../Utils/Dummy';
+import {menuList, tableData, tableData2, traits} from '../../Utils/Dummy';
+import {useFocusEffect} from '@react-navigation/native';
 const dgl = screenDiagonal();
 
 const TAB_WIDTH = 120;
 const DOWN_VALUE = 400;
 const TABS = ['Planets', 'Houses', 'Traits'];
 const Profile = ({navigation}) => {
+  const AnimHight = useSharedValue(height);
+
+  const [Result, setResult] = useState([]);
   const [ToggleView, setToggleView] = useState(false);
   const [ToggleEdit, setToggleEdit] = useState(false);
+  const [username, setUsername] = useState(Result?.name);
+  const [email, setEmail] = useState(Result?.email);
+  const [number, setNumber] = useState(Result?.email);
+  const [Dob, setDob] = useState(Result?.DOB);
+  const [Pob, setPob] = useState(Result?.POB);
+  const [Tob, setTob] = useState(Result?.TOB);
+  const [gender, setGender] = useState(Result?.gender);
+  const [RelationShip, setRelationShip] = useState(Result?.relationShip);
   const [Tabs, setTabs] = useState('Planets');
-  const [Result, setResult] = useState([]);
   const offset = useSharedValue(-TAB_WIDTH);
   const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
     useContext(MainContext);
-  // const AnimatedBgImage = Animated.createAnimatedComponent(ImageBackground);
-  const AnimHight = useSharedValue(height);
   useEffect(() => {
     CheckLaunchedFirst();
-    setFooterVisible(true);
+    setFooterVisible(false);
   }, []);
 
   useFocusEffect(
     useCallback(() => {
       setFooterVisible(false);
-    }, [navigation]),
+    }, []),
   );
 
   const getIcon = icon => {
@@ -77,6 +91,7 @@ const Profile = ({navigation}) => {
         return <ChevronSvg />;
     }
   };
+
   //First launched && check userdata is already stored
   const CheckLaunchedFirst = async () => {
     const user = await RnGet('userData');
@@ -90,9 +105,7 @@ const Profile = ({navigation}) => {
       ? withSpring(height)
       : withSpring(AnimHight.value - DOWN_VALUE);
   };
-  const animatedStyles = useAnimatedStyle(() => ({
-    transform: [{translateX: offset.value}],
-  }));
+
   const HandleTabs = tab => {
     setTabs(tab);
     const newOffset = (() => {
@@ -140,23 +153,8 @@ const Profile = ({navigation}) => {
               width: width,
               padding: SPACING * 2,
             }}>
-            <Text style={styles.traitsText}>
-              You may have had trouble communicating in early life. Perhaps you
-              suffer from feelings of inadequacy. You overcome these feelings
-              through sheer necessity, for you have determination in achieving
-              your goals and purposes in life. You will have strong likes and
-              dislikes, and can be very reserved and dignified, though when
-              vexed you are apt to be sharp and sarcastic if not actually cruel.
-              Avoid pride, cultivate sympathy and endeavour to see things from
-              others standpoints as well as your own.
-            </Text>
-            <Text style={styles.traitsText}>
-              You will have strong likes and dislikes, and can be very reserved
-              and dignified, though when vexed you are apt to be sharp and
-              sarcastic if not actually cruel. Avoid pride, cultivate sympathy
-              and endeavour to see things from others standpoints as well as
-              your own.
-            </Text>
+            <Text style={styles.traitsText}>{traits}</Text>
+            <Text style={styles.traitsText}>{traits}</Text>
             <View style={styles.TabTextView}>
               <Text style={styles.SemiBoldText1}>Spiritual lesson </Text>
               <Text style={styles.normalText1}>: Sociability (lighten up)</Text>
@@ -188,17 +186,19 @@ const Profile = ({navigation}) => {
           <Row
             data={planetHead}
             style={styles.head}
-            textStyle={styles.headText}
+            // textStyle={styles.headText}
+            textStyle={{textAlign: 'center', color: 'white'}}
           />
           <Rows
             data={tableData2}
             style={styles.rows}
-            textStyle={styles.cellText}
+            textStyle={{textAlign: 'center', color: 'white'}}
           />
         </Table>
       </View>
     );
   };
+
   const HouseTables = () => {
     const planetHouse = ['House', 'Sign', 'Deg'];
 
@@ -219,6 +219,7 @@ const Profile = ({navigation}) => {
       </View>
     );
   };
+
   const AnimatedTabs = () => {
     return (
       <View style={styles.tabsView}>
@@ -253,6 +254,33 @@ const Profile = ({navigation}) => {
       </View>
     );
   };
+
+  const ProfileImageComponent = ({item}) => {
+    return (
+      <LinearGradient
+        colors={['rgba(34, 114, 252, 0.7)', 'rgba(75, 225, 220, 0.7)']}
+        start={{x: 0, y: 0}}
+        style={styles.LinearProfile}>
+        <View style={styles.ProfileView}>
+          <Image
+            source={require('../../Assets/ariesAvatar/aries_2.png')}
+            style={styles.ProfileAvatar}
+            resizeMode="contain"
+          />
+        </View>
+        {!ToggleView && (
+          <View style={styles.ProfileView2}>
+            <Text style={styles.ProfileText}>{item?.name}</Text>
+            <Text style={styles.ProfileSubText}>{FormateDate(item?.DOB)}</Text>
+          </View>
+        )}
+      </LinearGradient>
+    );
+  };
+
+  const animatedStyles = useAnimatedStyle(() => ({
+    transform: [{translateX: offset.value}],
+  }));
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Animated.View style={styles.profileContainer}>
@@ -273,24 +301,7 @@ const Profile = ({navigation}) => {
               },
             ]}
           />
-          <LinearGradient
-            colors={['rgba(34, 114, 252, 0.7)', 'rgba(75, 225, 220, 0.7)']}
-            start={{x: 0, y: 0}}
-            style={styles.LinearProfile}>
-            <View style={styles.ProfileView}>
-              <Image
-                source={require('../../Assets/ariesAvatar/aries_2.png')}
-                style={styles.ProfileAvatar}
-                resizeMode="contain"
-              />
-            </View>
-            <View style={styles.ProfileView2}>
-              <Text style={styles.ProfileText}> John Luther</Text>
-              <Text style={styles.ProfileSubText}>
-                January 1, 1989 . 09:20 PM
-              </Text>
-            </View>
-          </LinearGradient>
+          <ProfileImageComponent item={Result} />
           <FlatList
             data={menuList}
             numColumns={3}
@@ -300,10 +311,7 @@ const Profile = ({navigation}) => {
             renderItem={({item, index}) => {
               return (
                 <View style={styles.containerStyle}>
-                  <TouchableOpacity>
-                    {/* <CapricornSvg /> */}
-                    {getIcon(item)}
-                  </TouchableOpacity>
+                  <TouchableOpacity>{getIcon(item)}</TouchableOpacity>
                   <Text style={styles.SubTitle2}>{item.sub}</Text>
                   <Text style={styles.TextWhiteS12}>{item.zodiac}</Text>
                 </View>
@@ -329,7 +337,6 @@ const Profile = ({navigation}) => {
         </Animated.View>
       </Animated.View>
 
-      {/* papper View */}
       <ImageBackground
         source={require('../../Assets/ManageInterest/Component.png')}
         resizeMode="cover"
@@ -347,8 +354,9 @@ const Profile = ({navigation}) => {
             <Text style={styles.textSemiBold}>Name</Text>
             <TextInput
               placeholder="Name"
+              onChangeText={text => setUsername(text)}
               style={ToggleEdit ? styles.Editinput3 : styles.input3}
-              value={Result?.name}
+              value={username}
             />
           </View>
           <View>
@@ -356,8 +364,9 @@ const Profile = ({navigation}) => {
             {ToggleEdit ? (
               <TextInput
                 placeholder="Date of Birth"
+                onChangeText={text => setDob(text)}
                 style={ToggleEdit ? styles.Editinput3 : styles.input3}
-                value={Result?.DOB}
+                value={FormateDate(Dob)}
               />
             ) : (
               <DateInput dateTime={Result?.DOB} />
@@ -368,8 +377,9 @@ const Profile = ({navigation}) => {
             {ToggleEdit ? (
               <TextInput
                 placeholder="Time of Birth"
+                onChangeText={text => setTob(text)}
                 style={ToggleEdit ? styles.Editinput3 : styles.input3}
-                value={Result?.TOB}
+                value={FormateDate(Result?.TOB)}
               />
             ) : (
               <TimePicker dateTime={Result?.TOB} />
@@ -379,6 +389,7 @@ const Profile = ({navigation}) => {
             <Text style={styles.textSemiBold}>Place of Birth</Text>
             <TextInput
               placeholder="Place of Birth"
+              onChangeText={text => setPob(text)}
               style={ToggleEdit ? styles.Editinput3 : styles.input3}
               value={Result?.POB}
             />
@@ -387,6 +398,7 @@ const Profile = ({navigation}) => {
             <Text style={styles.textSemiBold}>Email ID</Text>
             <TextInput
               placeholder="Email ID"
+              onChangeText={text => setEmail(text)}
               style={ToggleEdit ? styles.Editinput3 : styles.input3}
               value={Result?.email}
             />
@@ -395,6 +407,7 @@ const Profile = ({navigation}) => {
             <Text style={styles.textSemiBold}>Mobile Number</Text>
             <TextInput
               placeholder="Mobile Number"
+              onChangeText={text => setNumber(text)}
               style={ToggleEdit ? styles.Editinput3 : styles.input3}
               value={Result?.number}
             />
@@ -403,6 +416,7 @@ const Profile = ({navigation}) => {
             <Text style={styles.textSemiBold}>Birth Gender</Text>
             <TextInput
               placeholder="Birth Gender"
+              onChangeText={text => setGender(text)}
               style={ToggleEdit ? styles.Editinput3 : styles.input3}
               value={Result?.gender}
             />
@@ -411,6 +425,7 @@ const Profile = ({navigation}) => {
             <Text style={styles.textSemiBold}>Relationship Status</Text>
             <TextInput
               placeholder="Relationship Status"
+              onChangeText={text => setRelationShip(text)}
               style={ToggleEdit ? styles.Editinput3 : styles.input3}
               value={Result?.relationShip}
             />

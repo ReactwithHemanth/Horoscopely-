@@ -2,11 +2,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Toast} from '../Utils/helperFunctions';
 
 export const RnStore = async (key, params = '') => {
-  console.log('kshd', key, params);
   try {
     const jsonValue = JSON.stringify(params);
     const result = await AsyncStorage.setItem(key, jsonValue);
-    console.log(key, params);
     return true;
   } catch (err) {
     Toast('Error Occured', err);

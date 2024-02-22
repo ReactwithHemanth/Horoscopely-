@@ -1,18 +1,12 @@
 import {Text, TouchableOpacity, View} from 'react-native';
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Color} from '../../Utils/Color';
-import {
-  MoreSvg,
-  OrbitSvg,
-  SaturnSvg,
-  SolidSvg,
-} from '../../Components/SvgComponent';
 import styles from '../../Styles/styles';
 import {screenDiagonal} from '../../Utils/helperFunctions';
 import {Image} from 'react-native-svg';
 import {ActionSheetView} from '../../Components/ActionSheet';
 import {MainContext} from '../../Confg/Context';
 import {getIcon} from '../../Components/GetIcon';
+import {FooterItem} from '../../Utils/Dummy';
 
 const dgl = screenDiagonal();
 
@@ -23,13 +17,6 @@ const Footer = props => {
 
   const {FirstLaunched, FooterVisibility, setFirstLaunched, setFooterVisible} =
     useContext(MainContext);
-
-  const item = [
-    {id: 1, value: 'Home', label: 'HOME'},
-    {id: 2, value: 'Compatibility', label: 'COMPATIBILITY'},
-    {id: 3, value: 'Remedy', label: 'REMEDY'},
-    {id: 4, value: 'More', label: 'MORE'},
-  ];
 
   const handleShowActionSheet = async () => {
     try {
@@ -90,7 +77,7 @@ const Footer = props => {
         />
 
         <View style={[styles.footer]}>
-          {item.map((item, idx) => {
+          {FooterItem.map((item, idx) => {
             return <ItemRender key={idx} value={item} />;
           })}
         </View>

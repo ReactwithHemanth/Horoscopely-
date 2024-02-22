@@ -1,4 +1,10 @@
-import {View, Text, TouchableOpacity, ImageBackground} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+  ScrollView,
+} from 'react-native';
 import React from 'react';
 import {ImageBackgroundView} from '../../Components/CustomComponents';
 import styles from '../../Styles/styles';
@@ -35,7 +41,7 @@ const ReportDetails = () => {
     );
   };
   return (
-    <ImageBackgroundView>
+    <ImageBackgroundView disableScroll={false}>
       <SafeAreaView>
         <ImageBackground
           source={require('../../Assets/ManageInterest/Component.png')}
@@ -93,7 +99,7 @@ const ReportDetails = () => {
                 <Text style={styles.textMarginBlack}> Health</Text>
               </View>
             </View>
-            <View style={styles.ReportDetailsDesc}>
+            <ScrollView style={styles.ReportDetailsDesc}>
               <Text style={styles.SubTitileDark}>
                 Adopting a healthy lifestyle is on the cards and will lead you
                 to total fitness. Chance for setting out on a pilgrimage may
@@ -111,7 +117,7 @@ const ReportDetails = () => {
                 in extra hours at work will be richly rewarded on the
                 professional front.
               </Text>
-            </View>
+            </ScrollView>
           </View>
         </ImageBackground>
       </SafeAreaView>

@@ -1,21 +1,12 @@
-import {
-  View,
-  Text,
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {screenDiagonal, width} from '../../Utils/helperFunctions';
 import {ImageBackgroundView} from '../../Components/CustomComponents';
 import {MakePaymentSvg} from '../../Components/SvgComponent';
 import {Color} from '../../Utils/Color';
 import LinearGradient from 'react-native-linear-gradient';
 import styles from '../../Styles/styles';
-const dgl = screenDiagonal();
 
-const MakePayment = () => {
+const MakePayment = ({navigation}) => {
   return (
     <ImageBackgroundView>
       <SafeAreaView style={{flex: 1}}>
@@ -30,49 +21,50 @@ const MakePayment = () => {
               <Text style={styles.currentPlanText}>Your Current plan</Text>
               <Text style={styles.amountText}>$11.99</Text>
               <Text style={styles.MontlyPlanText}>Monthly Plan</Text>
-              {/* <Text>kshd</Text> */}
             </View>
             <MakePaymentSvg fill={Color.black} />
           </View>
-          <View style={styles.ViewPlanButton}>
+          <TouchableOpacity
+            style={styles.ViewPlanButton}
+            onPress={() => navigation.navigate('PackageDetails')}>
             <Text style={{color: Color.primaryBlue}}>View Plans</Text>
-          </View>
+          </TouchableOpacity>
         </LinearGradient>
 
         <Text style={styles.outerTitle}>Current plan</Text>
         <View style={styles.valueBox}>
           <View style={[styles.padded, styles.valueStyeMain]}>
-            <Text style={styles.valueText}>kshdf</Text>
+            <Text style={styles.valueText}>Lorem</Text>
             <Text style={styles.valueStye}>: $11.99 monthly plan</Text>
           </View>
           <View style={[styles.padded, styles.valueStyeMain]}>
-            <Text style={styles.valueText}>kshdf</Text>
+            <Text style={styles.valueText}>Lorem</Text>
             <Text style={styles.valueStye}>: $11.99 monthly plan</Text>
           </View>
           <View style={[styles.padded, styles.valueStyeMain]}>
-            <Text style={styles.valueText}>kshdf</Text>
+            <Text style={styles.valueText}>Lorem</Text>
             <Text style={styles.valueStye}>: 21 Jan 2021</Text>
           </View>
           <View style={[styles.padded, styles.valueStyeMain]}>
-            <Text style={styles.valueText}>kshdf</Text>
+            <Text style={styles.valueText}>Lorem</Text>
             <Text style={styles.valueStye}>: 21 Jan 2021</Text>
           </View>
         </View>
         <View style={styles.valueBox}>
           <View style={[styles.padded, styles.valueStyeMain]}>
-            <Text style={styles.valueText}>kshdf</Text>
+            <Text style={styles.valueText}>Lorem</Text>
             <Text style={styles.valueStye}>: $11.99 monthly plan</Text>
           </View>
           <View style={[styles.padded, styles.valueStyeMain]}>
-            <Text style={styles.valueText}>kshdf</Text>
+            <Text style={styles.valueText}>Lorem</Text>
             <Text style={styles.valueStye}>: $11.99 monthly plan</Text>
           </View>
           <View style={[styles.padded, styles.valueStyeMain]}>
-            <Text style={styles.valueText}>kshdf</Text>
+            <Text style={styles.valueText}>Lorem</Text>
             <Text style={styles.valueStye}>: 21 Jan 2021</Text>
           </View>
           <View style={[styles.padded, styles.valueStyeMain]}>
-            <Text style={styles.valueText}>kshdf</Text>
+            <Text style={styles.valueText}>Lorem</Text>
             <Text style={styles.valueStye}>: 21 Jan 2021</Text>
           </View>
         </View>

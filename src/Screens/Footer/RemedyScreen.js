@@ -1,5 +1,7 @@
 import {
+  FlatList,
   ImageBackground,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -7,18 +9,23 @@ import {
 } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import styles, {SPACING} from '../../Styles/styles';
+import styles from '../../Styles/styles';
 import {ShareSvg} from '../../Components/SvgComponent';
 import {Color} from '../../Utils/Color';
 import {screenDiagonal} from '../../Utils/helperFunctions';
 import Share from 'react-native-share';
+import {Remedy} from '../../Utils/Dummy';
 
 const dgl = screenDiagonal();
 
 const RemedyScreen = () => {
-  const HandleShare = () => {
-    let randonString = 'KJSKFDNSKJ';
-    Share.open({url: 'https://horoscope.ly' + randonString})
+  const HandleShare = item => {
+    const shareOption = {
+      title: 'Share file',
+      message: item,
+      url: 'https://google.com',
+    };
+    Share.open(shareOption)
       .then(res => {
         console.log(res);
       })
@@ -30,11 +37,15 @@ const RemedyScreen = () => {
   const LinearBox = props => {
     const {Color1, Color2, Title, Description} = props;
     return (
-      <LinearGradient colors={[Color1, Color2]} style={styles.MainBox}>
+      <LinearGradient
+        colors={[Color1, Color2]}
+        style={styles.MainBox}
+        start={{x: 0, y: 1.5}}
+        end={{x: 1, y: 1.5}}>
         <View style={styles.ColoumBox}>
           <View style={styles.rowBox}>
             <Text style={styles.BoxTitle}>{Title}</Text>
-            <TouchableOpacity onPress={HandleShare}>
+            <TouchableOpacity onPress={() => HandleShare(Description)}>
               <ShareSvg fill={Color.white} />
             </TouchableOpacity>
           </View>
@@ -50,29 +61,23 @@ const RemedyScreen = () => {
     <ImageBackground
       source={require('../../Assets/Home/Component1.png')}
       style={styles.imageBgView}>
-      <View>
-        <LinearBox
-          Color1={'#14C17B'}
-          Color2={'#30D2C2'}
-          Title={'Health'}
-          Description="Lorem ipsum dolor sit amet, consectetur adipis cing elit. Sed
-                malesuada ullamcorper"
+      <SafeAreaView>
+        <FlatList
+          data={Remedy}
+          showsVerticalScrollIndicator={false}
+          style={{margin: dgl * 0.01}}
+          renderItem={({item, index}) => {
+            return (
+              <LinearBox
+                Color1={item.grd?.Color1}
+                Color2={item.grd?.Color2}
+                Title={item.remedy}
+                Description={item.desc}
+              />
+            );
+          }}
         />
-        <LinearBox
-          Color1={'#446FFE'}
-          Color2={'#0ACDFF'}
-          Title={'Careers'}
-          Description="Lorem ipsum dolor sit amet, consectetur adipis cing elit. Sed
-                malesuada ullamcorper"
-        />
-        <LinearBox
-          Color1={'#FF6BBA'}
-          Color2={'#FE3D91'}
-          Title={'Love'}
-          Description="Lorem ipsum dolor sit amet, consectetur adipis cing elit. Sed
-                malesuada ullamcorper"
-        />
-      </View>
+      </SafeAreaView>
     </ImageBackground>
   );
 };
